@@ -29,6 +29,9 @@ ALLOWED_HOSTS = [
     "heartnote-ai.onrender.com",
 ]
 
+IS_PRODUCTION = os.environ.get("RENDER", False)
+
+
 
 
 # Application definition

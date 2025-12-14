@@ -1,10 +1,10 @@
 import requests
 import json
+import os
 from datetime import datetime
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL_NAME = "llama3.2:3b"
-
 
 
 # -----------------------------------------------------
@@ -218,6 +218,13 @@ class Dashboard_LLM_Service:
         "response": result,
         "blocked": True
         }
+
+        if os.environ.get("RENDER"):
+            return {
+        "response": "⚠️ AI generation is disabled on cloud deployment.",
+        "blocked": True
+        }
+
 
 
 
