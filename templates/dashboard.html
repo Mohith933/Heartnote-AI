@@ -1369,10 +1369,7 @@
     const language = settings.language || "en";
 
     const outputBox = document.getElementById("output");
-    const state = document.getElementById("state");
-
-    outputBox.innerHTML = "⏳ Generating...";
-    state.dataset.blocked = "false";
+    outputBox.innerHTML = "⏳ Generating…";
 
     let tone = "soft";
     if (depth === "medium") tone = "balanced";
@@ -1384,24 +1381,19 @@
         const res = await fetch(url);
         const data = await res.json();
 
-        // Normalize response (handles string or object)
+        // Always extract text safely
         const text =
             typeof data === "string"
                 ? data
-                : data?.response || "";
+                : data?.response || "AI is resting right now. Please try again shortly.";
 
-        // Handle blocked state
-        if (data?.blocked === true) {
-            state.dataset.blocked = "true";
-        }
-
-        // Always render something
-        emotionalTypeWrite(text || "⚠️ No response generated.", "output", depth);
+        emotionalTypeWrite(text, "output", depth);
 
     } catch (err) {
-        outputBox.innerHTML = "⚠️ Error contacting backend.";
+        outputBox.innerHTML = "⚠️ Unable to reach the AI right now.";
     }
 }
+
 
         function copyText() {
             const tool = document.getElementById("toolTitle").innerText.toLowerCase();
