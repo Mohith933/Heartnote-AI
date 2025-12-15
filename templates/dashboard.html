@@ -1303,61 +1303,66 @@
 
         // 🔙 Go back and save current state (only if not viewing an old one)
         function goBack() {
-            const state = document.getElementById("state");
-            const isBlocked = state.dataset.blocked === "true";
-            const isViewingRecent = state.dataset.viewing === "true";
+    const state = document.getElementById("state");
 
-            const currentTool = document.getElementById("toolTitle").innerText.trim();
-            const nameInput = document.getElementById("nameInput").value.trim();
-            const descInput = document.getElementById("descInput").value.trim();
-            const output = document.getElementById("output").innerText.trim();
+    const workspace = document.getElementById("workspaceView");
+    const library = document.getElementById("libraryView");
+    const output = document.getElementById("output").innerText.trim();
 
-            const hasGeneratedContent = output && output !== "Your writing will appear here...";
+    const isBlocked = state.dataset.blocked === "true";
+    const isViewingRecent = state.dataset.viewing === "true";
 
-            // 🚫 Do not save if blocked
-            if (isBlocked) {
-                state.dataset.blocked = "false";
-            }
-            else if (!isViewingRecent && hasGeneratedContent) {
-                // ✅ ONLY save when real content is generated
-                saveRecent(currentTool);
-            }
+    const hasValidContent =
+        output &&
+        output !== "Your writing will appear here..." &&
+        !isBlocked;
 
-            // reset viewing flag
-            state.dataset.viewing = "false";
+    // ✅ Save ONLY clean generated content
+    if (!isViewingRecent && hasValidContent) {
+        const currentTool = document.getElementById("toolTitle").innerText.trim();
+        saveRecent(currentTool);
+    }
 
-            const workspace = document.getElementById("workspaceView");
-            const library = document.getElementById("libraryView");
+    // stop typing immediately
+    typingActive = false;
 
-            workspace.classList.remove("active");
-            library.style.display = "block";
-            showRecents();
+    // reset flags
+    state.dataset.blocked = "false";
+    state.dataset.viewing = "false";
+
+    // switch view
+    workspace.classList.remove("active");
+    library.style.display = "block";
+    showRecents();
+}
+
+        let typingActive = false;
+
+function emotionalTypeWrite(text, elementId, depth = "medium") {
+    const el = document.getElementById(elementId);
+
+    typingActive = true;
+    el.textContent = "";   // ✅ NEVER use innerHTML here
+
+    let i = 0;
+    let speed;
+    if (depth === "deep") speed = 70;
+    else if (depth === "light") speed = 35;
+    else speed = 50;
+
+    function type() {
+        if (!typingActive) return;   // ✅ stop when view changes
+        if (i < text.length) {
+            el.textContent += text.charAt(i);
+            i++;
+            const pause = (i % 5 === 0) ? speed * 1.4 : speed;
+            setTimeout(type, pause);
         }
-        function emotionalTypeWrite(text, elementId, depth = "medium") {
-            const el = document.getElementById(elementId);
-            el.innerHTML = "";
-            let i = 0;
+    }
 
-            el.classList.add("output");
+    type();
+}
 
-            // Speed settings based on emotional depth
-            let speed;
-            if (depth === "deep") speed = 70;
-            else if (depth === "light") speed = 35;
-            else speed = 50;
-
-            function type() {
-                if (i < text.length) {
-                    el.textContent += text.charAt(i);
-                    i++;
-
-                    // Natural smooth pen-writing pause
-                    let pause = (i % 5 === 0) ? speed * 1.4 : speed;
-                    setTimeout(type, pause);
-                }
-            }
-            type();
-        }
 
         async function generateContent() {
     const name = document.getElementById("nameInput").value.trim();
@@ -1369,7 +1374,13 @@
     const language = settings.language || "en";
 
     const outputBox = document.getElementById("output");
-    outputBox.innerHTML = "⏳ Generating…";
+    const state = document.getElementById("state");
+
+    // Ensure workspace visible
+    document.getElementById("workspaceView").classList.add("active");
+    document.getElementById("libraryView").style.display = "none";
+
+    outputBox.textContent = "⏳ Generating…"; // ✅ textContent only
 
     let tone = "soft";
     if (depth === "medium") tone = "balanced";
@@ -1381,16 +1392,18 @@
         const res = await fetch(url);
         const data = await res.json();
 
-        // Always extract text safely
-        const text =
-            typeof data === "string"
-                ? data
-                : data?.response || "AI is resting right now. Please try again shortly.";
+        if (data.blocked === true) {
+            state.dataset.blocked = "true";
+            emotionalTypeWrite(data.response, "output", depth);
+            return;
+        }
 
-        emotionalTypeWrite(text, "output", depth);
+        state.dataset.blocked = "false";
+        emotionalTypeWrite(data.response, "output", depth);
 
     } catch (err) {
-        outputBox.innerHTML = "⚠️ Unable to reach the AI right now.";
+        state.dataset.blocked = "true";
+        outputBox.textContent = "⚠️ Unable to reach the AI right now.";
     }
 }
 
