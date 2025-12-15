@@ -157,20 +157,37 @@ class Dashboard_LLM_Service:
         tone = DEPTH_TONE.get(depth, DEPTH_TONE["light"])
         mode = (mode or "").lower().strip()
         language = (language or "en").lower().strip()
-
-        # 1️⃣ SAFETY FILTER
         safe, result = self.safety_filter(desc)
         if not safe:
-            return {"response": result, "blocked": True}
-
-        # 2️⃣ OPTION C — RENDER FALLBACK
-        if os.environ.get("RENDER"):
             return {
-                "response": (
-                    "AI writing is temporarily resting 🌱\n\n"
-                    "HeartNote will be back with full depth very soon."
-                )
+                "response": result,
+                "blocked": False   # frontend no longer depends on this
             }
+            template = self.get_template(mode)
+            if not template:
+                return {
+                    "response": "This writing mode is not available right now.",
+                    "blocked": False
+                }
+                prompt = template.format(
+                    name=name,
+                    desc=desc,
+                    tone=tone
+                )
+                try:
+                    text = self.call_llm(prompt, language)
+                    if not text.strip():
+                        raise ValueError("Empty response")
+                except Exception:
+                    text = (
+                        "AI writing is temporarily resting.\n\n
+                        "Please try again shortly."
+                    )
+                    return {
+                        "response": text,
+                        "blocked": False
+                    }
+
 
         # 3️⃣ TEMPLATE SELECTION
         templates = {
