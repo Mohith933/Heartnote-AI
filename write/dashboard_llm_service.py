@@ -1,26 +1,9 @@
-import os
+import requests
 from datetime import datetime
-import google.generativeai as genai
 
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL_NAME = "llama3.2:3b"
 
-# -----------------------------------------------------
-# GEMINI CONFIG (optional)
-# -----------------------------------------------------
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
-
-MODEL_NAME = "gemini-2.0-flash"
-
-
-def call_gemini(prompt: str) -> str:
-    if not GEMINI_API_KEY:
-        raise RuntimeError("Gemini API key not configured")
-
-    model = genai.GenerativeModel(MODEL_NAME)
-    response = model.generate_content(prompt)
-    return response.text.strip()
 
 
 # -----------------------------------------------------
@@ -29,107 +12,146 @@ def call_gemini(prompt: str) -> str:
 DEPTH_TONE = {
     "light": "soft, reflective, gentle emotional clarity",
     "medium": "thoughtful, grounded, emotionally layered",
-    "deep": "rich, profound, cinematic emotional depth",
+    "deep": "rich, profound, cinematic emotional depth"
 }
 
 
 # -----------------------------------------------------
-# DASHBOARD TEMPLATES
+# PREMIUM TEMPLATES FOR 8 MODES
 # -----------------------------------------------------
+
 DASHBOARD_REFLECTION = """
 You are HeartNote Premium Reflection Writer.
 
-Topic: {name}
-Feeling: {desc}
-Tone: {tone}
+Write a deep emotional reflection.
 
-Rules:
-- Two paragraphs
-- Paragraph 1: 25–35 words
-- Paragraph 2: 15–25 words
-- Emotional, cinematic English
-- No advice, no motivation, no emojis
+INPUT:
+- Topic: {name}
+- Feeling: {desc}
+- Tone: {tone}
+
+RULES:
+- Two paragraphs.
+- Paragraph 1: 25-35 words
+- Paragraph 2: 15-25 words
+- Cinematic emotional English.
+- No advice. No motivation. No emojis.
+
+Generate only the reflection.
 """
+
 
 DASHBOARD_LETTER = """
 You are HeartNote Premium Letter Writer.
 
+INPUT:
 Recipient: {name}
 Feeling: {desc}
-Tone: {tone}
+Tone depth: {tone}
 
-Rules:
-- Exactly 2 paragraphs
+RULES:
+- Write exactly 2 paragraphs
 - Paragraph 1: 25–35 words
 - Paragraph 2: 15–25 words
-- Poetic, grounded
-- No advice, no judgement, no emojis
+- Emotional but grounded English
+- Poetic tone, not dramatic
+- No advice, no moralizing, no warnings
+- No judgement
+- No motivational tone
+- No lists
+- Poetic but emotionally neutral
+- No emojis
+- No signature
+
+Start with:
+Dear {name},
 """
 
-DASHBOARD_JOURNAL = """
-You are HeartNote Premium Journal Writer.
 
-Topic: {name}
-Feeling: {desc}
-Tone: {tone}
 
-Rules:
-- 2 paragraphs
-- Paragraph 1: 25–35 words
-- Paragraph 2: 15–25 words
-- Reflective, cinematic
-- No advice, no emojis
-
-Date: {date}
-"""
 
 DASHBOARD_POEM = """
 You are HeartNote Premium Poem Writer.
 
-Theme: {name} — {desc}
+Write a cinematic emotional poem about:
+{name} — {desc}
 
-Rules:
-- 6–8 free-verse lines
-- Soft emotional imagery
-- No advice, no emojis
+RULES:
+- 6–8 lines
+- Free verse style
+- Soft, deep, poetic imagery
+- No rhyme requirement
+- No advice, no generic positivity
+- No emojis
+
+Generate only the poem.
 """
+
 
 DASHBOARD_STORY = """
 You are HeartNote Premium Story Writer.
 
-Theme: {name} — {desc}
+Write a short cinematic emotional story inspired by:
+{name} — {desc}
 
-Rules:
-- 45–70 words
+RULES:
+- Total length: 45–70 words
 - Emotional micro-story
-- No advice, no emojis
+- Rich sensory details
+- No heavy plot
+- No advice, no life lessons
+- No emojis
+
+Generate only the story.
 """
+
 
 DASHBOARD_QUOTE = """
 You are HeartNote Premium Quote Writer.
 
-Theme: {name} — {desc}
+Write a deeply emotional quote inspired by:
+{name} — {desc}
 
-Rules:
+RULES:
 - One sentence
 - Under 24 words
-- Poetic, reflective
+- Poetic, meaningful
+- No advice tone
 - No emojis
+
+Generate only the quote.
 """
+
 
 DASHBOARD_AFFIRMATION = """
 You are HeartNote Premium Affirmation Writer.
 
-Theme: {name} — {desc}
+Write a premium emotional affirmation inspired by:
+{name} — {desc}
 
-Rules:
+RULES:
 - 1–2 lines
-- Gentle, grounded
-- No advice, no emojis
+- Warm, grounded, intimate tone
+- No “you must / you should”
+- No advice
+- No emojis
+
+Generate only the affirmation.
 """
+
 
 DASHBOARD_NOTE = """
 You are HeartNote Premium Note Writer.
+
+Context:
+Feeling: {desc}
+
+STRICT RULES:
+- Use EXACT bullet format
+- Keep language neutral and reflective
+- No advice, no commands
+- No emojis
+- No extra lines or explanations
 
 Format ONLY:
 
@@ -139,52 +161,163 @@ Format ONLY:
 """
 
 
+
+
+DASHBOARD_JOURNAL = """
+You are HeartNote Premium Journal Writer.
+
+Write a calm, reflective journal entry.
+
+INPUT:
+- Topic/person: {name}
+- Feeling: {desc}
+- Depth: {depth}
+
+RULES:
+- Write exactly 2 paragraphs
+- Paragraph 1: 25–35 words
+- Paragraph 2: 15–25 words
+- Reflective and thoughtful tone
+- Reflective and emotionally neutral tone
+- No advice
+- No life lessons
+- No warnings
+- No emojis
+- No signature
+
+Format:
+Date: {date}
+
+<paragraphs>
+"""
+
+
+
+
+
 # -----------------------------------------------------
 # LLM SERVICE
 # -----------------------------------------------------
 class Dashboard_LLM_Service:
 
+    def __init__(self, model=MODEL_NAME):
+        self.model = model
+
+    # -------------------------------------------------
+    # MAIN GENERATE
+    # -------------------------------------------------
     def generate(self, mode, name, desc, depth, language):
-    depth = (depth or "light").lower()
-    tone = DEPTH_TONE.get(depth, DEPTH_TONE["light"])
-    mode = (mode or "").lower()
-    language = (language or "en").lower()
+        mode = (mode or "").lower().strip()
+        depth = (depth or "light").lower().strip()
+        language = (language or "en").lower().strip()
+        tone = DEPTH_TONE.get(depth, DEPTH_TONE["light"])
 
-    templates = {
-        "reflection": DASHBOARD_REFLECTION,
-        "letters": DASHBOARD_LETTER,
-        "journal": DASHBOARD_JOURNAL,
-        "poems": DASHBOARD_POEM,
-        "story": DASHBOARD_STORY,
-        "quotes": DASHBOARD_QUOTE,
-        "affirmation": DASHBOARD_AFFIRMATION,
-        "notes": DASHBOARD_NOTE,
-    }
+        # 1️⃣ Safety filter (ONLY for bad words / self-harm)
+        safe, safe_message = self.safety_filter(desc)
+        if not safe:
+            return {
+                "response": safe_message,
+                "blocked": True
+            }
 
-    template = templates.get(mode)
-    if not template:
-        return {"response": "This writing mode is not available yet."}
+        # 2️⃣ Template selection
+        template = self.get_template(mode)
+        if not template:
+            return {
+                "response": "This writing mode is not available right now.",
+                "blocked": False
+            }
 
-    date = datetime.now().strftime("%d/%m/%Y")
+        # 3️⃣ Prompt build
+        date = datetime.now().strftime("%d/%m/%Y")
 
-    prompt = template.format(
-        name=name,
-        desc=desc,
-        tone=tone,
-        date=date
-    )
+        try:
+            prompt = template.format(
+                name=name,
+                desc=desc,
+                tone=tone,
+                depth=depth,
+                date=date
+            )
+        except Exception:
+            prompt = template.format(name=name, desc=desc, tone=tone)
 
-    prompt = f"[LANG={language}]\n{prompt}"
+        full_prompt = f"[LANG={language}]\n{prompt}"
 
-    try:
-        text = call_gemini(prompt)
-        if not text:
-            raise ValueError("Empty LLM response")
-    except Exception:
-        text = (
-            "✨ HeartNote is taking a short pause.\n\n"
-            "Please try again in a moment."
-        )
+        # 4️⃣ Ollama call (GUARANTEED STRING RETURN)
+        try:
+            payload = {
+                "model": self.model,
+                "prompt": full_prompt,
+                "stream": False
+            }
 
-    return {"response": text}
+            res = requests.post(OLLAMA_URL, json=payload, timeout=30)
+            res.raise_for_status()
 
+            raw = res.json().get("response")
+
+            # ✅ HARD GUARANTEE
+            if not isinstance(raw, str) or not raw.strip():
+                raw = (
+                    "The words feel quiet right now.\n\n"
+                    "Some feelings take a moment before they find language."
+                )
+
+            return {
+                "response": raw.strip(),
+                "blocked": False
+            }
+
+        except Exception:
+            return {
+                "response": (
+                    "The thoughts are still forming.\n\n"
+                    "Please try again in a moment."
+                ),
+                "blocked": False
+            }
+
+    # -------------------------------------------------
+    # TEMPLATE ROUTER
+    # -------------------------------------------------
+    def get_template(self, mode):
+        return {
+            "reflection": DASHBOARD_REFLECTION,
+            "letters": DASHBOARD_LETTER,
+            "poems": DASHBOARD_POEM,
+            "story": DASHBOARD_STORY,
+            "quotes": DASHBOARD_QUOTE,
+            "affirmation": DASHBOARD_AFFIRMATION,
+            "notes": DASHBOARD_NOTE,
+            "journal": DASHBOARD_JOURNAL,
+        }.get(mode)
+
+    # -------------------------------------------------
+    # SAFETY FILTER (MINIMAL)
+    # -------------------------------------------------
+    def safety_filter(self, text):
+        t = (text or "").lower()
+
+        bad_words = [
+            "fuck", "bitch", "shit", "asshole",
+            "bastard", "slut", "dick", "pussy"
+        ]
+        for w in bad_words:
+            if w in t:
+                return False, "⚠️ Please rewrite using respectful language."
+
+        selfharm = [
+            "kill myself", "i want to die", "end my life",
+            "self harm", "no reason to live"
+        ]
+        for s in selfharm:
+            if s in t:
+                return False, (
+                    "⚠️ HeartNote AI cannot generate this.\n\n"
+                    "• You matter.\n"
+                    "• You are not alone.\n"
+                    "• Support is available."
+                )
+
+        return True, text
