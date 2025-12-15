@@ -1379,11 +1379,12 @@
     const outputBox = document.getElementById("output");
     const state = document.getElementById("state");
 
-    // 🔒 Reset flags before generation
+    // Reset flags
     state.dataset.blocked = "false";
     state.dataset.viewing = "false";
 
-    outputBox.textContent = "⏳ Generating...";
+    // ✅ loading message (HTML-safe)
+    outputBox.innerHTML = "⏳ Generating…";
 
     let tone = "soft";
     if (depth === "medium") tone = "balanced";
@@ -1407,21 +1408,23 @@
                 ? data
                 : data?.response || "AI is resting right now.";
 
-        // 🚫 SAFETY BLOCK
+        // 🚫 Safety block
         if (data?.blocked === true) {
             state.dataset.blocked = "true";
-            outputBox.textContent = text;
+            outputBox.textContent = text; // NO typewriter
             return;
         }
 
-        // ✅ Normal generation
+        // ✅ Clear once, then let typewriter own it
+        outputBox.textContent = "";
         emotionalTypeWrite(text, "output", depth);
 
     } catch (err) {
         state.dataset.blocked = "true";
-        outputBox.textContent = "⚠️ Unable to reach the AI right now.";
+        outputBox.innerHTML = "⚠️ Unable to reach the AI right now.";
     }
 }
+
 
 
 
