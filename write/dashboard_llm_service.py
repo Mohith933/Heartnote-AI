@@ -1,11 +1,15 @@
 import os
-import google.generativeai as genai
 from datetime import datetime
+import google.generativeai as genai
 
 # -----------------------------------------------------
-# GEMINI CONFIG
+# GEMINI CONFIG (used only when available)
 # -----------------------------------------------------
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
+
 MODEL_NAME = "gemini-2.0-flash"
 
 
@@ -21,7 +25,7 @@ def call_gemini(prompt: str) -> str:
 DEPTH_TONE = {
     "light": "soft, reflective, gentle emotional clarity",
     "medium": "thoughtful, grounded, emotionally layered",
-    "deep": "rich, profound, cinematic emotional depth"
+    "deep": "rich, profound, cinematic emotional depth",
 }
 
 
@@ -59,7 +63,7 @@ Rules:
 - No advice, no judgement, no emojis
 
 Format: 
-Dear Someone dear,  
+Dear Someone dear, 
 With warmth, 
 💗 HeartNote AI
 """
@@ -138,8 +142,8 @@ Rules:
 Format ONLY:
 
 • What you felt: {desc}
-• Why it happened: one calm reason
-• What could help: one gentle idea
+• Why it happened: one calm, neutral reason
+• What could help: one gentle, non-instructional idea
 """
 
 
@@ -149,19 +153,27 @@ Format ONLY:
 class Dashboard_LLM_Service:
 
     def generate(self, mode, name, desc, depth, language):
-        depth = depth.lower().strip()
+        depth = (depth or "light").lower().strip()
         tone = DEPTH_TONE.get(depth, DEPTH_TONE["light"])
-        mode = mode.lower().strip()
-        language = language.lower().strip()
+        mode = (mode or "").lower().strip()
+        language = (language or "en").lower().strip()
 
-        # 🔐 Safety first
+        # 1️⃣ SAFETY FILTER
         safe, result = self.safety_filter(desc)
         if not safe:
             return {"response": result, "blocked": True}
 
-        # Template selection
-        date = datetime.now().strftime("%d/%m/%Y")
+        # 2️⃣ OPTION C — RENDER FALLBACK
+        if os.environ.get("RENDER"):
+            return {
+                "response": (
+                    "AI writing is temporarily resting 🌱\n\n"
+                    "HeartNote will be back with full depth very soon."
+                ),
+                "blocked": False
+            }
 
+        # 3️⃣ TEMPLATE SELECTION
         templates = {
             "reflection": DASHBOARD_REFLECTION,
             "letters": DASHBOARD_LETTER,
@@ -170,38 +182,38 @@ class Dashboard_LLM_Service:
             "story": DASHBOARD_STORY,
             "quotes": DASHBOARD_QUOTE,
             "affirmation": DASHBOARD_AFFIRMATION,
-            "notes": DASHBOARD_NOTE
+            "notes": DASHBOARD_NOTE,
         }
 
         template = templates.get(mode)
         if not template:
-            return {"response": "⚠ Unknown mode", "blocked": False}
+            return {"response": "⚠ Unknown writing mode.", "blocked": False}
+
+        date = datetime.now().strftime("%d/%m/%Y")
 
         prompt = template.format(
             name=name,
             desc=desc,
             tone=tone,
-            date=date
+            date=date,
         )
 
         prompt = f"[LANG={language}]\n{prompt}"
 
+        # 4️⃣ GEMINI CALL (local / allowed env)
         text = call_gemini(prompt)
 
-        return {
-            "response": text,
-            "blocked": False
-        }
+        return {"response": text, "blocked": False}
 
     # -------------------------------------------------
     # SAFETY FILTER
     # -------------------------------------------------
     def safety_filter(self, text):
-        t = text.lower()
+        t = (text or "").lower()
 
         bad_words = [
             "fuck", "bitch", "shit", "asshole",
-            "bastard", "slut", "dick", "pussy"
+            "bastard", "slut", "dick", "pussy",
         ]
         for w in bad_words:
             if w in t:
@@ -209,7 +221,7 @@ class Dashboard_LLM_Service:
 
         selfharm = [
             "kill myself", "i want to die", "end my life",
-            "self harm", "no reason to live"
+            "self harm", "no reason to live",
         ]
         for s in selfharm:
             if s in t:
