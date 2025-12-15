@@ -145,21 +145,11 @@ Format ONLY:
 class Dashboard_LLM_Service:
 
     def generate(self, mode, name, desc, depth, language):
-    depth = (depth or "light").lower().strip()
+    depth = (depth or "light").lower()
     tone = DEPTH_TONE.get(depth, DEPTH_TONE["light"])
+    mode = (mode or "").lower()
+    language = (language or "en").lower()
 
-    mode = (mode or "").lower().strip()
-    language = (language or "en").lower().strip()
-
-    # 1️⃣ Safety filter
-    safe, message = self.safety_filter(desc)
-    if not safe:
-        return {
-            "response": message,
-            "blocked": True
-        }
-
-    # 2️⃣ Template selection
     templates = {
         "reflection": DASHBOARD_REFLECTION,
         "letters": DASHBOARD_LETTER,
@@ -173,12 +163,8 @@ class Dashboard_LLM_Service:
 
     template = templates.get(mode)
     if not template:
-        return {
-            "response": "This writing mode is not available.",
-            "blocked": False
-        }
+        return {"response": "This writing mode is not available yet."}
 
-    # 3️⃣ Prompt build
     date = datetime.now().strftime("%d/%m/%Y")
 
     prompt = template.format(
@@ -190,48 +176,15 @@ class Dashboard_LLM_Service:
 
     prompt = f"[LANG={language}]\n{prompt}"
 
-    # 4️⃣ LLM call
     try:
         text = call_gemini(prompt)
         if not text:
-            raise ValueError("Empty response")
+            raise ValueError("Empty LLM response")
     except Exception:
         text = (
-            "AI writing is temporarily resting.\n\n"
-            "Please try again shortly."
+            "✨ HeartNote is taking a short pause.\n\n"
+            "Please try again in a moment."
         )
 
-    return {
-        "response": text,
-        "blocked": False
-    }
+    return {"response": text}
 
-
-    # -------------------------------------------------
-    # SAFETY FILTER
-    # -------------------------------------------------
-    def safety_filter(self, text):
-    t = (text or "").lower()
-
-    bad_words = [
-        "fuck", "bitch", "shit", "asshole",
-        "bastard", "slut", "dick", "pussy"
-    ]
-    for w in bad_words:
-        if w in t:
-            return False, "⚠️ Please rewrite using respectful language."
-
-    selfharm = [
-        "kill myself", "i want to die", "end my life",
-        "self harm", "no reason to live"
-    ]
-    for s in selfharm:
-        if s in t:
-            return False, (
-                "⚠️ HeartNote AI cannot generate this.\n\n"
-                "• You matter.\n"
-                "• You are not alone.\n"
-                "• Support is available."
-            )
-
-    return True, text
