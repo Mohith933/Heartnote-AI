@@ -153,7 +153,7 @@ class Dashboard_LLM_Service:
         # 1️⃣ Safety filter
         safe, message = self.safety_filter(desc)
         if not safe:
-            return {"response": message, "blocked": False}
+            return {"response": message}
 
         # 2️⃣ Template selection
         templates = {
@@ -169,7 +169,7 @@ class Dashboard_LLM_Service:
 
         template = templates.get(mode)
         if not template:
-            return {"response": "This writing mode is not available.", "blocked": False}
+            return {"response": "This writing mode is not available."}
 
         # 3️⃣ Prompt build
         date = datetime.now().strftime("%d/%m/%Y")
