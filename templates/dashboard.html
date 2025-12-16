@@ -1396,12 +1396,17 @@ async function generateContent() {
         `&depth=${encodeURIComponent(depth)}` +
         `&language=${encodeURIComponent(language)}`;
 
-        const res = await fetch(url);
-        const data = await res.json();
-const text = data.response.response.trim();
-emotionalTypeWrite(text, "output", depth);
+const res = await fetch(url);
+const data = await res.json();
 
-    
+const state = document.getElementById("state");
+
+// 🔑 read backend truth
+const blocked = data.response.blocked === true;
+state.dataset.blocked = blocked ? "true" : "false";
+
+const text = data.response.response.trim();
+emotionalTypeWrite(text, "output", depth);   
 }
 
 
