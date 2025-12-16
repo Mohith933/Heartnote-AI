@@ -1,9 +1,13 @@
-import requests
+import os
 from datetime import datetime
+import google.generativeai as genai
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "llama3.2:3b"
 
+# -----------------------------------------------------
+# GEMINI CONFIG
+# -----------------------------------------------------
+GEMINI_MODEL = "gemini-1.5-flash"
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 
 # -----------------------------------------------------
@@ -196,12 +200,12 @@ Date: {date}
 
 
 # -----------------------------------------------------
-# LLM SERVICE
+# LLM SERVICE (GEMINI)
 # -----------------------------------------------------
 class Dashboard_LLM_Service:
 
-    def __init__(self, model=MODEL_NAME):
-        self.model = model
+    def __init__(self, model=GEMINI_MODEL):
+        self.model = genai.GenerativeModel(model)
 
     # -------------------------------------------------
     # MAIN GENERATE
@@ -212,7 +216,7 @@ class Dashboard_LLM_Service:
         language = (language or "en").lower().strip()
         tone = DEPTH_TONE.get(depth, DEPTH_TONE["light"])
 
-        # 1️⃣ Safety filter (ONLY for bad words / self-harm)
+        # 1️⃣ Safety filter
         safe, safe_message = self.safety_filter(desc)
         if not safe:
             return {
@@ -242,23 +246,22 @@ class Dashboard_LLM_Service:
         except Exception:
             prompt = template.format(name=name, desc=desc, tone=tone)
 
-        full_prompt = f"[LANG={language}]\n{prompt}"
+        full_prompt = f"Respond only in {language}.\n{prompt}"
 
-        # 4️⃣ Ollama call (GUARANTEED STRING RETURN)
+        # 4️⃣ Gemini call (RENDER SAFE)
         try:
-            payload = {
-                "model": self.model,
-                "prompt": full_prompt,
-                "stream": False
-            }
+            response = self.model.generate_content(
+                full_prompt,
+                generation_config={
+                    "temperature": 0.7,
+                    "max_output_tokens": 400
+                }
+            )
 
-            res = requests.post(OLLAMA_URL, json=payload, timeout=30)
-            res.raise_for_status()
-
-            raw = res.json().get("response")
+            raw = response.text if response and response.text else ""
 
             # ✅ HARD GUARANTEE
-            if not isinstance(raw, str) or not raw.strip():
+            if not raw.strip():
                 raw = (
                     "The words feel quiet right now.\n\n"
                     "Some feelings take a moment before they find language."
@@ -294,7 +297,7 @@ class Dashboard_LLM_Service:
         }.get(mode)
 
     # -------------------------------------------------
-    # SAFETY FILTER (MINIMAL)
+    # SAFETY FILTER
     # -------------------------------------------------
     def safety_filter(self, text):
         t = (text or "").lower()
