@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +11,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@400;600&family=Shadows+Into+Light&family=Dancing+Script:wght@400;600&display=swap"
         rel="stylesheet">
-
+<link rel="manifest" href="{% static 'pwa/manifest.json' %}">
+<meta name="theme-color" content="#6366f1">
     <style>
     
         body[data-theme="light"] {
@@ -1970,6 +1972,10 @@ emotionalTypeWrite(text, "output", depth);
         function proAlert() {
             alert("HeartNote Pro is coming soon ✨");
         }
+
+    if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register("{% static 'pwa/service-worker.js' %}");
+}
 
 
     </script>
