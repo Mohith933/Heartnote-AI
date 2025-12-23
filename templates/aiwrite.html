@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>  
 <html lang="en">  
 <head>  
@@ -9,7 +10,8 @@
   <!-- Quicksand (Google Fonts) -->  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">  
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap" rel="stylesheet">  
-  
+  <link rel="manifest" href="{% static 'pwa/manifest.json' %}">
+<meta name="theme-color" content="#6366f1">
   <style>  
   :root{  
       --bg: #fff;  
@@ -373,12 +375,17 @@ body.dark {
       const addHistoryBtn = document.getElementById("addHistoryBtn");  
       const historyList = document.getElementById("historyList");  
       const clearHistoryBtn = document.getElementById("clearHistory");  
-      const lenInfo = document.getElementById("lenInfo");   
+      const lenInfo = document.getElementById("lenInfo");  
+      const DAILY_LIMIT = 10;
+      const USAGE_KEY = "heartnote_daily_usage";
+ 
   
       // local storage key  
       const STORAGE_KEY = "heartnote_h1_history";  
 let userDOB = localStorage.getItem("heartnote_dob") || null;
 let isAdult = false;
+
+
 
 function calculateAge(dob) {
   const birth = new Date(dob);
@@ -510,6 +517,13 @@ generateBtn.addEventListener("click", async () => {
 
   outputBox.innerHTML = "⏳ Generating...";
 
+  if (!canGenerate()) {
+  outputEl.innerHTML =
+    "✨ You’ve reached today’s limit.\n\nCome back tomorrow with fresh thoughts.";
+  return;
+}
+
+
   try {
     // Correct final URL
     const url = `/api/generate/?mode=${encodeURIComponent(mode)}&text=${encodeURIComponent(text)}&tone=${encodeURIComponent(tone)}`;
@@ -524,6 +538,7 @@ generateBtn.addEventListener("click", async () => {
   } catch (error) {
     outputBox.innerHTML = "⚠️ Error contacting backend.";
   }
+  
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -755,6 +770,9 @@ document.getElementById("suggestBtn").addEventListener("click", () => {
   document.getElementById("prompt").value = random;
 });
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register("{% static 'pwa/service-worker.js' %}");
+}
   </script>  
 </body>  
 </html> 
