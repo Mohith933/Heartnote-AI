@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,8 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <title>HeartNote AI — Creative Writer</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="{% static 'pwa/manifest.json' %}">
+<meta name="theme-color" content="#6366f1">
   <style>
     :root {
       --accent: #ff4d6d;
@@ -416,10 +419,11 @@ submitBtn.onclick = async () => {
 
   // SUCCESS → Redirect
   window.location.href = "/dashboard/";
-};
-      if ('serviceWorker' in navigator) {
+
+  if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register("{% static 'pwa/service-worker.js' %}");
 }
+};
 </script>
 </body>
 </html>
