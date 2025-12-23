@@ -11,10 +11,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@400;600&family=Shadows+Into+Light&family=Dancing+Script:wght@400;600&display=swap"
         rel="stylesheet">
-<link rel="manifest" href="{% static 'pwa/manifest.json' %}">
-<meta name="theme-color" content="#6366f1">
+    <link rel="manifest" href="{% static 'pwa/manifest.json' %}">
+    <meta name="theme-color" content="#6366f1">
     <style>
-    
         body[data-theme="light"] {
             --accent: #ff4d6d;
             --accent-dark: #e63950;
@@ -46,6 +45,23 @@
             /* blossom accent */
             --accent-dark: #e6396c;
         }
+
+        body.nav-hidden .sidebar {
+            display: none;
+        }
+
+        body.nav-hidden .main-content {
+            margin-left: 0;
+        }
+
+        .festival-banner {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
 
         :root[data-font="small"] {
             font-size: 0.9rem;
@@ -641,7 +657,7 @@
             opacity: 0.7;
         }
 
-       footer {
+        footer {
             text-align: center;
             margin-top: 50px;
             padding: 20px;
@@ -931,7 +947,8 @@
                 <div class="menu-group">
                     <button class="dropdown-btn">🌿 Day-to-Day Life ▾</button>
                     <div class="dropdown-content">
-                        <a href="#" id="menu-dashboard" onclick="openTool('Dashboard'); setActiveMenu(this)">🏠 Dashboard</a>
+                        <a href="#" id="menu-dashboard" onclick="openTool('Dashboard'); setActiveMenu(this)">🏠
+                            Dashboard</a>
                         <a href="#" onclick="openTool('Reflection'); setActiveMenu(this)">🌿 Reflection</a>
                         <a href="#" onclick="openTool('Journal'); setActiveMenu(this)">📖 Journal</a>
                         <a href="#" onclick="openTool('Affirmation'); setActiveMenu(this)">🌈 Affirmation</a>
@@ -1018,6 +1035,13 @@
             <div class="section-box" id="settingsPanel">
                 <h3>Settings</h3>
                 <label class="toggle-row">
+                    <span>Notifications</span>
+                    <label class="switch">
+                        <input type="checkbox" id="navToggle">
+                        <span class="slider"></span>
+                    </label>
+                </label>
+                <label class="toggle-row">
                     <span>Theme</span>
                     <select id="themeMode" class="select-style">
                         <option value="light">Light</option>
@@ -1068,7 +1092,7 @@
                     <span>Language</span>
                     <select id="uiLanguage" class="select-style">
                         <option value="en">English</option>
-                        
+
                     </select>
                 </label>
 
@@ -1309,13 +1333,13 @@
 
         // 🔙 Go back and save current state (only if not viewing an old one)
         function goBack() {
-             openTool('Dashboard');
+            openTool('Dashboard');
 
-    // Set sidebar active state
-    const dashboardLink = document.getElementById('menu-dashboard');
-    if (dashboardLink) {
-        setActiveMenu(dashboardLink);
-    }
+            // Set sidebar active state
+            const dashboardLink = document.getElementById('menu-dashboard');
+            if (dashboardLink) {
+                setActiveMenu(dashboardLink);
+            }
             const state = document.getElementById("state");
 
             const workspace = document.getElementById("workspaceView");
@@ -1410,18 +1434,18 @@
                 `&language=${encodeURIComponent(language)}`;
 
             const res = await fetch(url);
-const data = await res.json();
+            const data = await res.json();
 
-const state = document.getElementById("state");
+            const state = document.getElementById("state");
 
-const blocked = data.response.blocked === true;
-const isFallback = data.response.is_fallback === true;
+            const blocked = data.response.blocked === true;
+            const isFallback = data.response.is_fallback === true;
 
-// 🔒 store control
-state.dataset.blocked = (blocked || isFallback) ? "true" : "false";
+            // 🔒 store control
+            state.dataset.blocked = (blocked || isFallback) ? "true" : "false";
 
-const text = data.response.response.trim();
-emotionalTypeWrite(text, "output", depth);
+            const text = data.response.response.trim();
+            emotionalTypeWrite(text, "output", depth);
 
 
 
@@ -1625,31 +1649,31 @@ emotionalTypeWrite(text, "output", depth);
         });
         window.addEventListener("DOMContentLoaded", function () {
 
-    // 🔹 Existing age logic (keep this)
-    const mode = localStorage.getItem("mode");
-    const heartMenu = document.querySelectorAll(".menu-group")[1];
+            // 🔹 Existing age logic (keep this)
+            const mode = localStorage.getItem("mode");
+            const heartMenu = document.querySelectorAll(".menu-group")[1];
 
-    if (mode === "under18") {
-        heartMenu.style.display = "none";
-    } else {
-        heartMenu.style.display = "block";
-    }
+            if (mode === "under18") {
+                heartMenu.style.display = "none";
+            } else {
+                heartMenu.style.display = "block";
+            }
 
-    // ✅ DEFAULT DASHBOARD ACTIVE
-    openTool('Dashboard');
+            // ✅ DEFAULT DASHBOARD ACTIVE
+            openTool('Dashboard');
 
-    const dashboardLink = document.getElementById('menu-dashboard');
-    if (dashboardLink) {
-        setActiveMenu(dashboardLink);
-    }
-});
+            const dashboardLink = document.getElementById('menu-dashboard');
+            if (dashboardLink) {
+                setActiveMenu(dashboardLink);
+            }
+        });
 
         function setActiveMenu(el) {
-    document.querySelectorAll('.menu a').forEach(a => {
-        a.classList.remove('active');
-    });
-    el.classList.add('active');
-}
+            document.querySelectorAll('.menu a').forEach(a => {
+                a.classList.remove('active');
+            });
+            el.classList.add('active');
+        }
 
         window.addEventListener("DOMContentLoaded", function () {
             const mode = localStorage.getItem("mode");
@@ -1973,11 +1997,66 @@ emotionalTypeWrite(text, "output", depth);
             alert("HeartNote Pro is coming soon ✨");
         }
 
-    if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register("{% static 'pwa/service-worker.js' %}");
-}
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{% static 'pwa/service-worker.js' %}");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const navToggle = document.getElementById("navToggle");
+            if (navToggle) {
+
+                // load state
+                const navState = localStorage.getItem("nav-visible");
+                if (navState === "false") {
+                    document.body.classList.add("nav-hidden");
+                    navToggle.checked = false;
+                } else {
+                    navToggle.checked = true;
+                }
+
+                // toggle
+                navToggle.addEventListener("change", () => {
+                    if (navToggle.checked) {
+                        document.body.classList.remove("nav-hidden");
+                        localStorage.setItem("nav-visible", "true");
+                    } else {
+                        document.body.classList.add("nav-hidden");
+                        localStorage.setItem("nav-visible", "false");
+                    }
+                });
+            }
+            // 🎉 Festival banner (safe anywhere)
+            const festivals = {
+                "01-01": "🎉 New Beginnings — Happy New Year",
+                "02-14": "💛 Day of Care & Connection",
+                "03-25": "🌸 Holi — A Day of Renewal",
+                "04-14": "🌾 Harvest & Gratitude (Tamil New Year)",
+                "05-01": "🛠️ Honouring Effort & Growth (Labour Day)",
+                "06-21": "🧘 Calm the Mind — International Yoga Day",
+                "07-21": "🌧️ Monsoon Reflections & Reset",
+                "08-15": "🇮🇳 Freedom, Identity & Purpose",
+                "09-05": "📚 Gratitude for Guidance (Teachers’ Day)",
+                "10-02": "🕊️ Silence, Truth & Self-Discipline",
+                "11-12": "🪔 Light Over Noise — Diwali",
+                "12-25": "🎄 Warmth, Kindness & Closure"
+            };
 
 
+            const today = new Date();
+            const key =
+                String(today.getMonth() + 1).padStart(2, "0") +
+                "-" +
+                String(today.getDate()).padStart(2, "0");
+
+            if (festivals[key]) {
+                const banner = document.createElement("div");
+                banner.className = "festival-banner";
+                banner.innerText = festivals[key];
+                document.body.prepend(banner);
+            }
+
+        });
     </script>
 </body>
 
