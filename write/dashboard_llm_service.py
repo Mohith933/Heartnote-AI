@@ -245,6 +245,85 @@ FALLBACK_CONTENT = {
     }
 
 }
+
+FALLBACK_CONTENT.update({
+
+    "letters": {
+        "light": [
+            "Dear {name},\n\nSome feelings arrive quietly.\n\nThis one stayed gentle, asking only to be acknowledged.",
+            "Dear {name},\n\nThere’s no urgency in this emotion.\n\nJust a soft presence, calm and honest."
+        ],
+        "medium": [
+            "Dear {name},\n\nThis feeling carries thoughtfulness.\n\nNot heavy, not light—simply real.",
+            "Dear {name},\n\nThe emotion unfolded slowly.\n\nNothing dramatic, just sincere."
+        ],
+        "deep": [
+            "Dear {name},\n\nSome emotions carry memory.\n\nThis one stayed, layered and quiet.",
+            "Dear {name},\n\nThe feeling lingered longer than expected.\n\nUnresolved, yet calm."
+        ]
+    },
+
+    "story": {
+        "light": [
+            "The moment passed gently.\n\nNothing changed, yet something was felt.",
+            "It was an ordinary moment.\n\nStill, the feeling stayed."
+        ],
+        "medium": [
+            "The feeling surfaced quietly.\n\nIt shaped the moment without words.",
+            "Nothing dramatic happened.\n\nYet the emotion remained present."
+        ],
+        "deep": [
+            "The feeling moved through silence.\n\nIt stayed long after the moment ended.",
+            "An emotion lingered.\n\nUnspoken, but deeply felt."
+        ]
+    },
+
+    "quotes": {
+        "light": [
+            "Some feelings exist without needing explanation.",
+            "Not every emotion asks to be understood."
+        ],
+        "medium": [
+            "Certain emotions stay quietly, shaping the moment.",
+            "Feelings don’t always arrive with clarity."
+        ],
+        "deep": [
+            "Some emotions leave echoes long after the moment passes.",
+            "Feelings can be deep without being loud."
+        ]
+    },
+
+    "affirmation": {
+        "light": [
+            "This feeling is allowed to exist.",
+            "It’s okay to notice what’s present."
+        ],
+        "medium": [
+            "This moment doesn’t need clarity to be valid.",
+            "The feeling can stay without explanation."
+        ],
+        "deep": [
+            "Even unresolved emotions deserve space.",
+            "Depth does not require answers."
+        ]
+    },
+
+    "notes": {
+        "light": [
+            "• What you felt: {desc}\n• Why it happened: a quiet moment of awareness\n• What could help: allowing the feeling to sit",
+            "• What you felt: {desc}\n• Why it happened: an internal pause\n• What could help: gentle reflection"
+        ],
+        "medium": [
+            "• What you felt: {desc}\n• Why it happened: emotional awareness\n• What could help: calm acknowledgment",
+            "• What you felt: {desc}\n• Why it happened: layered thoughts\n• What could help: quiet presence"
+        ],
+        "deep": [
+            "• What you felt: {desc}\n• Why it happened: unresolved emotion\n• What could help: space without pressure",
+            "• What you felt: {desc}\n• Why it happened: emotional depth\n• What could help: stillness"
+        ]
+    }
+
+})
 # -----------------------------------------------------
 # LLM SERVICE (GEMINI)
 # -----------------------------------------------------
