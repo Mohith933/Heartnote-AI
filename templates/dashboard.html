@@ -898,6 +898,24 @@
             border-radius: 20px;
         }
 
+        .avatar-edit {
+            position: relative;
+            display: inline-block;
+        }
+
+        .edit-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: #d0306a;
+            color: white;
+            font-size: 12px;
+            padding: 4px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+
 
 
 
@@ -979,12 +997,8 @@
             <h1 id="welcomeText">Welcome!</h1>
 
             <div class="avatar-container">
-                 <img
-    class="avatar"
-    id="dashboardAvatar"
-    onclick="openTool('Accounts')"
-    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23ffe4e6'/%3E%3Cpath d='M32 22c3-6 12-6 15 0 3-6-1 14-15 22-14-8-18-16-15-22 3-6 12-6 15 0z' fill='%23e11d48'/%3E%3C/svg%3E"
-  />
+                <img class="avatar" id="dashboardAvatar" onclick="openTool('Accounts')"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23ffe4e6'/%3E%3Cpath d='M32 22c3-6 12-6 15 0 3-6-1 14-15 22-14-8-18-16-15-22 3-6 12-6 15 0z' fill='%23e11d48'/%3E%3C/svg%3E" />
             </div>
         </div>
 
@@ -999,12 +1013,15 @@
             <div class="section-box">
                 <h3>Profile</h3>
                 <center>
-                    <img class="profile-avatar" id="profileAvatar"
-                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23ffe4e6'/%3E%3Cpath d='M32 22c3-6 12-6 15 0 3 6-1 14-15 22-14-8-18-16-15-22 3-6 12-6 15 0z' fill='%23e11d48'/%3E%3C/svg%3E"
-                        style="cursor:pointer" />
+                    <div class="avatar-edit">
+                        <img class="profile-avatar" id="profileAvatar"
+                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23ffe4e6'/%3E%3Cpath d='M32 22c3-6 12-6 15 0 3 6-1 14-15 22-14-8-18-16-15-22 3-6 12-6 15 0z' fill='%23e11d48'/%3E%3C/svg%3E"
+                            style="cursor:pointer" />
 
 
-                    <input type="file" id="avatarInput" accept="image/*" style="display:none" />
+                        <input type="file" id="avatarInput" accept="image/*" style="display:none" />
+                        <span class="edit-badge">✏️</span>
+                    </div>
 
                 </center>
 
@@ -1103,8 +1120,8 @@
                 </button>
 
                 <button class="danger-btn" onclick="resetApp()">
-  Reset App
-</button>
+                    Reset App
+                </button>
 
 
 
@@ -1886,17 +1903,17 @@
 
             window.location.href = "/";
         }
-    async function resetApp() {
-  // Remove only app-level local data
-  localStorage.removeItem("recents");
-  localStorage.removeItem("heartnote_settings");
+        async function resetApp() {
+            // Remove only app-level local data
+            localStorage.removeItem("recents");
+            localStorage.removeItem("heartnote_settings");
 
-  // Optional: user feedback
-  alert("App has been reset.");
+            // Optional: user feedback
+            alert("App has been reset.");
 
-  // Soft reload to apply clean state
-  window.location.reload();
-}
+            // Soft reload to apply clean state
+            window.location.reload();
+        }
 
         const styleSelect = document.getElementById("handwritingStyle");
         const outputArea = document.getElementById("output");
@@ -2113,6 +2130,13 @@
                 reader.readAsDataURL(file);
             });
         });
+
+        document.querySelector(".avatar-edit").onclick = () => {
+            document.getElementById("avatarInput").click();
+        };
+
+
+
     </script>
 </body>
 
