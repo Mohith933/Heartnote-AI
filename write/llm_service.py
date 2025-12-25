@@ -228,7 +228,7 @@ class LLM_Service:
         tone = tone.lower()
         if tone not in ["soft", "balanced", "deep"]:
             tone = "soft"
-            mode_data = FALLBACK_CONTENT.get(mode)
+        mode_data = FALLBACK_CONTENT.get(mode)
         if not mode_data:
             return "The words are resting quietly.\n\nPlease try again shortly."
         tone_data = mode_data.get(tone) or mode_data.get("soft")
