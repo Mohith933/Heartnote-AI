@@ -151,7 +151,7 @@ Format:
 • What to try: one gentle idea
 """
 
-import random
+
 
 FALLBACK_CONTENT = {
     "reflection": {
@@ -186,7 +186,7 @@ FALLBACK_CONTENT = {
 
     "poem": {
         "soft": [
-            "A quiet feeling\nrested briefly\nthen moved on."
+            "A quiet feeling\nrested briefly\nin silence\nthen moved on."
         ],
         "balanced": [
             "An emotion stayed\nbetween thought and breath."
@@ -237,6 +237,7 @@ class LLM_Service:
             date_str = datetime.now().strftime("%d/%m/%Y")
             text = text.replace("{date}", date_str)
         return text
+
 
 
 
