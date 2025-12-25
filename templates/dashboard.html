@@ -46,6 +46,27 @@
             --accent-dark: #e6396c;
         }
 
+        .festival-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background:var(--accent);
+    color:var(--text);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 9999;
+    max-width: 90%;
+    text-align: center;
+}
+
+.festival-popup.hidden {
+    display: none;
+}
+
+
 
         :root[data-font="small"] {
             font-size: 0.9rem;
@@ -937,6 +958,8 @@
 
 <body>
 
+     <div id="festivalPopup" class="festival-popup hidden"></div>
+
     <!-- Sidebar -->
     <aside class="sidebar">
         <div>
@@ -1194,8 +1217,6 @@
             </div>
         </div>
         <div id="state" data-blocked="false" data-viewing="false"></div>
-
-
 
         <footer>© 2025 HeartNote AI — Designed with 💗 by Solulure Labs</footer>
     </main>
@@ -2019,7 +2040,70 @@
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register("{% static 'pwa/service-worker.js' %}");
-        }        
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const navToggle = document.getElementById("navToggle");
+            if (navToggle) {
+
+                // load state
+                const navState = localStorage.getItem("nav-visible");
+                if (navState === "false") {
+                    document.body.classList.add("nav-hidden");
+                    navToggle.checked = false;
+                } else {
+                    navToggle.checked = true;
+                }
+
+                // toggle
+                navToggle.addEventListener("change", () => {
+                    if (navToggle.checked) {
+                        document.body.classList.remove("nav-hidden");
+                        localStorage.setItem("nav-visible", "true");
+                    } else {
+                        document.body.classList.add("nav-hidden");
+                        localStorage.setItem("nav-visible", "false");
+                    }
+                });
+            }
+            // 🎉 Festival banner (safe anywhere)
+            const festivals = {
+                "01-01": "🎉 New Beginnings — Happy New Year",
+                "02-14": "💛 Day of Care & Connection",
+                "03-25": "🌸 Holi — A Day of Renewal",
+                "04-14": "🌾 Harvest & Gratitude (Tamil New Year)",
+                "05-01": "🛠️ Honouring Effort & Growth (Labour Day)",
+                "06-21": "🧘 Calm the Mind — International Yoga Day",
+                "07-21": "🌧️ Monsoon Reflections & Reset",
+                "08-15": "🇮🇳 Freedom, Identity & Purpose",
+                "09-05": "📚 Gratitude for Guidance (Teachers’ Day)",
+                "10-02": "🕊️ Silence, Truth & Self-Discipline",
+                "11-12": "🪔 Light Over Noise — Diwali",
+                "12-25": "🎄 Warmth, Kindness & Closure"
+            };
+
+
+            const today = new Date();
+            const key =
+                String(today.getMonth() + 1).padStart(2, "0") +
+                "-" +
+                String(today.getDate()).padStart(2, "0");
+
+            if (festivals[key]) {
+    const popup = document.getElementById("festivalPopup");
+    popup.innerText = festivals[key];
+    popup.classList.remove("hidden");
+
+    // auto-hide after 5 seconds
+    setTimeout(() => {
+        popup.classList.add("hidden");
+    }, 5000);
+}
+
+
+        });
+
         document.addEventListener("DOMContentLoaded", () => {
             const profileAvatar = document.getElementById("profileAvatar");
             const dashboardAvatar = document.getElementById("dashboardAvatar");
