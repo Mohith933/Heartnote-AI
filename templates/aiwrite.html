@@ -376,8 +376,6 @@ body.dark {
       const historyList = document.getElementById("historyList");  
       const clearHistoryBtn = document.getElementById("clearHistory");  
       const lenInfo = document.getElementById("lenInfo");  
-      const DAILY_LIMIT = 10;
-      const USAGE_KEY = "heartnote_daily_usage";
  
   
       // local storage key  
@@ -516,13 +514,6 @@ generateBtn.addEventListener("click", async () => {
   const tone = getToneFromEmotion(emotion);
 
   outputBox.innerHTML = "⏳ Generating...";
-
-  if (!canGenerate()) {
-  outputEl.innerHTML =
-    "✨ You’ve reached today’s limit.\n\nCome back tomorrow with fresh thoughts.";
-  return;
-}
-
 
   try {
     // Correct final URL
