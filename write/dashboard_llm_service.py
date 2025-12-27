@@ -226,19 +226,19 @@ FALLBACK_CONTENT = {
     # -------------------------------
     "journal": {
         "light": [
-            "Date: {date} — Today felt gentle and slow, with a calm emotional presence throughout the day.",
-            "Date: {date} — The day moved quietly, carrying a soft emotional tone.",
-            "Date: {date} — Nothing stood out strongly, yet the feeling stayed."
+            "Date: {date} \n\n Today felt gentle and slow, with a calm emotional presence throughout the day.",
+            "Date: {date} \n\n The day moved quietly, carrying a soft emotional tone.",
+            "Date: {date} \n\n Nothing stood out strongly, yet the feeling stayed."
         ],
         "medium": [
-            "Date: {date} — A steady emotional rhythm shaped the day, grounded and calm.",
-            "Date: {date} — The feeling remained present, neutral and reflective.",
-            "Date: {date} — Emotional balance defined the day."
+            "Date: {date}\n\n A steady emotional rhythm shaped the day, grounded and calm.",
+            "Date: {date} \n\nThe feeling remained present, neutral and reflective.",
+            "Date: {date} \n\n Emotional balance defined the day."
         ],
         "deep": [
-            "Date: {date} — The emotion felt layered today, carrying depth and silence.",
-            "Date: {date} — Some feelings resist clarity, and this one stayed.",
-            "Date: {date} — The day carried emotional weight, unresolved yet steady."
+            "Date: {date}\n\n The emotion felt layered today, carrying depth and silence.",
+            "Date: {date} \n\nSome feelings resist clarity, and this one stayed.",
+            "Date: {date} \n\n The day carried emotional weight, unresolved yet steady."
         ]
     },
 
