@@ -198,47 +198,195 @@ Date: {date}
 from datetime import datetime
 import random
 
+SUGGESTION_CONTENT = {
+
+    "reflection": {
+        "light": [
+            "a calm sense slowly returning, learning gently, allowing things to stay as they are",
+            "quiet peace settling in, breathing easier, letting moments pass naturally",
+            "soft awareness growing, thoughts slowing down, comfort in stillness"
+        ],
+        "medium": [
+            "understanding myself more clearly, balance forming, patience developing",
+            "pausing without pressure, clarity replacing confusion, calm holding steady",
+            "acceptance taking shape, emotions grounding themselves"
+        ],
+        "deep": [
+            "healing old layers silently, time softening memories, meaning forming slowly",
+            "unresolved feelings resting deep, staying present with what remains",
+            "inner depth unfolding quietly, emotions settling without answers"
+        ]
+    },
+
+    "journal": {
+        "light": [
+            "small progress noticed today, hope staying nearby, growth happening quietly",
+            "gentle emotions passing through, calm moments repeating",
+            "simple awareness today, nothing heavy, nothing forced"
+        ],
+        "medium": [
+            "mixed feelings today, still holding balance, still moving forward",
+            "emotions steady but thoughtful, reflection guiding the day",
+            "a calm rhythm forming, staying grounded throughout"
+        ],
+        "deep": [
+            "thoughts felt layered today, meaning forming slowly, silence present",
+            "emotional weight stayed close, still manageable, still steady",
+            "depth without clarity, reflection staying unresolved"
+        ]
+    },
+
+    "notes": {
+        "light": [
+            "gentle care for myself, quiet reassurance, steady breathing",
+            "soft reminders, progress without noise, patience intact",
+            "kind awareness, slowing down, allowing space"
+        ],
+        "medium": [
+            "confidence forming quietly, growth happening in silence",
+            "steady emotional presence, calm recognition, inner balance",
+            "soft strength appearing, staying centered"
+        ],
+        "deep": [
+            "unspoken emotions present, depth without urgency",
+            "inner complexity noticed, allowing stillness",
+            "weight beneath calm, remaining steady"
+        ]
+    },
+
+    "affirmation": {
+        "light": [
+            "I am allowed to move slowly",
+            "Gentleness is enough today",
+            "I can stay present"
+        ],
+        "medium": [
+            "I remain grounded and steady",
+            "I trust the pace of my growth",
+            "I allow balance to form"
+        ],
+        "deep": [
+            "I honor emotions without resolving them",
+            "Depth can exist without clarity",
+            "Stillness is safe"
+        ]
+    },
+
+    "letters": {
+        "light": [
+            "warm memories lingering, softness remaining, peace slowly forming",
+            "gentle connection felt, nothing rushed, nothing forced",
+            "quiet appreciation staying, calm presence lasting"
+        ],
+        "medium": [
+            "truth felt calmly, honesty without weight",
+            "shared moments settling, clarity without intensity",
+            "emotion staying balanced, grounded and sincere"
+        ],
+        "deep": [
+            "unspoken feelings resting, depth remaining without answers",
+            "memory holding space, silence speaking gently",
+            "emotion lingering quietly, unresolved but present"
+        ]
+    },
+
+    "poems": {
+        "light": [
+            "soft light returning, breath slowing, warmth staying",
+            "gentle hope drifting, calm unfolding",
+            "still moments glowing"
+        ],
+        "medium": [
+            "balance between thought and breath",
+            "emotion standing quietly",
+            "clarity forming slowly"
+        ],
+        "deep": [
+            "silence holding meaning",
+            "depth without sound",
+            "emotion remaining"
+        ]
+    },
+
+    "story": {
+        "light": [
+            "a calm turn of events, nothing dramatic, peace remaining",
+            "quiet moments passing, feeling staying gently",
+            "soft transition unfolding"
+        ],
+        "medium": [
+            "change arriving quietly, balance shaping the moment",
+            "emotion grounding the scene",
+            "nothing loud, yet meaningful"
+        ],
+        "deep": [
+            "unspoken shift occurring, silence carrying weight",
+            "emotion outlasting the moment",
+            "depth forming without resolution"
+        ]
+    },
+
+    "quotes": {
+        "light": [
+            "Soft moments matter",
+            "Calm has its own strength",
+            "Gentleness holds meaning"
+        ],
+        "medium": [
+            "Balance often speaks quietly",
+            "Clarity doesn’t rush",
+            "Presence is enough"
+        ],
+        "deep": [
+            "Silence carries depth",
+            "Not everything seeks answers",
+            "Stillness holds truth"
+        ]
+    }
+}
+
+
 FALLBACK_CONTENT = {
 
     # -------------------------------
-    # REFLECTION (1 paragraph)
+    # REFLECTION (1 paragraph | 25–45 words)
     # -------------------------------
     "reflection": {
         "light": [
-            "Some feelings arrive quietly and stay without asking questions, resting gently inside the moment.",
-            "The emotion felt soft and light, present without needing explanation.",
-            "Nothing demanded attention, yet a calm emotional presence remained."
+            "Some feelings arrive quietly around {desc}, staying without questions, resting gently inside the moment and allowing calm awareness to remain.",
+            "The emotion shaped by {desc} felt soft and light, present without needing explanation, existing naturally within the experience.",
+            "Nothing demanded attention in {desc}, yet a calm emotional presence remained, steady and unspoken."
         ],
         "medium": [
-            "A steady emotional tone settled in, grounded and calm, shaping the moment naturally.",
-            "The feeling unfolded slowly, balanced and sincere.",
-            "There was emotional clarity without intensity, just quiet awareness."
+            "A steady emotional tone formed around {desc}, grounded and calm, shaping the moment naturally without urgency or resistance.",
+            "The feeling connected to {desc} unfolded slowly, balanced and sincere, holding quiet emotional clarity.",
+            "There was emotional clarity in {desc} without intensity, just quiet awareness settling in."
         ],
         "deep": [
-            "The feeling lingered beneath the surface, layered and silent, staying longer than expected.",
-            "Some emotions carry depth without noise, and this one remained.",
-            "The emotion shaped the quiet space within, unresolved yet calm."
+            "The feeling beneath {desc} lingered below the surface, layered and silent, staying longer than expected.",
+            "Some emotions within {desc} carry depth without noise, and this one remained quietly present.",
+            "The emotion shaped by {desc} filled the quiet inner space, unresolved yet calm."
         ]
     },
 
     # -------------------------------
-    # JOURNAL (1 paragraph with date)
+    # JOURNAL (1 paragraph with date | 25–45 words)
     # -------------------------------
     "journal": {
         "light": [
-            "Date: {date} \n\n Today felt gentle and slow, with a calm emotional presence throughout the day.",
-            "Date: {date} \n\n The day moved quietly, carrying a soft emotional tone.",
-            "Date: {date} \n\n Nothing stood out strongly, yet the feeling stayed."
+            "Date: {date}\n\nToday felt gentle and slow as {desc} stayed in the background, creating a calm emotional presence throughout the day.",
+            "Date: {date}\n\nThe day moved quietly with {desc}, carrying a soft emotional tone without pressure.",
+            "Date: {date}\n\nNothing stood out strongly in {desc}, yet the feeling stayed."
         ],
         "medium": [
-            "Date: {date}\n\n A steady emotional rhythm shaped the day, grounded and calm.",
-            "Date: {date} \n\nThe feeling remained present, neutral and reflective.",
-            "Date: {date} \n\n Emotional balance defined the day."
+            "Date: {date}\n\nA steady emotional rhythm formed around {desc}, grounded and calm throughout the day.",
+            "Date: {date}\n\nThe feeling linked to {desc} remained present, neutral and reflective.",
+            "Date: {date}\n\nEmotional balance shaped the day as {desc} stayed quietly present."
         ],
         "deep": [
-            "Date: {date}\n\n The emotion felt layered today, carrying depth and silence.",
-            "Date: {date} \n\nSome feelings resist clarity, and this one stayed.",
-            "Date: {date} \n\n The day carried emotional weight, unresolved yet steady."
+            "Date: {date}\n\nThe emotion connected to {desc} felt layered today, carrying depth and silence.",
+            "Date: {date}\n\nSome feelings within {desc} resist clarity, and this one stayed.",
+            "Date: {date}\n\nThe day carried emotional weight through {desc}, unresolved yet steady."
         ]
     },
 
@@ -247,43 +395,43 @@ FALLBACK_CONTENT = {
     # -------------------------------
     "poems": {
         "light": [
-            "A quiet feeling\nrested briefly\nthen moved on."
+            "A quiet feeling\nformed around {desc}\nthen moved on."
         ],
         "medium": [
-            "An emotion stayed\nbetween breath and thought."
+            "An emotion shaped by {desc}\nstayed between breath and thought."
         ],
         "deep": [
-            "Something unspoken\nsettled deeply\nand remained."
+            "Something unspoken\nwithin {desc}\nsettled deeply and remained."
         ]
     },
 
     # -------------------------------
-    # LETTER (USES {name} + SIGNATURE)
+    # LETTER (USES {name} + SIGNATURE | 25–45 words)
     # -------------------------------
     "letters": {
         "light": [
-            "Dear {name},\n\nA gentle feeling stayed quietly, without urgency or demand, simply resting in the moment.\n\nWarmth By,\n💗 HeartNote AI"
+            "Dear {name},\n\nA gentle feeling shaped by {desc} stayed quietly, without urgency or demand, simply resting in the moment.\n\nWarmth By,\n💗 HeartNote AI"
         ],
         "medium": [
-            "Dear {name},\n\nThe emotion unfolded slowly, grounded and sincere, holding its place calmly.\n\nWarmth By,\n💗 HeartNote AI"
+            "Dear {name},\n\nThe emotion surrounding {desc} unfolded slowly, grounded and sincere, holding its place calmly.\n\nWarmth By,\n💗 HeartNote AI"
         ],
         "deep": [
-            "Dear {name},\n\nSome emotions linger without explanation, layered and quiet, staying longer than expected.\n\nWarmth By,\n💗 HeartNote AI"
+            "Dear {name},\n\nSome emotions tied to {desc} linger without explanation, layered and quiet, staying longer than expected.\n\nWarmth By,\n💗 HeartNote AI"
         ]
     },
 
     # -------------------------------
-    # STORY (2 sentences max)
+    # STORY (25–45 words | 2 sentences max)
     # -------------------------------
     "story": {
         "light": [
-            "The moment passed gently. A quiet feeling remained."
+            "The moment shaped by {desc} passed gently. A quiet feeling remained, steady and unnoticed."
         ],
         "medium": [
-            "Nothing dramatic occurred. Still, the emotion stayed present."
+            "Nothing dramatic occurred around {desc}. Still, the emotion stayed present and grounded."
         ],
         "deep": [
-            "The moment ended, but the feeling did not. It stayed in silence."
+            "The moment connected to {desc} ended, but the feeling did not. It stayed in silence, carrying depth."
         ]
     },
 
@@ -292,13 +440,13 @@ FALLBACK_CONTENT = {
     # -------------------------------
     "quotes": {
         "light": [
-            "Some feelings exist without needing explanation."
+            "Some feelings formed around {desc} exist without needing explanation."
         ],
         "medium": [
-            "Not every emotion arrives with clarity."
+            "Not every emotion within {desc} arrives with clarity."
         ],
         "deep": [
-            "Depth often lives in silence."
+            "Depth within {desc} often lives in silence."
         ]
     },
 
@@ -307,13 +455,13 @@ FALLBACK_CONTENT = {
     # -------------------------------
     "affirmation": {
         "light": [
-            "This feeling is allowed to exist."
+            "This feeling shaped by {desc} is allowed to exist."
         ],
         "medium": [
-            "This moment does not need explanation."
+            "This moment within {desc} does not need explanation."
         ],
         "deep": [
-            "Even unresolved emotions deserve space."
+            "Even unresolved emotions within {desc} deserve space."
         ]
     },
 
@@ -322,16 +470,17 @@ FALLBACK_CONTENT = {
     # -------------------------------
     "notes": {
         "light": [
-            "• What you felt: a quiet emotional presence\n• Why it happened: inner awareness\n• What could help: gentle space"
+            "• What you felt: a quiet emotional presence around {desc}\n• Why it happened: inner awareness\n• What could help: gentle space"
         ],
         "medium": [
-            "• What you felt: steady emotional awareness\n• Why it happened: emotional balance\n• What could help: grounding presence"
+            "• What you felt: steady emotional awareness within {desc}\n• Why it happened: emotional balance\n• What could help: grounding presence"
         ],
         "deep": [
-            "• What you felt: deep unresolved emotion\n• Why it happened: inner complexity\n• What could help: stillness"
+            "• What you felt: deep unresolved emotion tied to {desc}\n• Why it happened: inner complexity\n• What could help: stillness"
         ]
     }
 }
+
 
 # -----------------------------------------------------
 # LLM SERVICE (GEMINI)
@@ -347,6 +496,7 @@ class Dashboard_LLM_Service:
     def generate(self, mode, name, desc, depth, language):
         mode = (mode or "").lower().strip()
         depth = (depth or "light").lower().strip()
+        safe_desc = (desc or "").strip()
         language = (language or "en").lower().strip()
         tone = DEPTH_TONE.get(depth, DEPTH_TONE["light"])
 
@@ -411,7 +561,7 @@ class Dashboard_LLM_Service:
             fallback_mode = FALLBACK_CONTENT.get(mode, {})
             fallback_list = fallback_mode.get(depth, [])
             if fallback_list:
-                text = random.choice(fallback_list).format(date=date,name=name)
+                text = random.choice(fallback_list).format(date=date,name=name,desc=safe_desc)
             else:
                 text = (
             "The words feel quiet right now.\n\n"
