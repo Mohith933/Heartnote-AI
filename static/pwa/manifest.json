@@ -25,10 +25,32 @@
     ],
     "screenshots": [
   {
+    "src": "/static/screenshots/Home.png",
+    "sizes": "1280x686",
+    "type": "image/png"
+  },
+  {
+    "src": "/static/screenshots/Write.png",
+    "sizes": "1280x684",
+    "type": "image/png"
+  },
+  {
     "src": "/static/screenshots/Letter.png",
-    "sizes": "1280x730",
+    "sizes": "1280x686",
+    "type": "image/png"
+  },
+  {
+    "src": "/static/screenshots/workspace.png",
+    "sizes": "1280x724",
+    "type": "image/png"
+  },
+
+  {
+    "src": "/static/screenshots/account.png",
+    "sizes": "1280x691",
     "type": "image/png"
   }
 ]
+
 
 }
