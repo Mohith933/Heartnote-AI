@@ -222,7 +222,7 @@ FALLBACK_CONTENT = {
         ],
         "deep": [
             "Dear you,\nThis feeling carried memory.It lingered, quiet and unresolved.",
-            "Dear you,\nSome emotions remain.his one stayed longer than expected.",
+            "Dear you,\nSome emotions remain. This one stayed longer than expected.",
             "Dear you,\nThe emotion moved deeply.Without explanation."
         ]
     },
@@ -284,18 +284,18 @@ FALLBACK_CONTENT = {
     "notes": {
         "soft": [
             "• What you felt: a quiet emotion\n• Why it happened: a gentle moment of awareness\n• What to try: allowing the feeling to sit",
-            "• What you felt: a soft internal shift\n• Why it happened: emotional pause\n• What to try: gentle reflection",
-            "• What you felt: calm awareness\n• Why it happened: a quiet moment\n• What to try: patience"
+            "• What you felt: a soft internal shift\n• Why it happened: emotional pause\n• What remained: gentle reflection",
+            "• What you felt: calm awareness\n• Why it happened: a quiet moment\n• What remained: patience"
         ],
         "balanced": [
-            "• What you felt: emotional steadiness\n• Why it happened: grounded awareness\n• What to try: calm acknowledgment",
-            "• What you felt: neutral emotion\n• Why it happened: quiet realization\n• What to try: simple presence",
+            "• What you felt: emotional steadiness\n• Why it happened: grounded awareness\n• What remained: calm acknowledgment",
+            "• What you felt: neutral emotion\n• Why it happened: quiet realization\n• What remained: simple presence",
             "• What you felt: balance\n• Why it happened: emotional clarity\n• What to try: stillness"
         ],
         "deep": [
-            "• What you felt: unresolved emotion\n• Why it happened: emotional depth\n• What to try: space without pressure",
-            "• What you felt: something unspoken\n• Why it happened: inner complexity\n• What to try: stillness",
-            "• What you felt: emotional weight\n• Why it happened: memory and silence\n• What to try: quiet space"
+            "• What you felt: unresolved emotion\n• Why it happened: emotional depth\n• What remained: space without pressure",
+            "• What you felt: something unspoken\n• Why it happened: inner complexity\n• What remained: stillness",
+            "• What you felt: emotional weight\n• Why it happened: memory and silence\n• What remained: quiet space"
         ]
     }
 }
