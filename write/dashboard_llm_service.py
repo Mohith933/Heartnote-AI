@@ -401,22 +401,16 @@ FALLBACK_CONTENT = {
     # --------------------------------
     "journal": {
         "light": [
-            "Date: {date}\n\nToday moved gently as {desc} stayed present in the background, creating a calm emotional rhythm without pressure.",
-            "Date: {date}\n\nThe day felt light, with {desc} allowing moments to pass softly and naturally.",
-            "Date: {date}\n\nNothing felt heavy today; {desc} carried a simple sense of calm throughout.",
-            "Date: {date}\n\nA quiet emotional ease shaped the day as {desc} remained steady."
+          "Date: {date}\n\nToday moved gently, with {desc} staying in the background, creating a calm emotional rhythm from morning to evening.",
+"Date: {date}\n\nThe day felt light as {desc} allowed moments to pass softly, without needing attention or effort."  
         ],
         "medium": [
-            "Date: {date}\n\nEmotions felt balanced today, with {desc} guiding reflection and maintaining steady awareness.",
-            "Date: {date}\n\nThe presence of {desc} helped keep the day grounded and emotionally centered.",
-            "Date: {date}\n\nThoughts stayed thoughtful but calm as {desc} shaped the emotional tone.",
-            "Date: {date}\n\nA steady emotional rhythm formed through {desc}, holding balance throughout."
+            "Date: {date}\n\nEmotions felt balanced today, as {desc} quietly supported reflection and steady awareness throughout the day.",
+"Date: {date}\n\nThe presence of {desc} kept the day grounded, holding emotional balance during moments of pause."
         ],
         "deep": [
-            "Date: {date}\n\nThe emotion surrounding {desc} felt layered today, remaining quiet yet meaningful.",
-            "Date: {date}\n\nSome unresolved feelings stayed close within {desc}, calm but deep.",
-            "Date: {date}\n\nThe day carried emotional weight through {desc}, steady and reflective.",
-            "Date: {date}\n\nDepth remained present today as {desc} shaped quiet inner awareness."
+            "Date: {date}\n\nThe emotion surrounding {desc} felt layered today, quiet and meaningful, staying close without explanation.",
+"Date: {date}\n\nSome unresolved feelings remained through {desc}, calm but deep, shaping inner awareness as the day passed."
         ]
     },
 
@@ -425,13 +419,16 @@ FALLBACK_CONTENT = {
     # --------------------------------
     "poems": {
         "light": [
-            "A soft feeling\nformed around {desc}\nthen rested quietly."
+           "A soft feeling formed\naround {desc}\nresting without needing words.",
+"Light emotion appears\nthrough {desc}\nthen settles calmly."
         ],
         "medium": [
-            "Emotion shaped by {desc}\nstayed calm\nbetween thought and breath."
+            "Emotion shaped by {desc}\nstays between thought and breath\nquiet, but aware.",
+"{desc} carries a feeling\nbalanced and present\nneither heavy nor distant."
         ],
         "deep": [
-            "Something unresolved\nwithin {desc}\nremained in silence."
+            "Something unresolved\nwithin {desc}\nremains, quietly breathing.",
+"{desc} holds weight\nwithout explanation\nand stays."
         ]
     },
 
@@ -440,22 +437,16 @@ FALLBACK_CONTENT = {
     # --------------------------------
     "letters": {
         "light": [
-            "Dear {name},\n\nA gentle emotional presence shaped by {desc} stayed calm and unhurried, allowing space without expectation.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nThe feeling connected to {desc} felt light and steady, resting naturally without asking for clarity.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nA quiet sense of peace formed through {desc}, remaining soft and present.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nThe moment shaped by {desc} carried gentle emotional calm, unforced and sincere.\n\nWarmth By,\n💗 HeartNote AI"
+            "Dear {name},\n\nWarm moments shaped by {desc} rested gently, calm and unhurried, allowing space without expectation.\n\nWarmth By,\n💗 HeartNote AI",
+"Dear {name},\n\nThrough {desc}, a light emotional calm settled naturally, steady and sincere.\n\nWarmth By,\n💗 HeartNote AI"
         ],
         "medium": [
-            "Dear {name},\n\nThe emotion surrounding {desc} unfolded slowly, grounded and balanced, holding space without intensity.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nA steady emotional clarity shaped by {desc} remained calm and thoughtful.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nThe feeling connected to {desc} stayed sincere, composed, and emotionally centered.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nThrough {desc}, emotions remained stable and reflective.\n\nWarmth By,\n💗 HeartNote AI"
+            "Dear {name},\n\nEmotions surrounding {desc} unfolded with balance, thoughtful and grounded.\n\nWarmth By,\n💗 HeartNote AI",
+"Dear {name},\n\n{desc} carried a composed emotional presence, reflective and clear.\n\nWarmth By,\n💗 HeartNote AI"
         ],
         "deep": [
-            "Dear {name},\n\nSome emotions tied to {desc} stayed unresolved, deep and quiet, remaining without explanation.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nThe feeling shaped by {desc} lingered beneath the surface, calm yet layered.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nDepth remained present through {desc}, holding silence without urgency.\n\nWarmth By,\n💗 HeartNote AI",
-            "Dear {name},\n\nAn unspoken emotional weight connected to {desc} stayed gently present.\n\nWarmth By,\n💗 HeartNote AI"
+            "Dear {name},\n\n{desc} remained quietly layered, holding depth without urgency or explanation.\n\nWarmth By,\n💗 HeartNote AI",
+"Dear {name},\n\nAn unspoken depth connected to {desc} stayed present, calm and unresolved.\n\nWarmth By,\n💗 HeartNote AI"
         ]
     },
 
@@ -464,22 +455,16 @@ FALLBACK_CONTENT = {
     # --------------------------------
     "story": {
         "light": [
-            "The moment shaped by {desc} passed quietly. Calm remained without calling attention to itself.",
-            "Nothing rushed within {desc}. A gentle emotional presence stayed behind.",
-            "The scene unfolded softly through {desc}, leaving peace in its place.",
-            "The moment ended calmly, shaped by {desc}, without disturbance."
+            "The moment shaped by {desc} unfolded quietly, without urgency or expectation. Calm settled naturally, leaving a soft emotional stillness behind.",
+            "Nothing rushed within {desc}, and the moment passed gently. A simple sense of peace remained, unnoticed but steady."
         ],
         "medium": [
-            "Change arrived quietly through {desc}. Emotion stayed grounded and reflective.",
-            "Nothing dramatic occurred within {desc}, yet meaning remained.",
-            "The scene shaped by {desc} held steady emotional balance.",
-            "A calm shift occurred through {desc}, grounding the moment."
+            "The experience shaped by {desc} moved slowly, allowing emotions to settle with balance. Reflection stayed present without becoming heavy.",
+           "Through {desc}, the moment held emotional steadiness. Meaning existed quietly, grounded and thoughtful."
         ],
         "deep": [
-            "The moment connected to {desc} ended, but the feeling stayed. Silence carried depth.",
-            "Emotion outlasted the moment shaped by {desc}, remaining unresolved.",
-            "Within {desc}, the feeling remained long after the scene faded.",
-            "The experience passed, but depth tied to {desc} stayed."
+            "The moment connected to {desc} ended, but the feeling did not. It remained quietly, unresolved, carrying depth without needing explanation.",
+            "Though the experience shaped by {desc} passed, its emotional weight stayed. Silence held what words could not."
         ]
     },
 
