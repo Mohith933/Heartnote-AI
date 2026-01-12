@@ -921,6 +921,63 @@
             cursor: pointer;
         }
 
+.hn-popup {
+    position: fixed;
+    inset: 0;
+    background:rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.hn-popup.hidden {
+    display: none;
+}
+
+.hn-popup-box {
+    background:var(--bg);
+    border-radius: 16px;
+    padding: 22px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255,105,135,0.25);
+}
+
+.hn-popup-box h3 {
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.hn-popup-box p {
+    color: var(--text);
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.hn-popup-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-secondary {
+    flex: 1;
+    background:var(--bg);
+    color: var(--text);
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.btn-primary {
+    flex: 1;
+    background: var(--accent);
+    color: var(--text);
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+}
 
 
 
@@ -964,6 +1021,17 @@
 <body>
 
      <div id="festivalPopup" class="festival-popup hidden"></div>
+     <div id="hn-popup" class="hn-popup hidden">
+    <div class="hn-popup-box">
+        <h3 id="hn-popup-title"></h3>
+        <p id="hn-popup-message"></p>
+        <div class="hn-popup-actions">
+            <button class="btn-secondary" onclick="closeHeartNotePopup()">Stay</button>
+            <button class="btn-primary" id="hn-popup-confirm">Leave</button>
+        </div>
+    </div>
+</div>
+
 
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -1223,7 +1291,6 @@
     </main>
 
     <script>
-        let isWriting = false;
         const username = localStorage.getItem('heartnote_username');
         if (username) {
             document.getElementById('welcomeText').innerText = `Welcome, ${username} 💞`;
@@ -1400,92 +1467,137 @@
             library.style.display = "block";
             showRecents();
         }
-        let typingTimer = null;
+        let isWriting = false;
+let typingInterval = null;
 
-        function emotionalTypeWrite(text, elementId, depth = "medium") {
+
+function emotionalTypeWrite(text, elementId, depth, onComplete) {
     const el = document.getElementById(elementId);
-    if (!el) return;
-
-    const safeText = typeof text === "string" ? text.trim() : "";
-    el.textContent = "";
+    el.innerHTML = "";
 
     let i = 0;
-    const speed = depth === "deep" ? 80 : depth === "light" ? 35 : 55;
+    const speed = depth === "deep" ? 40 : 25;
 
-    function typeNext() {
-        if (i < safeText.length) {
-            el.textContent += safeText.charAt(i);
-            i++;
-            typingTimer = setTimeout(typeNext, speed);
-        } else {
-            // ✅ typing finished
-            isWriting = false;
-        }
+    // 🔴 CLEAR old typing if exists
+    if (typingInterval) {
+        clearInterval(typingInterval);
+        typingInterval = null;
     }
 
-    typeNext();
+    typingInterval = setInterval(() => {
+        if (!isWriting) {
+            clearInterval(typingInterval);
+            typingInterval = null;
+            return;
+        }
+
+        el.innerHTML += text.charAt(i);
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(typingInterval);
+            typingInterval = null;
+            isWriting = false;
+            if (onComplete) onComplete();
+        }
+    }, speed);
 }
+
+
 
 
 
         async function generateContent() {
-            isWriting = true;
-            const name = document.getElementById("nameInput").value.trim();
-            const desc = document.getElementById("descInput").value.trim();
-            const depth = document.getElementById("depthInput").value;
-            const mode = document.getElementById("toolTitle").innerText.toLowerCase();
+    if (isWriting) return; // prevent double click
 
-            if (!name && !desc) {
-                alert("Please write something.");
-                return;
-            }
+    isWriting = true;
 
-            const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
-            const language = settings.language || "en";
+    const name = document.getElementById("nameInput").value.trim();
+    const desc = document.getElementById("descInput").value.trim();
+    const depth = document.getElementById("depthInput").value;
+    const mode = document.getElementById("toolTitle").innerText.toLowerCase();
 
-            const output = document.getElementById("output");
-            output.innerHTML = "✍️ Generating...";
-
-            const url =
-                `/api/dashboard/?mode=${encodeURIComponent(mode)}` +
-                `&name=${encodeURIComponent(name)}` +
-                `&desc=${encodeURIComponent(desc)}` +
-                `&depth=${encodeURIComponent(depth)}` +
-                `&language=${encodeURIComponent(language)}`;
-
-            const res = await fetch(url);
-            const data = await res.json();
-
-            const state = document.getElementById("state");
-
-            const blocked = data.response.blocked === true;
-            const isFallback = data.response.is_fallback === true;
-
-            // 🔒 store control
-            state.dataset.blocked = (blocked || isFallback) ? "true" : "false";
-
-            const text = data.response.response.trim();
-            emotionalTypeWrite(text, "output", depth);
-
-        }
-
-        function confirmExitWhileWriting(action) {
-    if (!isWriting) {
-        action();
+    if (!name && !desc) {
+        alert("Please write something.");
+        isWriting = false;
         return;
     }
 
-    const choice = confirm(
-        "✍️ I'm still writing for you...\n\n" +
-        "If you leave now, this writing will stop and won't be saved.\n\n" +
-        "Do you want to continue?"
-    );
+    const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
+    const language = settings.language || "en";
 
-    if (choice) {
+    const output = document.getElementById("output");
+    output.innerHTML = "✍️ Writing from the heart...";
+
+    try {
+        const url =
+            `/api/dashboard/?mode=${encodeURIComponent(mode)}` +
+            `&name=${encodeURIComponent(name)}` +
+            `&desc=${encodeURIComponent(desc)}` +
+            `&depth=${encodeURIComponent(depth)}` +
+            `&language=${encodeURIComponent(language)}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const state = document.getElementById("state");
+        const blocked = data.response.blocked === true;
+        const isFallback = data.response.is_fallback === true;
+
+        state.dataset.blocked = (blocked || isFallback) ? "true" : "false";
+
+        const text = data.response.response.trim();
+
+        // 👇 IMPORTANT: when typing animation ends, set false
+        emotionalTypeWrite(text, "output", depth, () => {
+            isWriting = false;
+        });
+
+    } catch (err) {
+        console.error(err);
+        output.innerHTML = "⚠️ Something went wrong. Please try again.";
         isWriting = false;
+    }
+}
+function showHeartNotePopup(title, message, onConfirm) {
+    document.getElementById("hn-popup-title").innerText = title;
+    document.getElementById("hn-popup-message").innerText = message;
+
+    const confirmBtn = document.getElementById("hn-popup-confirm");
+    confirmBtn.onclick = () => {
+        closeHeartNotePopup();
+        if (onConfirm) onConfirm();
+    };
+
+    document.getElementById("hn-popup").classList.remove("hidden");
+}
+
+function closeHeartNotePopup() {
+    document.getElementById("hn-popup").classList.add("hidden");
+}
+
+function confirmExitWhileWriting(action) {
+    if (isWriting) {
+        showHeartNotePopup(
+            "Your words are still being written 💗",
+            "If you leave now, the writing will stop.",
+            () => {
+                // 👇 STOP WRITING SAFELY
+                isWriting = false;
+
+                if (typingInterval) {
+                    clearInterval(typingInterval);
+                    typingInterval = null;
+                }
+
+                action(); // now switch tool
+            }
+        );
+    } else {
         action();
     }
 }
+
 
 
 
