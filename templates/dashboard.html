@@ -1476,9 +1476,12 @@ function emotionalTypeWrite(text, elementId, depth, onComplete) {
     el.innerHTML = "";
 
     let i = 0;
-    const speed = depth === "deep" ? 40 : 25;
 
-    // 🔴 CLEAR old typing if exists
+    let speed = 28; // default medium
+    if (depth === "light") speed = 20;
+    if (depth === "deep") speed = 42;
+
+    // 🔴 clear previous typing
     if (typingInterval) {
         clearInterval(typingInterval);
         typingInterval = null;
@@ -1502,7 +1505,6 @@ function emotionalTypeWrite(text, elementId, depth, onComplete) {
         }
     }, speed);
 }
-
 
 
 
