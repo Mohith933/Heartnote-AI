@@ -1982,7 +1982,7 @@ function generateSuggestionContent() {
         });
         // Load saved state on page load
         document.addEventListener("DOMContentLoaded", () => {
-            const saved = JSON.parse(localStorage.getItem("emotionHints")) ?? true;
+            const saved = JSON.parse(localStorage.getItem("emotionHints")) ?? false;
             document.getElementById("emotionHintsToggle").checked = saved;
             updateEmotionHintsUI(saved);
         });
@@ -2152,12 +2152,13 @@ function generateSuggestionContent() {
 
                 // load state
                 const navState = localStorage.getItem("nav-visible");
-                if (navState === "false") {
-                    document.body.classList.add("nav-hidden");
-                    navToggle.checked = false;
-                } else {
-                    navToggle.checked = true;
-                }
+                if (navState === "true") {
+    document.body.classList.remove("nav-hidden");
+    navToggle.checked = true;
+} else {
+    document.body.classList.add("nav-hidden");
+    navToggle.checked = false;
+}
 
                 // toggle
                 navToggle.addEventListener("change", () => {
