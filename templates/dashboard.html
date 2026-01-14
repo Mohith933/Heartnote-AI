@@ -1983,8 +1983,8 @@ function generateSuggestionContent() {
         // Load saved state on page load
         document.addEventListener("DOMContentLoaded", () => {
             const saved = JSON.parse(localStorage.getItem("emotionHints")) ?? false;
-            document.getElementById("emotionHintsToggle").checked = enabled;
-updateEmotionHintsUI(enabled);
+            document.getElementById("emotionHintsToggle").checked = saved;  
+            updateEmotionHintsUI(saved);  
         });
 
 
