@@ -2188,24 +2188,25 @@ function generateSuggestionContent() {
                 "11-12": "🪔 Light Over Noise — Diwali",
                 "12-25": "🎄 Warmth, Kindness & Closure"
             };
-
+// 🌱 Default banner when no festival
+const defaultMessage = "🌱 A gentle day to reflect and write";
 
             const today = new Date();
-            const key =
-                String(today.getMonth() + 1).padStart(2, "0") +
-                "-" +
-                String(today.getDate()).padStart(2, "0");
+const key =
+    String(today.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(today.getDate()).padStart(2, "0");
 
-            if (festivals[key]) {
-    const popup = document.getElementById("festivalPopup");
-    popup.innerText = festivals[key];
-    popup.classList.remove("hidden");
+const popup = document.getElementById("festivalPopup");
+if (!popup) return;
 
-    // auto-hide after 5 seconds
-    setTimeout(() => {
-        popup.classList.add("hidden");
-    }, 5000);
-}
+popup.innerText = festivals[key] || defaultMessage;
+popup.classList.remove("hidden");
+
+// auto-hide after 5 seconds
+setTimeout(() => {
+    popup.classList.add("hidden");
+}, 5000);
 
 
         });
