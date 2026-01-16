@@ -479,12 +479,12 @@ class Dashboard_LLM_Service:
             date=date,
             name=name
         )
-              else:
-                 text = ("The words feel  quiet right now.\n\n"
+           else:
+               text = ("The words feel  quiet right now.\n\n"
             "Some feelings take time before they find language."
         )
 
-              return {
+           return {
                 "response": text,
                 "blocked": False
                 "is_fallback": True
