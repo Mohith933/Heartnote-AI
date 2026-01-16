@@ -405,7 +405,7 @@ class Dashboard_LLM_Service:
         mode = (mode or "").lower().strip()
         depth = (depth or "light").lower().strip()
         language = (language or "en").lower().strip()
-        language = "en" if language not in ["en"] else language
+        language = "en" if language not in ["en", "hi"] else language
         tone = DEPTH_TONE.get(depth, DEPTH_TONE["light"])
 
         # 1️⃣ Safety filter
@@ -466,28 +466,29 @@ class Dashboard_LLM_Service:
             }
 
         except Exception:
-            if language == "hi":
-                fallback = FALLBACK_CONTENT_HI
-            else:
-                fallback = FALLBACK_CONTENT
-            fallback_mode = fallback.get(mode, {})
-            fallback_list = fallback_mode.get(depth, [])
-            if fallback_list:
-               text = random.choice(fallback_list).format(
+           if language == "hi":
+              fallback = FALLBACK_CONTENT_HI
+           else:
+             fallback = FALLBACK_CONTENT
+
+           fallback_mode = fallback.get(mode, {})
+           fallback_list = fallback_mode.get(depth, [])
+
+           if fallback_list:
+              text = random.choice(fallback_list).format(
             date=date,
             name=name
         )
-            else:
-               text = (
-            "The words feel quiet right now.\n\n"
+              else:
+                 text = ("The words feel  quiet right now.\n\n"
             "Some feelings take time before they find language."
         )
 
-           return {
-        "response": text,
-        "blocked": False,
-        "is_fallback": False
-    }
+              return {
+                "response": text,
+                "blocked": False
+                "is_fallback": True
+              }
 
     # -------------------------------------------------
     # TEMPLATE ROUTER
