@@ -466,27 +466,27 @@ class Dashboard_LLM_Service:
             }
 
         except Exception:
-           if language == "hi":
-               fallback = FALLBACK_CONTENT_HI
-           else:
-               fallback = FALLBACK_CONTENT
-            fallback_mode = FALLBACK_CONTENT.get(mode, {})
+            if language == "hi":
+                fallback = FALLBACK_CONTENT_HI
+            else:
+                fallback = FALLBACK_CONTENT
+            fallback_mode = fallback.get(mode, {})
             fallback_list = fallback_mode.get(depth, [])
             if fallback_list:
-                text = random.choice(fallback_list).format(
-                date=date,
-                name=name
-                 )
+               text = random.choice(fallback_list).format(
+            date=date,
+            name=name
+        )
             else:
-                text = (
+               text = (
             "The words feel quiet right now.\n\n"
             "Some feelings take time before they find language."
         )
 
-            return {
-               "response": text,
-               "blocked": False,
-               "is_fallback": False
+           return {
+        "response": text,
+        "blocked": False,
+        "is_fallback": False
     }
 
     # -------------------------------------------------
