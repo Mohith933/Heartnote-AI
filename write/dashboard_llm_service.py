@@ -486,8 +486,8 @@ class Dashboard_LLM_Service:
 
            return {
                 "response": text,
-                "blocked": False
-                "is_fallback": True
+                "blocked": False,
+                "is_fallback": False
               }
 
     # -------------------------------------------------
