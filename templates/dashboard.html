@@ -1516,8 +1516,7 @@ function emotionalTypeWrite(text, elementId, depth, onComplete) {
         return;
     }
 
-    const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
-    const language = getCurrentLanguage();
+    const language = getCurrentLanguage(); // ✅ OK if function exists
 
     const output = document.getElementById("output");
     output.innerHTML = "✍️ Writing from the heart...";
@@ -1541,12 +1540,18 @@ function emotionalTypeWrite(text, elementId, depth, onComplete) {
 
         const text = data.response.response.trim();
 
-// ✅ SAVE FULL TEXT IMMEDIATELY
-lastGeneratedText = text;
+        // ✅ SAVE FULL TEXT IMMEDIATELY (for leave/store logic)
+        lastGeneratedText = text;
 
-emotionalTypeWrite(text, "output", depth, () => {
-    isWriting = false;
-});
+        emotionalTypeWrite(text, "output", depth, () => {
+            isWriting = false;
+        });
+
+    } catch (err) {
+        console.error(err);
+        output.innerHTML = "⚠️ Something went wrong. Please try again.";
+        isWriting = false;
+    }
 }
 function showHeartNotePopup(title, message, onConfirm) {
     document.getElementById("hn-popup-title").innerText = title;
