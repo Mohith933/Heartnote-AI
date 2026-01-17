@@ -1445,7 +1445,7 @@ if (typingInterval) {
 
             const workspace = document.getElementById("workspaceView");
             const library = document.getElementById("libraryView");
-            const output = document.getElementById("output").innerText.trim();
+            const output = lastGeneratedText.trim();
 
             const isBlocked = state.dataset.blocked === "true";
             const isViewingRecent = state.dataset.viewing === "true";
@@ -1472,6 +1472,7 @@ if (typingInterval) {
         }
 let typingInterval = null;
 let isWriting = false;
+let lastGeneratedText = "";
 function emotionalTypeWrite(text, elementId, depth, onComplete) {
     const el = document.getElementById(elementId);
     el.innerHTML = "";
@@ -1540,16 +1541,12 @@ function emotionalTypeWrite(text, elementId, depth, onComplete) {
 
         const text = data.response.response.trim();
 
-        // 👇 IMPORTANT: when typing animation ends, set false
-        emotionalTypeWrite(text, "output", depth, () => {
-            isWriting = false;
-        });
+// ✅ SAVE FULL TEXT IMMEDIATELY
+lastGeneratedText = text;
 
-    } catch (err) {
-        console.error(err);
-        output.innerHTML = "⚠️ Something went wrong. Please try again.";
-        isWriting = false;
-    }
+emotionalTypeWrite(text, "output", depth, () => {
+    isWriting = false;
+});
 }
 function showHeartNotePopup(title, message, onConfirm) {
     document.getElementById("hn-popup-title").innerText = title;
