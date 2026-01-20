@@ -660,7 +660,7 @@ class Dashboard_LLM_Service:
             return {
                 "response": raw.strip(),
                 "blocked": False,
-                "is_fallback": False
+                "is_fallback": True
             }
 
         except Exception:
