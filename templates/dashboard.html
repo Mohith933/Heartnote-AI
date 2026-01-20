@@ -12,8 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@400;600&family=Kalam&family=Dancing+Script:wght@400;600&display=swap"
         rel="stylesheet">
     <link rel="manifest" href="{% static 'pwa/manifest.json' %}">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141414">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" content="#ffffff" id="themeColorMeta">
     <style>
         body[data-theme="light"] {
             --accent: #ff4d6d;
@@ -800,19 +799,31 @@
             color: var(--text);
             font-size: 0.8em;
         }
+        
+.delete-btn {
+    background:none; /* soft accent tint */
+    border: none;
+    color: var(--accent);
+    font-size: 0.95em;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
 
-        h4 .delete-btn {
-            background: transparent;
-            border: none;
-            color: var(--bg);
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+.delete-btn:hover {
+    background: rgba(255, 77, 109, 0.18);
+    transform: scale(1.05);
+}
+.recent-item .delete-btn {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
 
-        .delete-btn:hover {
-            color: var(--muted);
-        }
+.recent-item:hover .delete-btn {
+  opacity: 1;
+}
+
 
         .maincardname {
             margin: 10px;
@@ -1982,25 +1993,47 @@ function generateSuggestionContent() {
             updateEmotionHintsUI(saved);  
         });
 
+        const THEME_COLORS = {
+    light: "#ffffff",
+    dark: "#141414",
+    blossom: "#ffddea"
+};
+
+
 
         function loadTheme() {
-            const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
-            const theme = settings.theme || "light";
+    const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
+    const theme = settings.theme || "light";
 
-            // apply to body
-            document.body.setAttribute("data-theme", theme);
+    document.body.setAttribute("data-theme", theme);
 
-            // set dropdown if exists
-            const select = document.getElementById("themeMode");
-            if (select) select.value = theme;
-        }
+    // update dropdown
+    const select = document.getElementById("themeMode");
+    if (select) select.value = theme;
 
-        function saveTheme(value) {
-            const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
-            settings.theme = value;
-            localStorage.setItem("heartnote_settings", JSON.stringify(settings));
-            document.body.setAttribute("data-theme", value);
-        }
+    // update theme color
+    const meta = document.getElementById("themeColorMeta");
+    if (meta && THEME_COLORS[theme]) {
+        meta.setAttribute("content", THEME_COLORS[theme]);
+    }
+}
+
+
+       function saveTheme(value) {
+    const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
+    settings.theme = value;
+    localStorage.setItem("heartnote_settings", JSON.stringify(settings));
+
+    // apply theme
+    document.body.setAttribute("data-theme", value);
+
+    // update browser theme color
+    const meta = document.getElementById("themeColorMeta");
+    if (meta && THEME_COLORS[value]) {
+        meta.setAttribute("content", THEME_COLORS[value]);
+    }
+}
+
 
         // listen for dropdown change
         document.addEventListener("change", (e) => {
