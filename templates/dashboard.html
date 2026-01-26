@@ -1462,9 +1462,18 @@ let hasGeneratedContent = false;
     isWriting = false;
 
     // 2️⃣ SAVE ONLY IF GENERATED (and not viewing old)
-    if (hasGeneratedContent && lastGeneratedText && !isViewingRecent && generatedTool) {
-        saveRecent(capitalizeFirst(generatedTool));
-    }
+  const isFallback = state.dataset.fallback === "true";
+
+if (
+    hasGeneratedContent &&
+    lastGeneratedText &&
+    !isViewingRecent &&
+    generatedTool &&
+    !isFallback
+) {
+    saveRecent(capitalizeFirst(generatedTool));
+}
+
 
     // 3️⃣ RESET generation state
     hasGeneratedContent = false;
@@ -1474,6 +1483,7 @@ let hasGeneratedContent = false;
     // 4️⃣ RESET flags
     state.dataset.blocked = "false";
     state.dataset.viewing = "false";
+    state.dataset.fallback = "false";
 
     // 5️⃣ SWITCH UI
     openTool("Dashboard");
@@ -1487,6 +1497,14 @@ let hasGeneratedContent = false;
     showRecents();
 }
 
+function getToneFromEmotion(value) {
+  const num = Number(value);
+
+  if (num <= 33) return "light";
+  if (num <= 66) return "medium";
+  return "deep";
+}
+
 function emotionalTypeWrite(text, elementId, depth, onComplete) {
     const el = document.getElementById(elementId);
     el.innerHTML = "";
@@ -1497,24 +1515,40 @@ function emotionalTypeWrite(text, elementId, depth, onComplete) {
     if (depth === "deep") speed = 80;
 
     if (typingInterval) {
-        clearInterval(typingInterval);
+        clearTimeout(typingInterval);
         typingInterval = null;
     }
 
-    typingInterval = setInterval(() => {
-        el.innerHTML += text.charAt(i);
-        i++;
-
+    function typeNext() {
         if (i >= text.length) {
-            clearInterval(typingInterval);
             typingInterval = null;
             if (onComplete) onComplete();
+            return;
         }
-    }, speed);
+
+        let char = text.charAt(i);
+        el.innerHTML += char;
+        i++;
+
+        let pause = speed;
+
+        // natural pauses
+        if (char === "," || char === ";") pause += 120;
+        if (char === "." || char === "!" || char === "?") pause += 200;
+        if (char === "\n") pause += 300;
+
+        // emotional hesitation (very subtle)
+        if (depth === "deep" && Math.random() < 0.06) pause += 150;
+
+        typingInterval = setTimeout(typeNext, pause);
+    }
+
+    typeNext();
 }
 
 
-        async function generateContent() {
+
+async function generateContent() {
     if (isWriting) return; // prevent double click
 
     isWriting = true;
@@ -1548,9 +1582,9 @@ function emotionalTypeWrite(text, elementId, depth, onComplete) {
 
         const state = document.getElementById("state");
         const blocked = data.response.blocked === true;
-        const isFallback = data.response.is_fallback === true;
+const isFallback = data.response.is_fallback === true;
+state.dataset.fallback = isFallback ? "true" : "false";
 
-        state.dataset.blocked = (blocked || isFallback) ? "true" : "false";
 
         const text = data.response.response.trim();
         lastGeneratedText = text;
