@@ -7,7 +7,7 @@ import random
 # -----------------------------------------------------
 # GEMINI CONFIG
 # -----------------------------------------------------
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = "gemini-2.0-flash"
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 
