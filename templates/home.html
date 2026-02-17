@@ -21,20 +21,32 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0d0d0d;
-        --text: #f5f5f5;
-        --card: #1a1a1a;
-        --muted: #141414;
-        --accent: #ff668a;
-        --accent-dark: #ff4d6d;
-      }
-      body { background: var(--bg); color: var(--text); }
-      header { background: var(--card); border-bottom: 1px solid rgba(255,255,255,0.05); }
-      .feature { background: var(--card); box-shadow: 0 4px 12px rgba(255, 77, 109, 0.08); }
-      .journey-step { background: var(--muted); border-left: 6px solid var(--accent); }
-      footer { background: var(--accent-dark); }
-    }
+     :root {
+  --accent: #2563eb;          /* professional blue */
+  --accent-dark: #1e40af;
+  --bg: #ffffff;
+  --text: #111827;
+  --card: #ffffff;
+  --muted: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --text: #f8fafc;
+    --card: #1e293b;
+    --muted: #111827;
+    --accent: #3b82f6;
+    --accent-dark: #2563eb;
+  }
+
+  body { background: var(--bg); color: var(--text); }
+  header { background: var(--card); border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .feature { background: var(--card); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08); }
+  .journey-step { background: var(--muted); border-left: 6px solid var(--accent); }
+  footer { background: var(--accent-dark); }
+}
+
 
     * {
       margin: 0;
@@ -280,87 +292,82 @@
 <body>
 
   <header>
-    <div class="logo">💞 HeartNote AI</div>
-    <button class="cta-btn" id="openSignup">Sign Up</button>
-  </header>
-  
-  <section class="hero" id="home">
-    <h1>HeartNote AI — Creative Writer</h1>
-    <p>HeartNote helps you express your real-life emotions and thoughts — from personal writings to social stories and lifestyle reflections.</p>
-    <a href="{% url 'aiwrite' %}" class="hero-btn">Start Writing 💗</a>
-<p class="helper-text">No signup required</p>
-  </section>
+  <div class="logo">📝 NoteAI</div>
+  <button class="cta-btn" id="openSignup">Sign Up</button>
+</header>
 
-  <section class="features" id="features">
-    <h2>Why Writers Love HeartNote</h2>
-    <div class="features-grid">
-      <div class="feature">
-        <h3>❤️ Emotion Slider</h3>
-        <p>Adjust your tone from soft to deep and make your writing sound real, personal, and human.</p>
-      </div>
-      <div class="feature">
-        <h3>🪶 Natural Writing Flow</h3>
-        <p>HeartNote writes with human-like rhythm — smooth, calm, and expressive for every mood.</p>
-      </div>
-      <div class="feature">
-        <h3>🌸 Private Creations</h3>
-        <p>Your words belong only to you — stored locally, not shared or uploaded anywhere.</p>
-      </div>
+<section class="hero" id="home">
+  <h1>NoteAI — AI-Powered Writing Assistant</h1>
+  <p>NoteAI helps you generate structured, clear, and expressive content — from personal notes to social posts and professional reflections.</p>
+  <a href="{% url 'aiwrite' %}" class="hero-btn">Start Writing</a>
+  <p class="helper-text">No signup required</p>
+</section>
+
+<section class="features" id="features">
+  <h2>Why Use NoteAI</h2>
+  <div class="features-grid">
+    <div class="feature">
+      <h3>🎛 Tone Control</h3>
+      <p>Adjust writing tone and intensity to match your intent — from casual notes to thoughtful reflections.</p>
     </div>
-  </section>
-
-  <section class="journey" id="journey">
-    <h2>The HeartNote Journey 💫</h2>
-    <div class="journey-timeline">
-      <div class="journey-step">
-        <h3>✨ H1 — Personal Writing</h3>
-        <p>HeartNote begins with personal writing — helping users express emotions, memories, and thoughts in a heartfelt, handwritten tone.</p>
-      </div>
-      <div class="journey-step">
-        <h3>🌷 H2 — Daily Life & Social Posts</h3>
-        <p>HeartNote evolves to help users share their daily lives — writing posts, captions, and reflections that connect emotionally on social platforms.</p>
-      </div>
-      <div class="journey-step">
-        <h3>💎 H3 — Lifestyle & Wellbeing</h3>
-        <p>HeartNote expands into lifestyle and wellness — blending emotional writing with self-expression and positivity for everyday life.</p>
-      </div>
-<div class="journey-step">
-  <h3>🎨 H4 — Art & Visual Expression</h3>
-  <p>HeartNote unlocks creative visuals — turning feelings into AI-generated art & aesthetic mood backgrounds to enhance emotional storytelling.</p>
-</div>
-<div class="journey-step">
-  <h3>🧠 H5 — Emotional Insights & Healing</h3>
-  <p>HeartNote evolves into a personal emotional companion — offering mood insights, reflection analytics, and gentle guidance for mental wellbeing.</p>
-</div>
+    <div class="feature">
+      <h3>✍ Natural Language Generation</h3>
+      <p>Generate human-like writing with structured flow, clarity, and contextual awareness.</p>
     </div>
-  </section>
+    <div class="feature">
+      <h3>🔒 Private by Design</h3>
+      <p>Your content stays in your environment — no unnecessary data storage or external sharing.</p>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    <h3>HeartNote AI</h3>
-    <p>The creative writer that listens to your heart.</p>
-    <small>© Designed & Developed by Mohith Sai.</small>
-  </footer>
+<section class="journey" id="journey">
+  <h2>How NoteAI Works</h2>
+  <div class="journey-timeline">
+    <div class="journey-step">
+      <h3>Input Your Idea</h3>
+      <p>Provide a topic, thought, or short prompt describing what you want to write.</p>
+    </div>
+    <div class="journey-step">
+      <h3>AI Processing</h3>
+      <p>The system processes your input using a structured language model pipeline to generate coherent and context-aware content.</p>
+    </div>
+    <div class="journey-step">
+      <h3>Generated Output</h3>
+      <p>Receive refined, structured writing instantly, ready for editing, sharing, or saving.</p>
+    </div>
+    <div class="journey-step">
+      <h3>Private & Lightweight</h3>
+      <p>Designed with minimal data storage and a simple architecture focused on usability and performance.</p>
+    </div>
+  </div>
+</section>
 
-  <!-- Signup Modal -->
+
+<footer>
+  <h3>NoteAI</h3>
+  <p>AI-powered writing assistant for structured and expressive content.</p>
+  <small>© Designed & Developed by Mohith Sai.</small>
+</footer>
+
 <!-- Signup Modal -->
 <div id="signupModal" class="modal">
   {%csrf_token%}
   <div class="modal-content">
     <span class="close" id="closeModal">&times;</span>
-    <h2>Create a space</h2>
+    <h2>Create an Account</h2>
     <label for="dob" class="dob-label">Username</label>
     <input type="text" id="username" placeholder="Username" required>
     <label for="dob" class="dob-label">Email</label>
     <input type="email" id="email" placeholder="Email" required>
-     <label for="dob" class="dob-label">Password</label>
+    <label for="dob" class="dob-label">Password</label>
     <input type="password" id="password" placeholder="Password" required>
 
-    <!-- New Date of Birth Field -->
     <label for="dob" class="dob-label">Date of Birth</label>
     <input type="date" id="dob" required>
 
     <button id="submitSignup">Sign Up</button>
-<p>Your space may reset occasionally.</p>
+    <p>Session data may reset periodically.</p>
   </div>
 </div>
 
