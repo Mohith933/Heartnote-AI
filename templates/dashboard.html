@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@400;600&family=Kalam&family=Dancing+Script:wght@400;600&display=swap"
         rel="stylesheet">
     <link rel="manifest" href="{% static 'pwa/manifest.json' %}">
-<meta name="theme-color" content="#ffffff" id="themeColorMeta">
+    <meta name="theme-color" content="#ffffff" id="themeColorMeta">
     <style>
         body[data-theme="light"] {
             --accent: #ff4d6d;
@@ -47,24 +47,24 @@
         }
 
         .festival-popup {
-    position: fixed;
-    bottom: 20px;
-    left: 55%;
-    transform: translateX(-50%);
-    background:var(--bg);
-    color:var(--text);
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    z-index: 9999;
-    max-width: 90%;
-    text-align: center;
-}
+            position: fixed;
+            bottom: 20px;
+            left: 55%;
+            transform: translateX(-50%);
+            background: var(--bg);
+            color: var(--text);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+                width: 50%;
+            text-align: center;
+        }
 
-.festival-popup.hidden {
-    display: none;
-}
+        .festival-popup.hidden {
+            display: none;
+        }
 
 
 
@@ -799,30 +799,32 @@
             color: var(--text);
             font-size: 0.8em;
         }
-        
-.delete-btn {
-    background:none; /* soft accent tint */
-    border: none;
-    color: var(--accent);
-    font-size: 0.95em;
-    cursor: pointer;
-    padding: 6px 8px;
-    border-radius: 8px;
-    transition: background 0.2s ease, transform 0.15s ease;
-}
 
-.delete-btn:hover {
-    background: rgba(255, 77, 109, 0.18);
-    transform: scale(1.05);
-}
-.recent-item .delete-btn {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
+        .delete-btn {
+            background: none;
+            /* soft accent tint */
+            border: none;
+            color: var(--accent);
+            font-size: 0.95em;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 8px;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
 
-.recent-item:hover .delete-btn {
-  opacity: 1;
-}
+        .delete-btn:hover {
+            background: rgba(255, 77, 109, 0.18);
+            transform: scale(1.05);
+        }
+
+        .recent-item .delete-btn {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .recent-item:hover .delete-btn {
+            opacity: 1;
+        }
 
 
         .maincardname {
@@ -932,63 +934,63 @@
             cursor: pointer;
         }
 
-.hn-popup {
-    position: fixed;
-    inset: 0;
-    background:rgba(0,0,0,0.55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
+        .hn-popup {
+            position: fixed;
+            top:20px;
+            left: 37%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
 
-.hn-popup.hidden {
-    display: none;
-}
+        .hn-popup.hidden {
+            display: none;
+        }
 
-.hn-popup-box {
-    background:var(--bg);
+        .hn-popup-box {
+            background: var(--bg);
     border-radius: 16px;
     padding: 22px;
-    max-width: 320px;
-    width: 90%;
+    max-width: 500px;
+    width: 100%;
     text-align: center;
-    box-shadow: 0 0 30px rgba(255,105,135,0.25);
+    box-shadow: 0 0 30px rgba(255, 105, 135, 0.25);
 }
 
-.hn-popup-box h3 {
-    color: var(--accent);
-    margin-bottom: 10px;
-}
+        .hn-popup-box h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
 
-.hn-popup-box p {
-    color: var(--text);
-    font-size: 14px;
-    margin-bottom: 18px;
-}
+        .hn-popup-box p {
+            color: var(--text);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
 
-.hn-popup-actions {
-    display: flex;
-    gap: 12px;
-}
+        .hn-popup-actions {
+            display: flex;
+            gap: 12px;
+        }
 
-.btn-secondary {
-    flex: 1;
-    background:var(--bg);
-    color: var(--text);
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-}
+        .btn-secondary {
+            flex: 1;
+            background: var(--bg);
+            color: var(--text);
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+        }
 
-.btn-primary {
-    flex: 1;
-    background: var(--accent);
-    color: var(--text);
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-}
+        .btn-primary {
+            flex: 1;
+            background: var(--accent);
+            color: var(--text);
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+        }
 
 
 
@@ -998,9 +1000,14 @@
             .sidebar {
                 display: none;
             }
-            .festival-popup{
-                left:50%;
-                font-size: medium;
+
+            .festival-popup {
+                left: 50%;
+        font-size: medium;
+            }
+            .hn-popup{
+                left:5%;
+                right:5%;
             }
 
             .main {
@@ -1031,17 +1038,17 @@
 
 <body>
 
-     <div id="festivalPopup" class="festival-popup hidden"></div>
-     <div id="hn-popup" class="hn-popup hidden">
-    <div class="hn-popup-box">
-        <h3 id="hn-popup-title"></h3>
-        <p id="hn-popup-message"></p>
-        <div class="hn-popup-actions">
-            <button class="btn-secondary" onclick="closeHeartNotePopup()">Stay</button>
-            <button class="btn-primary" id="hn-popup-confirm">Leave</button>
+    <div id="festivalPopup" class="festival-popup hidden"></div>
+    <div id="hn-popup" class="hn-popup hidden">
+        <div class="hn-popup-box">
+            <h3 id="hn-popup-title"></h3>
+            <p id="hn-popup-message"></p>
+            <div class="hn-popup-actions">
+                <button class="btn-secondary" onclick="closeHeartNotePopup()">Stay</button>
+                <button class="btn-primary" id="hn-popup-confirm">Leave</button>
+            </div>
         </div>
     </div>
-</div>
 
 
     <!-- Sidebar -->
@@ -1058,10 +1065,16 @@
                     <div class="dropdown-content">
                         <a href="#" id="menu-dashboard" onclick="openTool('Dashboard'); setActiveMenu(this)">🏠
                             Dashboard</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Reflection')); setActiveMenu(this)">🌿 Reflection</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Journal')); setActiveMenu(this)">📖 Journal</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Affirmation')); setActiveMenu(this)">🌈 Affirmation</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Notes')); setActiveMenu(this)">📝 Notes</a>
+                        <a href="#"
+                            onclick="confirmExitWhileWriting(() => openTool('Reflection')); setActiveMenu(this)">🌿
+                            Reflection</a>
+                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Journal')); setActiveMenu(this)">📖
+                            Journal</a>
+                        <a href="#"
+                            onclick="confirmExitWhileWriting(() => openTool('Affirmation')); setActiveMenu(this)">🌈
+                            Affirmation</a>
+                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Notes')); setActiveMenu(this)">📝
+                            Notes</a>
                     </div>
                 </div>
 
@@ -1069,10 +1082,14 @@
                 <div class="menu-group">
                     <button class="dropdown-btn">💞 Heart & Emotion ▾</button>
                     <div class="dropdown-content">
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Letters')); setActiveMenu(this)">💌 Letters</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Poems')); setActiveMenu(this)">🪶 Poems</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Story')); setActiveMenu(this)">✨ Story</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Quotes')); setActiveMenu(this)">💭 Quotes</a>
+                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Letters')); setActiveMenu(this)">💌
+                            Letters</a>
+                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Poems')); setActiveMenu(this)">🪶
+                            Poems</a>
+                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Story')); setActiveMenu(this)">✨
+                            Story</a>
+                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Quotes')); setActiveMenu(this)">💭
+                            Quotes</a>
                     </div>
                 </div>
             </nav>
@@ -1084,11 +1101,11 @@
     <!-- Main -->
     <main class="main">
         <!-- Topbar with avatar + dropdown -->
-       <div class="topbar">
+        <div class="topbar">
             <h1 id="welcomeText">Welcome!</h1>
 
             <div class="avatar-container">
-               <img class="avatar" id="dashboardAvatar" onclick="confirmExitWhileWriting(() => openTool('Accounts'))"
+                <img class="avatar" id="dashboardAvatar" onclick="confirmExitWhileWriting(() => openTool('Accounts'))"
                     src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23ffe4e6'/%3E%3Cpath d='M32 22c3-6 12-6 15 0 3-6-1 14-15 22-14-8-18-16-15-22 3-6 12-6 15 0z' fill='%23e11d48'/%3E%3C/svg%3E" />
             </div>
         </div>
@@ -1144,13 +1161,13 @@
 
             <div class="section-box" id="settingsPanel">
                 <h3>Settings</h3>
-                <label class="toggle-row">  
-    <span>Notifications</span>  
-    <label class="switch">  
-        <input type="checkbox" id="notificationToggle">  
-        <span class="slider"></span>  
-    </label>  
-</label>
+                <label class="toggle-row">
+                    <span>Notifications</span>
+                    <label class="switch">
+                        <input type="checkbox" id="notificationToggle">
+                        <span class="slider"></span>
+                    </label>
+                </label>
                 <label class="toggle-row">
                     <span>Theme</span>
                     <select id="themeMode" class="select-style">
@@ -1191,13 +1208,13 @@
                         <option value="large">Large</option>
                     </select>
                 </label>
-               <label class="toggle-row">
-    <span>Language</span>
-    <select id="uiLanguage" class="select-style">
-        <option value="en">English</option>
-        <option value="hi">हिन्दी (Hindi)</option>
-    </select>
-</label>              <button class="feedback-btn" onclick="openFeedbackForm()">
+                <label class="toggle-row">
+                    <span>Language</span>
+                    <select id="uiLanguage" class="select-style">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी (Hindi)</option>
+                    </select>
+                </label> <button class="feedback-btn" onclick="openFeedbackForm()">
                     Send Feedback
                 </button>
 
@@ -1214,8 +1231,9 @@
             <div class="section-box">
                 <h3>About HeartNote AI</h3>
 
-                <p>HeartNote AI helps you express emotions with clarity and warmth.</p>
-                <p class="about-small">Version: 1.0<br>Created by Solulure Labs</p>
+                <p>HeartNote AI is built to structure emotional writing. 
+It guides you through moments, reactions, and reflections — so your words feel intentional, not random</p>
+                <p class="about-small">Version: 1<br>Created by Solulure Labs</p>
             </div>
         </div>
 
@@ -1250,53 +1268,60 @@
         <!-- Tool Workspace -->
         <div id="workspaceView" class="workspace">
             <button class="back-btn" onclick="confirmExitWhileWriting(goBack)">
-    ← Back to Tools
-</button>
+                ← Back to Tools
+            </button>
 
             <div class="form-container">
                 <div class="form-section">
                     <h3 id="toolTitle">Reflection</h3>
 
-                    <label for="nameInput">💗 Recipient or Topic</label>
+                    <label for="nameInput">💗 Who was involved in this moment?</label>
                     <div class="input-group">
-                        <input type="text" id="nameInput" placeholder="Enter recipient or topic..." required>
+                        <input type="text" id="nameInput"
+                            placeholder="e.g. My sister, My best friend, My father, Myself..." required>
                         <button class="suggest-topic" onclick="suggestName()" title="Suggest topic">💡</button>
                     </div>
-                    <label for="descInput">📝 What do you feel?</label>
+                    <label for="descInput">📝 What actually happened?</label>
+
                     <div class="input-group">
-                        <textarea id="descInput" rows="4" placeholder="Write your thoughts..." required></textarea>
+                        <textarea id="descInput" rows="4"
+                            placeholder="Describe the real moment. What happened? What was said? What did you not say?"
+                            required></textarea>
                         <button class="suggest-felling" onclick="suggestFeeling()" title="Suggest feeling">💡</button>
                     </div>
                     <div id="emotionSuggestBar" class="emotion-suggest hidden">
-                        <button onclick="selectEmotion('Happy 😊')">😊 Happy</button>
-                        <button onclick="selectEmotion('Sad 😢')">😢 Sad</button>
-                        <button onclick="selectEmotion('Angry 😡')">😡 Angry</button>
-                        <button onclick="selectEmotion('Stressed 😰')">😰 Stressed</button>
-                        <button onclick="selectEmotion('Confused 😶‍🌫️')">😶‍🌫️ Confused</button>
-                    </div>
+    <button onclick="selectEmotion('Thankful for the time you showed up when I needed help')">🙏 Grateful</button>
+    <button onclick="selectEmotion('Thinking about the nights we stayed up talking')">🫂 Nostalgic</button>
+    <button onclick="selectEmotion('Remembering how you stood by me during a hard time')">🛡️ Supported</button>
+    <button onclick="selectEmotion('Proud of how you handled something difficult')">💪 Proud</button>
+</div>
 
-                    <label for="depthInput">🌊 Depth of Emotion</label>
-                    <select id="depthInput">
-                        <option value="light">Light</option>
-                        <option value="medium">Medium</option>
-                        <option value="deep">Deep</option>
+
+                    <label for="depthInput">🌊 Depth of Emotion</label> <select id="depthInput">
+                        <option value="light">Gentle</option>
+<option value="medium">Honest</option>
+<option value="deep">Raw</option>
+
                     </select>
 
-                    <button class="generate" onclick="generateContent()">Generate Content</button>
+
+                    <button class="generate">Write From This Moment</button>
+
                 </div>
 
                 <div class="playground-section">
                     <div class="playground-header">
-                        <h3>🖋️ Playground</h3>
+                        <h3>🖋️ Your Writing</h3>
                         <button class="copy-btn" onclick="copyText()">📋 Copy</button>
                     </div>
-                    <div id="output" class="output">Your writing will appear here...</div>
+                    <div id="output" class="output">Your words from that moment will appear here.
+                    </div>
                 </div>
             </div>
         </div>
         <div id="state" data-blocked="false" data-viewing="false"></div>
 
-        <footer>© Designed & Developed by Mohith Sai</footer>
+        <footer>© 2025 HeartNote AI — Designed with 💗 by Solulure Labs</footer>
     </main>
 
     <script>
@@ -1349,23 +1374,23 @@
 
         // 🕒 Save to recents
         function saveRecent(toolName) {
-    let recents = JSON.parse(localStorage.getItem("recents")) || [];
+            let recents = JSON.parse(localStorage.getItem("recents")) || [];
 
-    const data = {
-        id: Date.now(),
-        name: toolName,
-        icon: getToolIcon(toolName),
-        time: new Date().toLocaleString(),
-        nameInput: document.getElementById("nameInput").value,
-        descInput: document.getElementById("descInput").value,
-        depthInput: document.getElementById("depthInput").value,
-        output: lastGeneratedText   // ✅ FULL SAFE TEXT
-    };
+            const data = {
+                id: Date.now(),
+                name: toolName,
+                icon: getToolIcon(toolName),
+                time: new Date().toLocaleString(),
+                nameInput: document.getElementById("nameInput").value,
+                descInput: document.getElementById("descInput").value,
+                depthInput: document.getElementById("depthInput").value,
+                output: lastGeneratedText   // ✅ FULL SAFE TEXT
+            };
 
-    recents.unshift(data);
-    recents = recents.slice(0, 20);
-    localStorage.setItem("recents", JSON.stringify(recents));
-}
+            recents.unshift(data);
+            recents = recents.slice(0, 20);
+            localStorage.setItem("recents", JSON.stringify(recents));
+        }
 
         function getToolIcon(name) {
             const icons = {
@@ -1439,228 +1464,244 @@
         }
 
         function capitalizeFirst(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
 
-let typingInterval = null;
-let isWriting = false;
-let generatedTool = null;
-let lastGeneratedText = "";
-let hasGeneratedContent = false;
+        let typingInterval = null;
+        let isWriting = false;
+        let generatedTool = null;
+        let lastGeneratedText = "";
+        let hasGeneratedContent = false;
 
 
         // 🔙 Go back and save current state (only if not viewing an old one)
         function goBack() {
-    const state = document.getElementById("state");
-    const isViewingRecent = state.dataset.viewing === "true";
+            const state = document.getElementById("state");
+            const isViewingRecent = state.dataset.viewing === "true";
 
-    // 1️⃣ STOP typing FIRST
-    if (typingInterval) {
-        clearInterval(typingInterval);
-        typingInterval = null;
-    }
-    isWriting = false;
+            // 1️⃣ STOP typing FIRST
+            if (typingInterval) {
+                clearInterval(typingInterval);
+                typingInterval = null;
+            }
+            isWriting = false;
 
-    // 2️⃣ SAVE ONLY IF GENERATED (and not viewing old)
-  const isFallback = state.dataset.fallback === "true";
+            // 2️⃣ SAVE ONLY IF GENERATED (and not viewing old)
+            const isFallback = state.dataset.fallback === "true";
 
-if (
-    hasGeneratedContent &&
-    lastGeneratedText &&
-    !isViewingRecent &&
-    generatedTool &&
-    !isFallback
-) {
-    saveRecent(capitalizeFirst(generatedTool));
-}
+            if (
+                hasGeneratedContent &&
+                lastGeneratedText &&
+                !isViewingRecent &&
+                generatedTool &&
+                !isFallback
+            ) {
+                saveRecent(capitalizeFirst(generatedTool));
+            }
 
 
-    // 3️⃣ RESET generation state
-    hasGeneratedContent = false;
-    lastGeneratedText = "";
-    generatedTool = null;
+            // 3️⃣ RESET generation state
+            hasGeneratedContent = false;
+            lastGeneratedText = "";
+            generatedTool = null;
 
-    // 4️⃣ RESET flags
-    state.dataset.blocked = "false";
-    state.dataset.viewing = "false";
-    state.dataset.fallback = "false";
+            // 4️⃣ RESET flags
+            state.dataset.blocked = "false";
+            state.dataset.viewing = "false";
+            state.dataset.fallback = "false";
 
-    // 5️⃣ SWITCH UI
-    openTool("Dashboard");
+            // 5️⃣ SWITCH UI
+            openTool("Dashboard");
 
-    const dashboardLink = document.getElementById("menu-dashboard");
-    if (dashboardLink) setActiveMenu(dashboardLink);
+            const dashboardLink = document.getElementById("menu-dashboard");
+            if (dashboardLink) setActiveMenu(dashboardLink);
 
-    document.getElementById("workspaceView").classList.remove("active");
-    document.getElementById("libraryView").style.display = "block";
+            document.getElementById("workspaceView").classList.remove("active");
+            document.getElementById("libraryView").style.display = "block";
 
-    showRecents();
-}
-
-function getToneFromEmotion(value) {
-  const num = Number(value);
-
-  if (num <= 33) return "light";
-  if (num <= 66) return "medium";
-  return "deep";
-}
-
-function emotionalTypeWrite(text, elementId, depth, onComplete) {
-    const el = document.getElementById(elementId);
-    el.innerHTML = "";
-
-    let i = 0;
-    let speed = 55;
-    if (depth === "light") speed = 35;
-    if (depth === "deep") speed = 80;
-
-    if (typingInterval) {
-        clearTimeout(typingInterval);
-        typingInterval = null;
-    }
-
-    function typeNext() {
-        if (i >= text.length) {
-            typingInterval = null;
-            if (onComplete) onComplete();
-            return;
+            showRecents();
         }
 
-        let char = text.charAt(i);
-        el.innerHTML += char;
-        i++;
+        function getToneFromEmotion(value) {
+            const num = Number(value);
 
-        let pause = speed;
+            if (num <= 33) return "light";
+            if (num <= 66) return "medium";
+            return "deep";
+        }
 
-        // natural pauses
-        if (char === "," || char === ";") pause += 120;
-        if (char === "." || char === "!" || char === "?") pause += 200;
-        if (char === "\n") pause += 300;
+        function emotionalTypeWrite(text, elementId, depth, onComplete) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = "";
 
-        // emotional hesitation (very subtle)
-        if (depth === "deep" && Math.random() < 0.06) pause += 150;
+            let i = 0;
+            let speed = 55;
+            if (depth === "light") speed = 35;
+            if (depth === "deep") speed = 80;
 
-        typingInterval = setTimeout(typeNext, pause);
-    }
+            if (typingInterval) {
+                clearTimeout(typingInterval);
+                typingInterval = null;
+            }
 
-    typeNext();
-}
-
-
-
-async function generateContent() {
-    if (isWriting) return; // prevent double click
-
-    isWriting = true;
-
-    const name = document.getElementById("nameInput").value.trim();
-    const desc = document.getElementById("descInput").value.trim();
-    const depth = document.getElementById("depthInput").value;
-    const mode = document.getElementById("toolTitle").innerText.trim().toLowerCase();
-    generatedTool = mode; // ✅ LOCK TOOL HERE
-    if (!name && !desc) {
-        alert("Please write something.");
-        isWriting = false;
-        return;
-    }
-
-    const language = getCurrentLanguage(); // ✅ OK if function exists
-
-    const output = document.getElementById("output");
-    output.innerHTML = "✍️ Writing from the heart...";
-
-    try {
-        const url =
-            `/api/dashboard/?mode=${encodeURIComponent(mode)}` +
-            `&name=${encodeURIComponent(name)}` +
-            `&desc=${encodeURIComponent(desc)}` +
-            `&depth=${encodeURIComponent(depth)}` +
-            `&language=${encodeURIComponent(language)}`;
-
-        const res = await fetch(url);
-        const data = await res.json();
-
-        const state = document.getElementById("state");
-        const blocked = data.response.blocked === true;
-const isFallback = data.response.is_fallback === true;
-state.dataset.fallback = isFallback ? "true" : "false";
-
-
-        const text = data.response.response.trim();
-        lastGeneratedText = text;
-        hasGeneratedContent = true; // ✅ IMPORTANT
-        emotionalTypeWrite(text, "output", depth, () => {
-            isWriting = false;
-        });
-
-    } catch (err) {
-        console.error(err);
-        output.innerHTML = "⚠️ Something went wrong. Please try again.";
-        isWriting = false;
-    }
-}
-function showHeartNotePopup(title, message, onConfirm) {
-    document.getElementById("hn-popup-title").innerText = title;
-    document.getElementById("hn-popup-message").innerText = message;
-
-    const confirmBtn = document.getElementById("hn-popup-confirm");
-    confirmBtn.onclick = () => {
-        closeHeartNotePopup();
-        if (onConfirm) onConfirm();
-    };
-
-    document.getElementById("hn-popup").classList.remove("hidden");
-}
-
-function closeHeartNotePopup() {
-    document.getElementById("hn-popup").classList.add("hidden");
-}
-
-function confirmExitWhileWriting(action) {
-    if (isWriting) {
-        showHeartNotePopup(
-            "Your words are still being written 💗",
-            "If you leave now, the writing will stop.",
-            () => {
-                // 👇 STOP WRITING SAFELY
-                isWriting = false;
-
-                if (typingInterval) {
-                    clearInterval(typingInterval);
+            function typeNext() {
+                if (i >= text.length) {
                     typingInterval = null;
+                    if (onComplete) onComplete();
+                    return;
                 }
 
-                action(); // now switch tool
+                let char = text.charAt(i);
+                el.innerHTML += char;
+                i++;
+
+                let pause = speed;
+
+                // natural pauses
+                if (char === "," || char === ";") pause += 120;
+                if (char === "." || char === "!" || char === "?") pause += 200;
+                if (char === "\n") pause += 300;
+
+                // emotional hesitation (very subtle)
+                if (depth === "deep" && Math.random() < 0.06) pause += 150;
+
+                typingInterval = setTimeout(typeNext, pause);
             }
-        );
-    } else {
-        action();
-    }
-}
+
+            typeNext();
+        }
+
+
+
+        async function generateContent() {
+            if (isWriting) return; // prevent double click
+
+            isWriting = true;
+
+            const name = document.getElementById("nameInput").value.trim();
+            const desc = document.getElementById("descInput").value.trim();
+            const depth = document.getElementById("depthInput").value;
+            const mode = document.getElementById("toolTitle").innerText.trim().toLowerCase();
+            generatedTool = mode; // ✅ LOCK TOOL HERE
+            if (!name && !desc) {
+                alert("Please write something.");
+                isWriting = false;
+                return;
+            }
+
+            const language = getCurrentLanguage(); // ✅ OK if function exists
+
+            const output = document.getElementById("output");
+            output.innerHTML = "✍️ Writing from the heart...";
+
+            try {
+                const url =
+                    `/api/dashboard/?mode=${encodeURIComponent(mode)}` +
+                    `&name=${encodeURIComponent(name)}` +
+                    `&desc=${encodeURIComponent(desc)}` +
+                    `&depth=${encodeURIComponent(depth)}` +
+                    `&language=${encodeURIComponent(language)}`;
+
+                const res = await fetch(url);
+                const data = await res.json();
+
+                const state = document.getElementById("state");
+                const blocked = data.response.blocked === true;
+                const isFallback = data.response.is_fallback === true;
+                state.dataset.fallback = isFallback ? "true" : "false";
+
+
+                const text = data.response.response.trim();
+                lastGeneratedText = text;
+                hasGeneratedContent = true; // ✅ IMPORTANT
+                emotionalTypeWrite(text, "output", depth, () => {
+                    isWriting = false;
+                });
+
+            } catch (err) {
+                console.error(err);
+                output.innerHTML = "⚠️ Something went wrong. Please try again.";
+                isWriting = false;
+            }
+        }
+        function showHeartNotePopup(title, message, onConfirm) {
+            document.getElementById("hn-popup-title").innerText = title;
+            document.getElementById("hn-popup-message").innerText = message;
+
+            const confirmBtn = document.getElementById("hn-popup-confirm");
+            confirmBtn.onclick = () => {
+                closeHeartNotePopup();
+                if (onConfirm) onConfirm();
+            };
+
+            document.getElementById("hn-popup").classList.remove("hidden");
+        }
+
+        function closeHeartNotePopup() {
+            document.getElementById("hn-popup").classList.add("hidden");
+        }
+
+        function confirmExitWhileWriting(action) {
+            if (isWriting) {
+                showHeartNotePopup(
+                    "Your writing is still in progress 💗",
+    "If you switch now, this draft will stop generating.",
+                    () => {
+                        // 👇 STOP WRITING SAFELY
+                        isWriting = false;
+
+                        if (typingInterval) {
+                            clearInterval(typingInterval);
+                            typingInterval = null;
+                        }
+
+                        action(); // now switch tool
+                    }
+                );
+            } else {
+                action();
+            }
+        }
 
 
 
 
 
         function copyText() {
-            const tool = document.getElementById("toolTitle").innerText.toLowerCase();
-            const text = document.getElementById("output").innerText;
+    const tool = document.getElementById("toolTitle").innerText.toLowerCase();
+    const text = document.getElementById("output").innerText;
 
-            // All emotional tools (written safely)
-            const sensitiveTools = ["letters", "poems", "story", "quotes"];
+    const sensitiveTools = ["letters", "poems", "story", "quotes"];
 
-            if (sensitiveTools.includes(tool)) {
-                const confirmCopy = confirm(
-                    "⚠️ This is original emotional content.\n" +
-                    "Please use it responsibly and avoid hurting others.\n\n" +
-                    "Do you still want to copy it?"
+    if (sensitiveTools.includes(tool)) {
+
+        showHeartNotePopup(
+            "Before you copy 💗",
+            "This piece may contain personal emotions.\nMake sure it represents what you truly want to say.",
+            () => {
+                navigator.clipboard.writeText(text);
+                showHeartNotePopup(
+                    "Copied",
+                    "Your text has been copied to clipboard.",
+                    null,
+                    "Okay"
                 );
-                if (!confirmCopy) return;
-            }
+            },
+            "Copy Anyway"
+        );
 
-            navigator.clipboard.writeText(text);
-            alert("Copied to clipboard 💗");
-        }
+    } else {
+        navigator.clipboard.writeText(text);
+
+        showHeartNotePopup(
+            "Copied",
+            "Your text has been copied to clipboard.",
+            null,
+            "Okay"
+        );
+    }
+}
+
         function suggestName() {
             // Assuming currentMode() is defined and returns the mode string (e.g., 'reflection', 'letters')
             const mode = currentMode();
@@ -1669,32 +1710,95 @@ function confirmExitWhileWriting(action) {
             // These ideas are designed to work well as the "who/what" the content is FOR (the nameInput).
             switch (mode) {
                 case "reflection":
-                    ideas = ["My biggest lesson", "Who I'm becoming", "What I value", "Healing my heart", "Why today matters"];
+                    ideas = [
+                        "The mistake I learned from",
+                        "A hard decision I made",
+                        "A moment I stayed silent",
+                        "Something I outgrew",
+                        "A turning point in my life"
+                    ];
                     break;
+
                 case "journal":
-                    ideas = ["Today's highlight", "My mood right now", "Someone I talked to", "What surprised me", "My energy level"];
+                    ideas = [
+                        "What happened today",
+                        "A conversation I had",
+                        "Something that bothered me",
+                        "A small win today",
+                        "Something I avoided"
+                    ];
                     break;
+
                 case "notes":
-                    ideas = ["A goal to remember", "A habit to fix", "A person to check in with", "A motivational line", "My best idea today"];
+                    ideas = [
+                        "A habit I need to fix",
+                        "Something I must not forget",
+                        "An idea I had today",
+                        "A boundary I should set",
+                        "One thing to improve"
+                    ];
                     break;
+
                 case "affirmation":
-                    ideas = ["I am enough", "My courage", "Confidence today", "My unique strengths", "I deserve happiness"];
+                    ideas = [
+                        "My strength during pressure",
+                        "Why I am capable",
+                        "What I handled well",
+                        "How I am growing",
+                        "Why I deserve respect"
+                    ];
                     break;
+
                 case "letters":
-                    ideas = ["Someone I miss", "Future me", "Someone who hurt me", "A thank you note", "My inner child"];
+                    ideas = [
+                        "A message I never sent",
+                        "What I wanted to say that day",
+                        "An apology I couldn’t express",
+                        "A thank you I never fully said",
+                        "Words I held back"
+                    ];
                     break;
+
                 case "poems":
-                    ideas = ["A quiet night", "Soft feelings", "Hope rising", "A new chapter", "A secret wish"];
+                    ideas = [
+                        "A quiet evening alone",
+                        "Rain outside my window",
+                        "The last time we met",
+                        "A fading memory",
+                        "Waiting without knowing"
+                    ];
                     break;
+
                 case "story":
-                    ideas = ["A fresh start", "A hero within", "Lost & found", "The brave one", "A dreamer"];
+                    ideas = [
+                        "The day everything changed",
+                        "A stranger who helped me",
+                        "A risk that scared me",
+                        "Losing something important",
+                        "Starting again from zero"
+                    ];
                     break;
+
                 case "quotes":
-                    ideas = ["Courage", "Self-love", "Letting go", "Patience", "Growth takes time"];
+                    ideas = [
+                        "After a failure",
+                        "When no one understands",
+                        "During a hard season",
+                        "When healing feels slow",
+                        "On letting go"
+                    ];
                     break;
+
                 default:
-                    ideas = ["Life today", "Growth", "Connection", "Peaceful moment", "A new step"];
+                    ideas = [
+                        "Something I am learning",
+                        "A recent realization",
+                        "A difficult memory",
+                        "An important lesson",
+                        "A quiet thought"
+                    ];
             }
+
 
             document.getElementById("nameInput").value =
                 ideas[Math.floor(Math.random() * ideas.length)];
@@ -1725,95 +1829,103 @@ function confirmExitWhileWriting(action) {
 
         // 📌 Helper function to move suggestion logic out of suggestFeeling
         // 📌 Helper function to move suggestion logic out of suggestFeeling
-function generateSuggestionContent() {
-    const mode = currentMode();
-    let emotions = [];
+        function generateSuggestionContent() {
+            const mode = currentMode();
+            let emotions = [];
 
-    switch (mode) {
-        case "reflection":
-            emotions = [
-                "a sense of calm returning, learning slowly, accepting what I cannot change",
-                "mistakes becoming lessons, fear turning into clarity, breathing deeper again",
-                "pausing to understand myself, letting thoughts settle, finding inner balance",
-                "softly healing my past, learning patience, trusting the timing of life"
-            ];
-            break;
+            switch (mode) {
+                case "reflection":
+                    emotions = [
+                        "I stayed quiet even though I wanted to speak up",
+                        "I realized I was avoiding something important",
+                        "I handled it better than I expected",
+                        "I reacted emotionally and later understood why"
+                    ];
 
-        case "journal":
-            emotions = [
-                "proud of my small steps, hopeful for tomorrow, growing quietly within",
-                "messy feelings today, still choosing strength, still choosing myself",
-                "thoughts feel heavy today, yet I keep moving forward with care",
-                "every setback teaches something, every moment shapes who I am becoming"
-            ];
-            break;
+                    break;
 
-        case "notes":
-            emotions = [
-                "a gentle reminder to care for myself, even when things feel overwhelming",
-                "confidence growing slowly, progress happening even in silence",
-                "pausing, resetting, starting again, allowing myself to rest",
-                "quiet courage within me, choosing honesty, choosing peace"
-            ];
-            break;
+                case "journal":
+                    emotions = [
+                        "Today something small affected me more than I expected",
+                        "I had a conversation that stayed in my mind",
+                        "I felt distracted and couldn’t explain why",
+                        "I noticed a pattern in my behavior today"
+                    ];
 
-        case "affirmation":
-            emotions = [
-                "I trust myself and the path I am walking",
-                "I am enough as I am, and I allow myself to grow",
-                "strength and healing exist within me",
-                "I choose kindness toward myself today"
-            ];
-            break;
+                    break;
 
-        case "letters":
-            emotions = [
-                "grateful for what we shared, healing slowly, choosing peace now",
-                "words I never said, feelings I still hold, learning to forgive",
-                "missing what was, accepting what is, letting time do its work",
-                "your memory remains gentle, and I am learning to move forward"
-            ];
-            break;
+                case "notes":
+                    emotions = [
+                        "I keep delaying this even though it matters",
+                        "This is something I should act on soon",
+                        "I need to be more consistent here",
+                        "I shouldn’t ignore this anymore"
+                    ];
 
-        case "poems":
-            emotions = [
-                "a heart learning how to feel again, finding beauty in broken moments",
-                "tears turning into language, love softening with time",
-                "silence speaking quietly, dreams returning in small ways",
-                "healing unfolding slowly, light finding its way in"
-            ];
-            break;
+                    break;
 
-        case "story":
-            emotions = [
-                "a turning point where pain becomes strength",
-                "a quiet beginning after a difficult chapter",
-                "fear slowly loosening its grip as courage grows",
-                "an ending that gently becomes a new beginning"
-            ];
-            break;
+                case "affirmation":
+                    emotions = [
+                        "I handled pressure better than before",
+                        "I stayed calm when things felt unstable",
+                        "I am improving even if it’s slow",
+                        "I deserve credit for trying"
+                    ];
 
-        case "quotes":
-            emotions = [
-                "healing does not need noise to be real",
-                "letting go is also a form of strength",
-                "soft hearts often carry the greatest courage",
-                "peace is built through small, intentional moments"
-            ];
-            break;
+                    break;
 
-        default:
-            emotions = [
-                "today feels quieter, slower, and more manageable",
-                "finding comfort in small moments and simple breaths",
-                "progress does not need to be rushed to matter",
-                "making space for calm and gentle thoughts"
-            ];
-    }
+                case "letters":
+                    emotions = [
+                        "I never told you how that day affected me",
+                        "There were things I wanted to say but didn’t",
+                        "I misunderstood you at that moment",
+                        "I still think about what happened between us"
+                    ];
 
-    const randomIndex = Math.floor(Math.random() * emotions.length);
-    return emotions[randomIndex];
-}
+                    break;
+
+                case "poems":
+                    emotions = [
+                        "The room felt quieter than usual",
+                        "I kept replaying the same memory",
+                        "There was something unfinished in the air",
+                        "Time moved slowly that evening"
+                    ];
+
+                    break;
+
+                case "story":
+                    emotions = [
+                        "That was the moment everything shifted",
+                        "I didn’t know it would change me",
+                        "It started like any normal day",
+                        "I almost walked away but stayed"
+                    ];
+
+                    break;
+
+                case "quotes":
+                    emotions = [
+                        "After realizing not everyone stays",
+                        "When effort feels unnoticed",
+                        "During a quiet comeback",
+                        "After choosing peace over reaction"
+                    ];
+
+                    break;
+
+                default:
+                    emotions = [
+                        "today feels quieter, slower, and more manageable",
+                        "finding comfort in small moments and simple breaths",
+                        "progress does not need to be rushed to matter",
+                        "making space for calm and gentle thoughts"
+                    ];
+            }
+
+            const randomIndex = Math.floor(Math.random() * emotions.length);
+            return emotions[randomIndex];
+        }
 
         function currentMode() {
             const tool = document.getElementById("toolTitle").innerText.toLowerCase();
@@ -1878,10 +1990,30 @@ function generateSuggestionContent() {
             if (mode === "under18") {
                 // 🧒 Under 18
                 const under18Cards = [
-                    { icon: "📔", title: "Mood Journal", desc: "Write your thoughts and daily reflections.", tool: "Journal" },
-                    { icon: "📝", title: "Notes", desc: "Keep small thoughts or study ideas safely.", tool: "Notes" },
-                    { icon: "🌈", title: "Affirmation Creator", desc: "Positive words to strengthen your day.", tool: "Affirmation" },
-                    { icon: "🌿", title: "Reflection", desc: "Think deeply about your goals and feelings.", tool: "Reflection" }
+                    {
+                        icon: "📔",
+                        title: "Mood Journal",
+                        desc: "Write about what happened today and how it affected you.",
+                        tool: "Journal"
+                    },
+                    {
+                        icon: "📝",
+                        title: "Notes",
+                        desc: "Save ideas, reminders, or something you don’t want to forget.",
+                        tool: "Notes"
+                    },
+                    {
+                        icon: "🌈",
+                        title: "Affirmation Creator",
+                        desc: "Create simple, positive lines to remind yourself of your strength.",
+                        tool: "Affirmation"
+                    },
+                    {
+                        icon: "🌿",
+                        title: "Reflection",
+                        desc: "Think about a real moment and what you learned from it.",
+                        tool: "Reflection"
+                    }
                 ];
 
                 under18Cards.forEach(card => {
@@ -1897,15 +2029,56 @@ function generateSuggestionContent() {
             } else {
                 // 👩‍💼 Above 18
                 const fullCards = [
-                    { icon: "💌", title: "Letters", desc: "Express heartfelt emotions through writing.", tool: "Letters" },
-                    { icon: "🪶", title: "Poems", desc: "Write beautiful verses from your feelings.", tool: "Poems" },
-                    { icon: "✨", title: "Stories", desc: "Turn your thoughts into meaningful stories.", tool: "Story" },
-                    { icon: "💭", title: "Quotes", desc: "Create inspiring lines and sayings.", tool: "Quotes" },
-                    { icon: "📔", title: "Mood Journal", desc: "Reflect on your feelings every day.", tool: "Journal" },
-                    { icon: "📝", title: "Notes", desc: "Keep your quick thoughts safe.", tool: "Notes" },
-                    { icon: "🌈", title: "Affirmations", desc: "Positive messages for yourself or others.", tool: "Affirmation" },
-                    { icon: "🌿", title: "Reflection", desc: "Think and write about your journey.", tool: "Reflection" }
+                    {
+                        icon: "💌",
+                        title: "Letters",
+                        desc: "Write something you never said to someone important.",
+                        tool: "Letters"
+                    },
+                    {
+                        icon: "🪶",
+                        title: "Poems",
+                        desc: "Turn a specific memory or moment into poetic lines.",
+                        tool: "Poems"
+                    },
+                    {
+                        icon: "✨",
+                        title: "Stories",
+                        desc: "Shape a real or imagined turning point into a short story.",
+                        tool: "Story"
+                    },
+                    {
+                        icon: "💭",
+                        title: "Quotes",
+                        desc: "Create short lines inspired by a real situation.",
+                        tool: "Quotes"
+                    },
+                    {
+                        icon: "📔",
+                        title: "Mood Journal",
+                        desc: "Record what happened today and your honest reaction.",
+                        tool: "Journal"
+                    },
+                    {
+                        icon: "📝",
+                        title: "Notes",
+                        desc: "Capture ideas, reminders, or lessons quickly.",
+                        tool: "Notes"
+                    },
+                    {
+                        icon: "🌈",
+                        title: "Affirmations",
+                        desc: "Write supportive words based on what you're facing now.",
+                        tool: "Affirmation"
+                    },
+                    {
+                        icon: "🌿",
+                        title: "Reflection",
+                        desc: "Break down a moment and understand it better.",
+                        tool: "Reflection"
+                    }
                 ];
+
                 // 📱 Mobile shows all, 💻 Desktop shows limited (e.g. top 4)
                 const visibleCards = isMobile ? fullCards : fullCards.slice(0, 4);
                 visibleCards.forEach(card => {
@@ -2023,50 +2196,50 @@ function generateSuggestionContent() {
         // Load saved state on page load
         document.addEventListener("DOMContentLoaded", () => {
             const saved = JSON.parse(localStorage.getItem("emotionHints")) ?? true;
-            document.getElementById("emotionHintsToggle").checked = saved;  
-            updateEmotionHintsUI(saved);  
+            document.getElementById("emotionHintsToggle").checked = saved;
+            updateEmotionHintsUI(saved);
         });
 
         const THEME_COLORS = {
-    light: "#ffffff",
-    dark: "#141414",
-    blossom: "#ffddea"
-};
+            light: "#ffffff",
+            dark: "#141414",
+            blossom: "#ffddea"
+        };
 
 
 
         function loadTheme() {
-    const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
-    const theme = settings.theme || "light";
+            const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
+            const theme = settings.theme || "light";
 
-    document.body.setAttribute("data-theme", theme);
+            document.body.setAttribute("data-theme", theme);
 
-    // update dropdown
-    const select = document.getElementById("themeMode");
-    if (select) select.value = theme;
+            // update dropdown
+            const select = document.getElementById("themeMode");
+            if (select) select.value = theme;
 
-    // update theme color
-    const meta = document.getElementById("themeColorMeta");
-    if (meta && THEME_COLORS[theme]) {
-        meta.setAttribute("content", THEME_COLORS[theme]);
-    }
-}
+            // update theme color
+            const meta = document.getElementById("themeColorMeta");
+            if (meta && THEME_COLORS[theme]) {
+                meta.setAttribute("content", THEME_COLORS[theme]);
+            }
+        }
 
 
-       function saveTheme(value) {
-    const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
-    settings.theme = value;
-    localStorage.setItem("heartnote_settings", JSON.stringify(settings));
+        function saveTheme(value) {
+            const settings = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
+            settings.theme = value;
+            localStorage.setItem("heartnote_settings", JSON.stringify(settings));
 
-    // apply theme
-    document.body.setAttribute("data-theme", value);
+            // apply theme
+            document.body.setAttribute("data-theme", value);
 
-    // update browser theme color
-    const meta = document.getElementById("themeColorMeta");
-    if (meta && THEME_COLORS[value]) {
-        meta.setAttribute("content", THEME_COLORS[value]);
-    }
-}
+            // update browser theme color
+            const meta = document.getElementById("themeColorMeta");
+            if (meta && THEME_COLORS[value]) {
+                meta.setAttribute("content", THEME_COLORS[value]);
+            }
+        }
 
 
         // listen for dropdown change
@@ -2161,21 +2334,21 @@ function generateSuggestionContent() {
 
             document.documentElement.setAttribute("data-font", value);
         }
-document.addEventListener("DOMContentLoaded", () => {
-    loadLanguage();
-});
+        document.addEventListener("DOMContentLoaded", () => {
+            loadLanguage();
+        });
 
         function loadLanguage() {
-    const s = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
-    const v = ["en", "hi"].includes(s.language) ? s.language : "en";
-    const el = document.getElementById("uiLanguage");
-    if (el) el.value = v;
-}
+            const s = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
+            const v = ["en", "hi"].includes(s.language) ? s.language : "en";
+            const el = document.getElementById("uiLanguage");
+            if (el) el.value = v;
+        }
 
-function getCurrentLanguage() {
-    const s = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
-    return s.language || "en";
-}
+        function getCurrentLanguage() {
+            const s = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
+            return s.language || "en";
+        }
 
         function saveLanguage(value) {
             const s = JSON.parse(localStorage.getItem("heartnote_settings")) || {};
@@ -2217,77 +2390,77 @@ function getCurrentLanguage() {
 
         document.addEventListener("DOMContentLoaded", () => {
 
-    /* ----------------------------------
-       🔔 NOTIFICATION TOGGLE (PERSISTENT)
-    ---------------------------------- */
+            /* ----------------------------------
+               🔔 NOTIFICATION TOGGLE (PERSISTENT)
+            ---------------------------------- */
 
-    const notificationToggle = document.getElementById("notificationToggle");
+            const notificationToggle = document.getElementById("notificationToggle");
 
-    if (notificationToggle) {
-        // Load saved state (default = OFF)
-        const notifState = localStorage.getItem("notifications-enabled");
+            if (notificationToggle) {
+                // Load saved state (default = OFF)
+                const notifState = localStorage.getItem("notifications-enabled");
 
-        if (notifState === "true") {
-            notificationToggle.checked = true;
-        } else {
-            notificationToggle.checked = false;
-        }
+                if (notifState === "true") {
+                    notificationToggle.checked = true;
+                } else {
+                    notificationToggle.checked = false;
+                }
 
-        // Save state on toggle
-        notificationToggle.addEventListener("change", () => {
-            localStorage.setItem(
-                "notifications-enabled",
-                notificationToggle.checked ? "true" : "false"
-            );
+                // Save state on toggle
+                notificationToggle.addEventListener("change", () => {
+                    localStorage.setItem(
+                        "notifications-enabled",
+                        notificationToggle.checked ? "true" : "false"
+                    );
+                });
+            }
+
+
+            /* ----------------------------------
+               🎉 FESTIVAL BANNER (RESPECT TOGGLE)
+            ---------------------------------- */
+
+            const festivals = {
+                "01-01": "🎉 New Beginnings — Happy New Year",
+                "02-14": "💛 Day of Care & Connection",
+                "03-25": "🌸 Holi — A Day of Renewal",
+                "04-14": "🌾 Harvest & Gratitude (Tamil New Year)",
+                "05-01": "🛠️ Honouring Effort & Growth (Labour Day)",
+                "06-21": "🧘 Calm the Mind — International Yoga Day",
+                "07-21": "🌧️ Monsoon Reflections & Reset",
+                "08-15": "🇮🇳 Freedom, Identity & Purpose",
+                "09-05": "📚 Gratitude for Guidance (Teachers’ Day)",
+                "10-02": "🕊️ Silence, Truth & Self-Discipline",
+                "11-12": "🪔 Light Over Noise — Diwali",
+                "12-25": "🎄 Warmth, Kindness & Closure"
+            };
+
+            const defaultMessage = "🌱 A quiet moment to pause and write something real";
+
+            const popup = document.getElementById("festivalPopup");
+            if (!popup) return;
+
+            // 🔐 Check notification permission
+            const notificationsEnabled =
+                localStorage.getItem("notifications-enabled") === "true";
+
+            if (!notificationsEnabled) return;
+
+            const today = new Date();
+            const key =
+                String(today.getMonth() + 1).padStart(2, "0") +
+                "-" +
+                String(today.getDate()).padStart(2, "0");
+
+            popup.innerText = festivals[key] || defaultMessage;
+            popup.classList.remove("hidden");
+
+            // Auto hide after 5s
+            setTimeout(() => {
+                popup.classList.add("hidden");
+            }, 5000);
+
         });
-    }
-
-
-    /* ----------------------------------
-       🎉 FESTIVAL BANNER (RESPECT TOGGLE)
-    ---------------------------------- */
-
-    const festivals = {
-        "01-01": "🎉 New Beginnings — Happy New Year",
-        "02-14": "💛 Day of Care & Connection",
-        "03-25": "🌸 Holi — A Day of Renewal",
-        "04-14": "🌾 Harvest & Gratitude (Tamil New Year)",
-        "05-01": "🛠️ Honouring Effort & Growth (Labour Day)",
-        "06-21": "🧘 Calm the Mind — International Yoga Day",
-        "07-21": "🌧️ Monsoon Reflections & Reset",
-        "08-15": "🇮🇳 Freedom, Identity & Purpose",
-        "09-05": "📚 Gratitude for Guidance (Teachers’ Day)",
-        "10-02": "🕊️ Silence, Truth & Self-Discipline",
-        "11-12": "🪔 Light Over Noise — Diwali",
-        "12-25": "🎄 Warmth, Kindness & Closure"
-    };
-
-    const defaultMessage = "🌱 A gentle day to reflect and write";
-
-    const popup = document.getElementById("festivalPopup");
-    if (!popup) return;
-
-    // 🔐 Check notification permission
-    const notificationsEnabled =
-        localStorage.getItem("notifications-enabled") === "true";
-
-    if (!notificationsEnabled) return;
-
-    const today = new Date();
-    const key =
-        String(today.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(today.getDate()).padStart(2, "0");
-
-    popup.innerText = festivals[key] || defaultMessage;
-    popup.classList.remove("hidden");
-
-    // Auto hide after 5s
-    setTimeout(() => {
-        popup.classList.add("hidden");
-    }, 5000);
-
-});
 
         document.addEventListener("DOMContentLoaded", () => {
             const profileAvatar = document.getElementById("profileAvatar");
