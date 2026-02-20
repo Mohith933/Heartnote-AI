@@ -1404,7 +1404,11 @@ It guides you through moments, reactions, and reflections — so your words feel
             container.innerHTML = "";
 
             if (recents.length === 0) {
-                container.innerHTML = `<p class="no-recents">No recent activity yet.</p>`;
+                container.innerHTML = `
+  <p class="no-recents">
+    No writings yet. Your first note will appear here.
+  </p>
+`;
                 return;
             }
 
@@ -2421,4 +2425,5 @@ It guides you through moments, reactions, and reflections — so your words feel
 
     </script>
 </body>
+
 </html>
