@@ -58,7 +58,7 @@
             font-size: 14px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             z-index: 9999;
-                width: 50%;
+        max-width: 90%;
             text-align: center;
         }
 
@@ -470,6 +470,7 @@
 
         /* Small About Text */
         .about-small {
+            margin-top: 12px;
             font-size: 14px;
             color: #666;
         }
@@ -1070,11 +1071,6 @@
                             Reflection</a>
                         <a href="#" onclick="confirmExitWhileWriting(() => openTool('Journal')); setActiveMenu(this)">📖
                             Journal</a>
-                        <a href="#"
-                            onclick="confirmExitWhileWriting(() => openTool('Affirmation')); setActiveMenu(this)">🌈
-                            Affirmation</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Notes')); setActiveMenu(this)">📝
-                            Notes</a>
                     </div>
                 </div>
 
@@ -1088,8 +1084,6 @@
                             Poems</a>
                         <a href="#" onclick="confirmExitWhileWriting(() => openTool('Story')); setActiveMenu(this)">✨
                             Story</a>
-                        <a href="#" onclick="confirmExitWhileWriting(() => openTool('Quotes')); setActiveMenu(this)">💭
-                            Quotes</a>
                     </div>
                 </div>
             </nav>
@@ -1305,7 +1299,7 @@ It guides you through moments, reactions, and reflections — so your words feel
                     </select>
 
 
-                     <button class="generate" onclick="generateContent()">Write From This Moment</button>
+                    <button class="generate" onclick="generateContent()">Write From This Moment</button>
 
                 </div>
 
@@ -1361,12 +1355,12 @@ It guides you through moments, reactions, and reflections — so your words feel
                 document.getElementById("nameInput").value = found.nameInput || "";
                 document.getElementById("descInput").value = found.descInput || "";
                 document.getElementById("depthInput").value = found.depthInput || "light";
-                document.getElementById("output").innerText = found.output || "Your writing will appear here...";
+                document.getElementById("output").innerText = found.output || "Your words from that moment will appear here...";
             } else {
                 document.getElementById("nameInput").value = "";
                 document.getElementById("descInput").value = "";
                 document.getElementById("depthInput").value = "light";
-                document.getElementById("output").innerText = "Your writing will appear here...";
+                document.getElementById("output").innerText = "Your words from that moment will appear here...";
             }
         }
 
@@ -1380,6 +1374,7 @@ It guides you through moments, reactions, and reflections — so your words feel
                 id: Date.now(),
                 name: toolName,
                 icon: getToolIcon(toolName),
+                preview: generatedText.substring(0, 60) + "...",
                 time: new Date().toLocaleString(),
                 nameInput: document.getElementById("nameInput").value,
                 descInput: document.getElementById("descInput").value,
@@ -1397,10 +1392,7 @@ It guides you through moments, reactions, and reflections — so your words feel
                 "Letters": "💌",
                 "Poems": "🪶",
                 "Story": "✨",
-                "Quotes": "💭",
                 "Journal": "📔",
-                "Notes": "📝",
-                "Affirmation": "🌈",
                 "Reflection": "🌿"
             };
             return icons[name] || "🪶";
@@ -1422,9 +1414,10 @@ It guides you through moments, reactions, and reflections — so your words feel
         <div class="recent-left" onclick="openRecent(${r.id})">
           <span class="recent-icon">${r.icon}</span>
           <div class="recent-text">
-            <p>${r.name}</p>
-            <small>${r.time}</small>
-          </div>
+    <p>${r.name}</p>
+    <small class="preview">${r.preview || ""}</small>
+    <small>${r.time}</small>
+</div>
         </div>
         <button class="delete-btn" onclick="deleteRecent(${r.id})">❌</button>
       </div>
@@ -1671,7 +1664,7 @@ It guides you through moments, reactions, and reflections — so your words feel
     const tool = document.getElementById("toolTitle").innerText.toLowerCase();
     const text = document.getElementById("output").innerText;
 
-    const sensitiveTools = ["letters", "poems", "story", "quotes"];
+    const sensitiveTools = ["letters", "poems", "story"];
 
     if (sensitiveTools.includes(tool)) {
 
@@ -1726,26 +1719,6 @@ It guides you through moments, reactions, and reflections — so your words feel
                         "Something that bothered me",
                         "A small win today",
                         "Something I avoided"
-                    ];
-                    break;
-
-                case "notes":
-                    ideas = [
-                        "A habit I need to fix",
-                        "Something I must not forget",
-                        "An idea I had today",
-                        "A boundary I should set",
-                        "One thing to improve"
-                    ];
-                    break;
-
-                case "affirmation":
-                    ideas = [
-                        "My strength during pressure",
-                        "Why I am capable",
-                        "What I handled well",
-                        "How I am growing",
-                        "Why I deserve respect"
                     ];
                     break;
 
@@ -1854,26 +1827,6 @@ It guides you through moments, reactions, and reflections — so your words feel
 
                     break;
 
-                case "notes":
-                    emotions = [
-                        "I keep delaying this even though it matters",
-                        "This is something I should act on soon",
-                        "I need to be more consistent here",
-                        "I shouldn’t ignore this anymore"
-                    ];
-
-                    break;
-
-                case "affirmation":
-                    emotions = [
-                        "I handled pressure better than before",
-                        "I stayed calm when things felt unstable",
-                        "I am improving even if it’s slow",
-                        "I deserve credit for trying"
-                    ];
-
-                    break;
-
                 case "letters":
                     emotions = [
                         "I never told you how that day affected me",
@@ -1904,16 +1857,6 @@ It guides you through moments, reactions, and reflections — so your words feel
 
                     break;
 
-                case "quotes":
-                    emotions = [
-                        "After realizing not everyone stays",
-                        "When effort feels unnoticed",
-                        "During a quiet comeback",
-                        "After choosing peace over reaction"
-                    ];
-
-                    break;
-
                 default:
                     emotions = [
                         "today feels quieter, slower, and more manageable",
@@ -1933,12 +1876,9 @@ It guides you through moments, reactions, and reflections — so your words feel
             switch (tool) {
                 case "reflection": return "reflection";
                 case "journal": return "journal";
-                case "notes": return "notes";
-                case "affirmation": return "affirmation";
                 case "letters": return "letters";
                 case "poems": return "poems";
                 case "story": return "story";
-                case "quotes": return "quotes";
                 default: return "default";
             }
         }
@@ -1980,7 +1920,7 @@ It guides you through moments, reactions, and reflections — so your words feel
         window.addEventListener("DOMContentLoaded", function () {
             const mode = localStorage.getItem("mode");
             const cardsContainer = document.querySelector(".cards");
-            const isMobile = window.innerWidth <= 768; // detect small screen
+            const isMobile = window.innerWidth <= 1024; // detect small screen
             cardsContainer.innerHTML = ""; // clear cards
 
             // ✨ Recommendation system (for simple future use)
@@ -1992,28 +1932,22 @@ It guides you through moments, reactions, and reflections — so your words feel
                 const under18Cards = [
                     {
                         icon: "📔",
-                        title: "Mood Journal",
+                        title: "Journal",
                         desc: "Write about what happened today and how it affected you.",
                         tool: "Journal"
-                    },
-                    {
-                        icon: "📝",
-                        title: "Notes",
-                        desc: "Save ideas, reminders, or something you don’t want to forget.",
-                        tool: "Notes"
-                    },
-                    {
-                        icon: "🌈",
-                        title: "Affirmation Creator",
-                        desc: "Create simple, positive lines to remind yourself of your strength.",
-                        tool: "Affirmation"
                     },
                     {
                         icon: "🌿",
                         title: "Reflection",
                         desc: "Think about a real moment and what you learned from it.",
                         tool: "Reflection"
-                    }
+                    },
+                    {
+    icon: "🌤",
+    title: "Small Moment",
+    desc: "Write about a small moment from your day and how it felt.",
+    tool: "SmallMoment"
+}
                 ];
 
                 under18Cards.forEach(card => {
@@ -2048,28 +1982,10 @@ It guides you through moments, reactions, and reflections — so your words feel
                         tool: "Story"
                     },
                     {
-                        icon: "💭",
-                        title: "Quotes",
-                        desc: "Create short lines inspired by a real situation.",
-                        tool: "Quotes"
-                    },
-                    {
                         icon: "📔",
-                        title: "Mood Journal",
+                        title: "Journal",
                         desc: "Record what happened today and your honest reaction.",
                         tool: "Journal"
-                    },
-                    {
-                        icon: "📝",
-                        title: "Notes",
-                        desc: "Capture ideas, reminders, or lessons quickly.",
-                        tool: "Notes"
-                    },
-                    {
-                        icon: "🌈",
-                        title: "Affirmations",
-                        desc: "Write supportive words based on what you're facing now.",
-                        tool: "Affirmation"
                     },
                     {
                         icon: "🌿",
@@ -2080,7 +1996,7 @@ It guides you through moments, reactions, and reflections — so your words feel
                 ];
 
                 // 📱 Mobile shows all, 💻 Desktop shows limited (e.g. top 4)
-                const visibleCards = isMobile ? fullCards : fullCards.slice(0, 4);
+                const visibleCards = isMobile ? fullCards : fullCards.slice(0, 5);
                 visibleCards.forEach(card => {
                     recommend(card.title, card.desc);
                     cardsContainer.innerHTML += `
@@ -2505,5 +2421,4 @@ It guides you through moments, reactions, and reflections — so your words feel
 
     </script>
 </body>
-
 </html>
