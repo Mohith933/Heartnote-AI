@@ -187,7 +187,7 @@ class Dashboard_LLM_Service:
             "generationConfig": {
                 "temperature": 0.6,
                 "topP": 0.9,
-                "maxOutputTokens": 350
+                "maxOutputTokens": 1024
             }}
             res = requests.post(url, headers=headers, json=payload, timeout=30)
             res.raise_for_status()
