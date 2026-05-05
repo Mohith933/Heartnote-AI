@@ -51,7 +51,12 @@ def generate_dashboard(request):
 
     result = dashboard_llm.generate(mode, name, desc, depth, language)
 
-    # ✅ RETURN STRING ONLY
+    if not isinstance(result, dict):
+        return JsonResponse({
+        "response": str(result),
+        "blocked": False,
+        "is_fallback": True
+        })
     return JsonResponse(result)
 
 
