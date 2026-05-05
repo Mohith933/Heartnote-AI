@@ -52,7 +52,7 @@ def generate_dashboard(request):
     result = dashboard_llm.generate(mode, name, desc, depth, language)
 
     # ✅ RETURN STRING ONLY
-    return JsonResponse({"response": result})
+    return JsonResponse(result)
 
 
 
