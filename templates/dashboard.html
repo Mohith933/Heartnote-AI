@@ -96,6 +96,47 @@
     height: 100%;
 }
 
+.meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.emotion-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    color: #ccc;
+}
+
+.empty-state {
+    text-align: center;
+    margin-top: 40–60px;
+    opacity: 0.7;
+    padding: 60px 20px;
+    color: #aaa;
+}
+
+.empty-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+    opacity: 0.8;
+}
+
+.empty-state h3 {
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
         .beta-tag {
 
             font-size: 0.3rem;
@@ -636,7 +677,6 @@
 
         .playground-section h3 {
             color: var(--accent);
-            margin-bottom: 10px;
         }
 
         .output {
@@ -1031,7 +1071,7 @@
                 margin-bottom: 0;
             }
             .playground-header h3{
-                font-size:1rem;
+                font-size:1.1rem;
             }
 
             #accountView {
@@ -1279,11 +1319,12 @@ It helps you slow down, notice what stayed with you, and express it clearly.</p>
                         </div>
                          </div>
                     <div id="output" class="output">Start anywhere...
-It doesn’t have to be complete.
+                        It doesn’t have to be complete.
                     </div>
                 </div>
             </div>
         </div>
+        
         <div id="state" data-blocked="false" data-viewing="false"></div>
 
         <footer>© 2025 HeartNote — Built around real moments</footer>
@@ -1333,16 +1374,32 @@ btn.disabled = false;
                 document.getElementById("nameInput").value = found.nameInput || "";
                 document.getElementById("descInput").value = found.descInput || "";
                 document.getElementById("depthInput").value = found.depthInput || "light";
-                document.getElementById("output").innerText = found.output || "Start anywhere... It doesn’t have to be complete.";
+                document.getElementById("output").innerText = found.output || "Start anywhere...It doesn’t have to be complete.";
             } else {
                 document.getElementById("nameInput").value = "";
                 document.getElementById("descInput").value = "";
                 document.getElementById("depthInput").value = "light";
-                document.getElementById("output").innerText = "Start anywhere... It doesn’t have to be complete.";
+                document.getElementById("output").innerText = "Start anywhere...It doesn’t have to be complete.";
             }
         }
 
         let isViewingRecent = false; // ✅ Track if we're viewing an existing recent
+
+
+        function getEmptyState() {
+    return `
+        <div class="empty-state">
+            <div class="empty-icon">🫶</div>
+
+            <h3>Your moments will appear here</h3>
+
+            <p>
+                Just a quiet space for now.<br>
+                Something will appear when you're ready.
+            </p>
+        </div>
+    `;
+}
 
         // 🕒 Save to recents
       async function saveRecent(toolName){
@@ -1374,6 +1431,8 @@ btn.disabled = false;
     return icons[name] || "🌱";
 }
 
+
+
  let recentsData = [];
 
 async function showRecents(){
@@ -1385,13 +1444,10 @@ async function showRecents(){
 
     recentsData = data.recents || [];
 
-    if(recentsData.length === 0){
-        container.innerHTML = `
-        <p class="no-recents">
-        No writings yet. Your first note will appear here.
-        </p>`;
-        return;
-    }
+    if (recentsData.length === 0) {
+    container.innerHTML = getEmptyState();
+    return;
+}
 
     let html = "";
 
@@ -1399,7 +1455,6 @@ async function showRecents(){
 
         html += `
         <div class="recent-card">
-
             <div class="recent-left" onclick="openRecent(${r.id})">
 
                 <span class="recent-icon">${r.icon}</span>
@@ -1407,9 +1462,11 @@ async function showRecents(){
                 <div class="recent-text">
                     <p>${r.name}</p>
                     <small class="preview">${r.preview}</small>
-                    <small>${r.time}</small>
-                </div>
-
+                <div class="meta-row">
+        <small>${r.time}</small>
+        <span class="emotion-tag">${r.emotion}</span>
+    </div>
+               </div>
             </div>
 
             <button class="delete-btn" onclick="deleteRecent(${r.id})">❌</button>
@@ -1597,6 +1654,7 @@ async function goBack() {
 
     typeNext();
 }
+
 
 
 
