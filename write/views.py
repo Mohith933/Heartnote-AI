@@ -174,6 +174,23 @@ def delete_account(request):
 
     return JsonResponse({"status": "deleted"})
 
+def get_emotion_tag(text):
+    t = (text or "").lower()
+
+    if any(word in t for word in ["tired", "exhausted", "heavy", "drained"]):
+        return "Heavy"
+
+    if any(word in t for word in ["happy", "peace", "calm", "good"]):
+        return "Warm"
+
+    if any(word in t for word in ["confused", "lost", "overthinking"]):
+        return "Confused"
+
+    if any(word in t for word in ["miss", "alone", "lonely"]):
+        return "Quiet"
+
+    return "Neutral"
+
 
 
 @csrf_exempt
@@ -246,20 +263,20 @@ def get_writings(request):
 
         # ✅ HUMAN TIME FORMAT
         local_time = timezone.localtime(w.created_at)
-        time_str = local_time.strftime("%b %d • %I:%M %p")  # Apr 25 • 05:21 PM
+        time_str = local_time.strftime("%b %d • %I:%M %p")
 
         data.append({
-            "id": w.id,
-            "name": w.tool,
-            "icon": w.icon,
-            "preview": preview,
-            "time": time_str,
-            "nameInput": w.nameInput,
-            "descInput": w.descInput,
-            "depthInput": w.depthInput,
-            "output": w.output
-        })
-
+    "id": w.id,
+    "name": w.tool,
+    "icon": w.icon,
+    "preview": preview,
+    "time": time_str,   # ✅ FIXED
+    "emotion": get_emotion_tag(w.descInput),
+    "nameInput": w.nameInput,
+    "descInput": w.descInput,
+    "depthInput": w.depthInput,
+    "output": w.output
+})
     return JsonResponse({"recents": data})
 
 
