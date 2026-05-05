@@ -226,42 +226,33 @@ class Dashboard_LLM_Service:
         try:
             api_key = os.getenv("GEMINI_API_KEY")
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={api_key}"
-            headers = {
-            "Content-Type": "application/json"}
-            payload = {
-            "contents": [
-                {
-                    "parts": [
-                        {"text": full_prompt}
-                    ]
-                }
-            ],
-            "generationConfig": {
-                "temperature": 0.9,
-                "topP": 0.9,
-                "maxOutputTokens": 2000
-            }}
+            
             res = requests.post(url, headers=headers, json=payload, timeout=30)
             res.raise_for_status()
-            
             data = res.json()
-            raw = data["candidates"][0]["content"]["parts"][0]["text"]
-            
-            if not isinstance(raw, str) or not raw.strip():
+            try:
+                raw = data["candidates"][0]["content"]["parts"][0]["text"]
+            except (KeyError, IndexError, TypeError):
+                raw = None
+            if raw and isinstance(raw, str) and raw.strip():
                 return {
-                "response": raw.strip(),
-                "blocked": False,
-                "is_fallback": False
-                 }
+            "response": raw.strip(),
+            "blocked": False,
+            "is_fallback": False
+                }
             fallback = self.generate_fallback(mode, name, desc, language)
-            return {"response": fallback,"blocked": False,"is_fallback": True}
-        except requests.exceptions.HTTPError as e:
-            if e.response is not None and e.response.status_code == 429:
-                fallback = self.generate_fallback(mode, name, desc, language)
-                return {"response": fallback,"blocked": False,"is_fallback": True}
+            return {
+        "response": fallback,
+        "blocked": False,
+        "is_fallback": True
+            }
         except Exception:
             fallback = self.generate_fallback(mode, name, desc, language)
-            return {"response": fallback,"blocked": False,"is_fallback": True}
+            return {
+        "response": fallback,
+        "blocked": False,
+        "is_fallback": True
+            }
 
 
 
