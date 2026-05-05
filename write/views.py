@@ -123,7 +123,7 @@ def upload_avatar(request):
 
         return JsonResponse({
             "status": "ok",
-            "avatar_url": user.avatar.url
+            "avatar_url": user.avatar.url,
             "username": request.user.username
         })
 
