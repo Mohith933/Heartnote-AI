@@ -40,24 +40,39 @@ dashboard_llm = Dashboard_LLM_Service()
 
 
 def generate_dashboard(request):
-    mode = request.GET.get("mode")
-    name = request.GET.get("name", "")
-    desc = request.GET.get("desc", "")
-    depth = request.GET.get("depth", "light")
-    language = request.GET.get("language", "en")
+    try:
+        mode = request.GET.get("mode")
+        name = request.GET.get("name", "")
+        desc = request.GET.get("desc", "")
+        depth = request.GET.get("depth", "light")
+        language = request.GET.get("language", "en")
 
-    if not mode or not desc:
-        return JsonResponse({"response": "Please write something."})
+        if not mode or not desc:
+            return JsonResponse({
+                "response": "Please write something.",
+                "blocked": False,
+                "is_fallback": True
+            })
 
-    result = dashboard_llm.generate(mode, name, desc, depth, language)
+        result = dashboard_llm.generate(mode, name, desc, depth, language)
 
-    if not isinstance(result, dict):
+        if not isinstance(result, dict):
+            return JsonResponse({
+                "response": str(result),
+                "blocked": False,
+                "is_fallback": True
+            })
+
+        return JsonResponse(result)
+
+    except Exception as e:
+        print("ERROR:", str(e))  # debug log
+
         return JsonResponse({
-        "response": str(result),
-        "blocked": False,
-        "is_fallback": True
+            "response": "⚠️ Something went wrong. Please try again.",
+            "blocked": False,
+            "is_fallback": True
         })
-    return JsonResponse(result)
 
 
 
