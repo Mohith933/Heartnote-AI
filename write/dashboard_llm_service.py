@@ -145,44 +145,64 @@ class Dashboard_LLM_Service:
 
     def __init__(self, model=GEMINI_MODEL):
         self.model = model
-
+    
+    
     def generate_fallback(self, mode, name, desc, language):
         d = desc.strip().lower().rstrip('.')
+        lang = language.lower()
         variations = []
-        if mode == "reflection":
-            variations = [
-            f"thinking about {name} today... {d}. it stayed with me longer than i expected. feels unfinished.",
-            f"{name} has been on my mind. {d} keeps coming back in small moments... not sure why, exactly.",
-            f"it’s strange how {name} connects with this. {d}. feels quiet, but it's still there.",
-            f"{d}... it’s not loud, but it lingers. maybe that’s why i keep thinking about {name}.",
-            f"{name} feels different today. {d} is just... sitting in the background."
-            ]
-        elif mode == "messages":
-            variations = [
-            f"hey... i was just thinking about {name}. {d}. it feels a bit hard to say directly.",
-            f"i don't know if this is the right time, but {d} has been on my mind.",
-            f"this might sound random... but {d} hasn’t really left me.",
-            f"not sure how to say this properly... {d}.",
-            f"hey, just wanted to say... {d}."
-            ]
-        
-        elif mode == "journal":
-            date = datetime.now().strftime("%d/%m/%Y")
-            variations = [
-            f"Date: {date}\n\ntoday felt a bit slow. {d} stayed with me in small ways. i noticed it even in the quiet moments.",
-            f"Date: {date}\n\nkept thinking about {name}. {d} didn’t go away, it just... softened a little.",
-            f"Date: {date}\n\nnothing big happened today. still, {d} was there. in the background.",
-            f"Date: {date}\n\nsome thoughts kept repeating. {d} didn’t feel loud, just constant.",
-            f"Date: {date}\n\ni don’t fully understand it yet. but {d} stayed with me today."
-            ]
-        elif mode == "letters":
-            variations = [
-            f"Dear You,\n\ni didn’t say this before... {d}. it stayed with me longer than i thought it would.",
-            f"Dear You,\n\nthere’s something i’ve been holding back. {d}. not sure how it sounds.",
-            f"Dear You,\n\ni keep coming back to this feeling. {d}. maybe that means something?",
-            f"Dear You,\n\nthis might not come out right... {d}. but i wanted to say it.",
-            f"Dear You,\n\nit’s been on my mind quietly. {d}. i guess i couldn’t ignore it."
-            ]
+        if lang in ["en", "english"]:
+            if mode == "reflection":
+                variations = [
+                f"thinking about {name} today... {d}. it stayed with me longer than i expected.",
+                f"{name} has been on my mind. {d} keeps coming back in small moments...",
+                f"it’s strange how {name} connects with this. {d}. feels quiet, but it's still there."
+                ]
+            elif mode == "messages":
+                variations = [
+                f"hey... i was just thinking about {name}. {d}.",
+                f"i don't know if this is the right time, but {d} has been on my mind.",
+                f"not sure how to say this properly... {d}."
+                ]
+            elif mode == "journal":
+                date = datetime.now().strftime("%d/%m/%Y")
+                variations = [
+                f"Date: {date}\n\ntoday felt a bit slow. {d} stayed with me.",
+                f"Date: {date}\n\nkept thinking about {name}. {d} didn’t go away.",
+                f"Date: {date}\n\nnothing big happened today. still, {d} was there."
+                ]
+            elif mode == "letters":
+                variations = [
+                f"Dear You,\n\n i didn’t say this before... {d}.",
+                f"Dear You,\n\nthere’s something i’ve been holding back. {d}.",
+                f"Dear You,\n\nthis might not come out right... {d}."
+                ]
+        elif lang in ["hi", "hindi"]:
+            if mode == "reflection":
+                variations = [
+                f"aaj {name} ke baare mein soch raha tha... {d}. yeh thoda zyada der tak saath raha.",
+                f"{name} yaad aa raha hai. {d} baar-baar dimaag mein aa raha hai.",
+                f"ajeeb hai... {name} aur yeh feeling. {d}. chup hai, par gayi nahi."
+                ]
+            elif mode == "messages":
+                variations = [
+                f"hey... bas {name} yaad aa gaya. {d}.",
+                f"pata nahi sahi time hai ya nahi, par {d} kehna tha.",
+                f"kaise bolun samajh nahi aa raha... {d}."
+                ]
+            elif mode == "journal":
+                date = datetime.now().strftime("%d/%m/%Y")
+                variations = [
+                f"Date: {date}\n\naaj thoda slow din tha. {d} saath raha.",
+                f"Date: {date}\n\n{ name } ke baare mein sochta raha. {d} gaya nahi.",
+                f"Date: {date}\n\nkuch khaas nahi hua, par {d} background mein tha."
+                ]
+            elif mode == "letters":
+                variations = [
+                f"Dear You,\n\nmaine pehle nahi kaha... {d}. ab bhi thoda reh gaya hai.",
+                f"Dear You,\n\nkuch baat thi jo rok raha tha... {d}.",
+                f"Dear You,\n\nshayad yeh perfect nahi lage... {d}, par kehna tha."
+                ]
         if not variations:
             variations = ["...something feels quiet right now. words will come soon."]
         return random.choice(variations)
