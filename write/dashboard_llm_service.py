@@ -147,64 +147,181 @@ class Dashboard_LLM_Service:
         self.model = model
     
     
-    def generate_fallback(self, mode, name, desc, language):
-        d = desc.strip().lower().rstrip('.')
+    def generate_fallback(self, mode, name, desc, language, depth="medium"):
+        # We keep name and desc in the arguments so we don't break existing calls,
+        # but we ignore them to prevent mixed-language issues in the fallback.
+        
         lang = language.lower()
+        depth = depth.lower()
+        date_str = datetime.now().strftime("%d/%m/%Y")
         variations = []
+
         if lang in ["en", "english"]:
             if mode == "reflection":
-                variations = [
-                f"thinking about {name} today... {d}. it stayed with me longer than i expected.",
-                f"{name} has been on my mind. {d} keeps coming back in small moments...",
-                f"it’s strange how {name} connects with this. {d}. feels quiet, but it's still there."
-                ]
+                if depth == "light":
+                    variations = [
+                        "just a passing thought that made me smile lightly",
+                        "a quiet moment of clarity today",
+                        "thinking about things and feeling a gentle shift"
+                    ]
+                elif depth == "medium":
+                    variations = [
+                        "my mind keeps going back to the same thought today",
+                        "honestly just reflecting on where things are right now",
+                        "it feels completely natural to just sit with these thoughts"
+                    ]
+                elif depth == "deep":
+                    variations = [
+                        "staring at the shadow on the wall. the weight of it feels heavy today",
+                        "the room is quiet but the feeling remains. hard to shake off",
+                        "holding a cold cup of tea. letting the thought sit in my chest"
+                    ]
+
             elif mode == "messages":
-                variations = [
-                f"hey... i was just thinking about {name}. {d}.",
-                f"i don't know if this is the right time, but {d} has been on my mind.",
-                f"not sure how to say this properly... {d}."
-                ]
+                if depth == "light":
+                    variations = [
+                        "hey just thinking about you today",
+                        "thought of this and wanted to share",
+                        "a simple text to say you are on my mind"
+                    ]
+                elif depth == "medium":
+                    variations = [
+                        "i wanted to be honest about how i am feeling right now",
+                        "just being clear about where my head is at today",
+                        "everyday thoughts but i wanted to reach out"
+                    ]
+                elif depth == "deep":
+                    variations = [
+                        "i typed this twice. sending it anyway",
+                        "phone feels heavy in my hand. maybe i shouldn't send this",
+                        "staring at the screen. leaving it at that"
+                    ]
+
             elif mode == "journal":
-                date = datetime.now().strftime("%d/%m/%Y")
-                variations = [
-                f"Date: {date}\n\ntoday felt a bit slow. {d} stayed with me.",
-                f"Date: {date}\n\nkept thinking about {name}. {d} didn’t go away.",
-                f"Date: {date}\n\nnothing big happened today. still, {d} was there."
-                ]
+                if depth == "light":
+                    variations = [
+                        f"Date: {date_str}\n\ntoday was simple. thoughts came and went easily",
+                        f"Date: {date_str}\n\na light day. just watching things as they pass",
+                        f"Date: {date_str}\n\npassing thoughts. nothing more to add"
+                    ]
+                elif depth == "medium":
+                    variations = [
+                        f"Date: {date_str}\n\njust an everyday kind of day. checking in with myself",
+                        f"Date: {date_str}\n\nhonest check in. trying to stay grounded today",
+                        f"Date: {date_str}\n\nclear thoughts tonight. writing it down helps"
+                    ]
+                elif depth == "deep":
+                    variations = [
+                        f"Date: {date_str}\n\nthe pen feels heavy. the thought came back again. almost unfinished",
+                        f"Date: {date_str}\n\nrain on the window. stuck in my head. letting it sit here",
+                        f"Date: {date_str}\n\npage is half empty. the reality of it all. tired now"
+                    ]
+
             elif mode == "letters":
-                variations = [
-                f"Dear You,\n\n i didn’t say this before... {d}.",
-                f"Dear You,\n\nthere’s something i’ve been holding back. {d}.",
-                f"Dear You,\n\nthis might not come out right... {d}."
-                ]
+                if depth == "light":
+                    variations = [
+                        "Dear You,\n\nthinking of things today. just wanted to send a gentle note",
+                        "Dear You,\n\na simple letter. hope you are well",
+                        "Dear You,\n\nquiet thoughts came up. wanted to share"
+                    ]
+                elif depth == "medium":
+                    variations = [
+                        "Dear You,\n\n i wanted to be honest with you. it feels clear now",
+                        "Dear You,\n\n writing this just to get my thoughts out",
+                        "Dear You,\n\n everyday life happens but this stays"
+                    ]
+                elif depth == "deep":
+                    variations = [
+                        "Dear You,\n\n the paper is slightly creased. keeps coming back. i should have said it sooner",
+                        "Dear You,\n\n ink is smudging on the page. didn't know how to tell you",
+                        "Dear You,\n\n quiet room. loud in my head. maybe you already know"
+                    ]
+
         elif lang in ["hi", "hindi"]:
             if mode == "reflection":
-                variations = [
-                f"aaj {name} ke baare mein soch raha tha... {d}. yeh thoda zyada der tak saath raha.",
-                f"{name} yaad aa raha hai. {d} baar-baar dimaag mein aa raha hai.",
-                f"ajeeb hai... {name} aur yeh feeling. {d}. chup hai, par gayi nahi."
-                ]
+                if depth == "light":
+                    variations = [
+                        "एक बहुत हल्का और सहज सा विचार आया",
+                        "सोच रहा था और बस अच्छा लगा",
+                        "एक शांत पल। जैसे हवा का झोंका"
+                    ]
+                elif depth == "medium":
+                    variations = [
+                        "सच कहूँ तो यह विचार दिमाग में है। एक आम ख्याल की तरह",
+                        "आज का दिन सामान्य है पर वही बातें याद आ रही हैं",
+                        "बिल्कुल स्पष्ट तौर पर सब कुछ समझ आ रहा है"
+                    ]
+                elif depth == "deep":
+                    variations = [
+                        "दीवार पर पड़ती धूप देख रहा हूँ। अजीब सा अधूरापन है",
+                        "कमरा खामोश है। यह सच्चाई थोड़ी भारी लग रही है",
+                        "हाथ में ठंडी चाय का कप है। एक बात सीने में अटकी है"
+                    ]
+
             elif mode == "messages":
-                variations = [
-                f"hey... bas {name} yaad aa gaya. {d}.",
-                f"pata nahi sahi time hai ya nahi, par {d} kehna tha.",
-                f"kaise bolun samajh nahi aa raha... {d}."
-                ]
+                if depth == "light":
+                    variations = [
+                        "सुनो बस ख्याल आया और सोचा बता दूँ",
+                        "आज तुम्हारी याद आई तो सोचा संदेश भेज दूँ",
+                        "एक छोटा सा संदेश बस ऐसे ही"
+                    ]
+                elif depth == "medium":
+                    variations = [
+                        "मुझे साफ तौर पर अपनी बात कहनी थी",
+                        "ईमानदारी से कहूँ तो कुछ बताना चाहता था",
+                        "रोजमर्रा की बातें हैं पर तुमसे कहनी थीं"
+                    ]
+                elif depth == "deep":
+                    variations = [
+                        "फोन हाथ में लेकर बस सोच रहा हूँ। खैर जाने दो",
+                        "इसे दो बार टाइप किया। शायद इसे नहीं भेजना चाहिए",
+                        "स्क्रीन को घूर रहा हूँ। बस इतना ही"
+                    ]
+
             elif mode == "journal":
-                date = datetime.now().strftime("%d/%m/%Y")
-                variations = [
-                f"Date: {date}\n\naaj thoda slow din tha. {d} saath raha.",
-                f"Date: {date}\n\n{ name } ke baare mein sochta raha. {d} gaya nahi.",
-                f"Date: {date}\n\nkuch khaas nahi hua, par {d} background mein tha."
-                ]
+                if depth == "light":
+                    variations = [
+                        f"दिनांक: {date_str}\n\nदिन बहुत सहज था। बस याद आया",
+                        f"दिनांक: {date_str}\n\nएक हल्का दिन। कुछ विचार आए और चले गए",
+                        f"दिनांक: {date_str}\n\nगुजरते हुए विचार। बस इतना ही"
+                    ]
+                elif depth == "medium":
+                    variations = [
+                        f"दिनांक: {date_str}\n\nआज का दिन आम था। वही बातें दिमाग में घूमती रहीं",
+                        f"दिनांक: {date_str}\n\nईमानदारी से लिख रहा हूँ। आज का सच यही है",
+                        f"दिनांक: {date_str}\n\nआज विचार स्पष्ट हैं। लिखना सही लग रहा है"
+                    ]
+                elif depth == "deep":
+                    variations = [
+                        f"दिनांक: {date_str}\n\nकमरे में शांति है। नींद नहीं आ रही",
+                        f"दिनांक: {date_str}\n\nकलम थोड़ी भारी लग रही है। पन्ना अधूरा छोड़ रहा हूँ",
+                        f"दिनांक: {date_str}\n\nखिड़की पर बारिश की बूंदें। अब थक गया हूँ"
+                    ]
+
             elif mode == "letters":
-                variations = [
-                f"Dear You,\n\nmaine pehle nahi kaha... {d}. ab bhi thoda reh gaya hai.",
-                f"Dear You,\n\nkuch baat thi jo rok raha tha... {d}.",
-                f"Dear You,\n\nshayad yeh perfect nahi lage... {d}, par kehna tha."
-                ]
+                if depth == "light":
+                    variations = [
+                        "प्रिय तुम,\n\nबस ख्याल आया। और कुछ नहीं",
+                        "प्रिय तुम,\n\nएक छोटा सा खत। उम्मीद है तुम ठीक हो",
+                        "प्रिय तुम,\n\nसहज विचार आए तो लिख दिया"
+                    ]
+                elif depth == "medium":
+                    variations = [
+                        "प्रिय तुम,\n\nमुझे सच कहना था जो मैंने पहले नहीं कहा",
+                        "प्रिय तुम,\n\nयह खत सिर्फ यह बताने के लिए है कि कुछ बातें याद हैं",
+                        "प्रिय तुम,\n\nज़िंदगी अपनी रफ्तार से चल रही है पर विचार वहीं हैं"
+                    ]
+                elif depth == "deep":
+                    variations = [
+                        "प्रिय तुम,\n\nस्याही थोड़ी फैल गई है। शायद यह खत कभी न भेज सकूं",
+                        "प्रिय तुम,\n\nकागज़ के किनारे मुड़ गए हैं। मुझे पहले कहना चाहिए था",
+                        "प्रिय तुम,\n\nशांत कमरा। दिमाग में बहुत शोर है। शायद तुम समझते होगे"
+                    ]
+
+        # Failsafe if anything slips through
         if not variations:
-            variations = ["...something feels quiet right now. words will come soon."]
+            variations = ["something feels quiet right now. words will come soon"]
+
         return random.choice(variations)
     # -------------------------------------------------
     # MAIN GENERATE
