@@ -2263,7 +2263,7 @@ function setInitialAvatar(imgElement, name) {
     const res = await fetch("/api/avatar/");
     const data = await res.json();
 
-    const userName = ${data.username} || "User";
+    const userName = data.username;
 
 if (data.avatar) {
     if (profileAvatar) profileAvatar.src = data.avatar;
