@@ -1313,13 +1313,12 @@ It helps you slow down, notice what stayed with you, and express it clearly.</p>
                         <div class="playground-header">
                         <h3>Your Words...</h3>
                         <div>
-                        <button class="copy-btn" onclick="copyText()">Copy</button>
+                        <button class="copy-btn" id="copy" onclick="copyText()">Copy</button>
                         <button class="copy-btn" id="shareBtn">Image</button>
                         </div>
                         </div>
                          </div>
-                    <div id="output" class="output">Start anywhere...
-                        It doesn’t have to be complete.
+                    <div id="output" class="output">What you couldn’t say begins here.
                     </div>
                 </div>
             </div>
@@ -1331,24 +1330,30 @@ It helps you slow down, notice what stayed with you, and express it clearly.</p>
     </main>
 
     <script>
+        function enableWritingMode() {
+    document.getElementById("nameInput").disabled = false;
+    document.getElementById("descInput").disabled = false;
+    document.getElementById("depthInput").disabled = false;
+
+    document.getElementById("copy").style.display = "none";
+    document.getElementById("shareBtn").style.display = "none";
+
+    const btn = document.getElementById("continueBtn");
+    btn.innerText = "Start Writing";
+    btn.classList.remove("disabled-btn");
+    btn.disabled = false;
+
+    document.getElementById("helperText").innerText =
+        "Your writing gently expands here.";
+}
+
         function openTool(name) {
             // Hide everything first
             document.getElementById("libraryView").style.display = "none";
             document.getElementById("workspaceView").classList.remove("active");
             document.getElementById("accountView").classList.add("hidden");
 
-                document.getElementById("nameInput").disabled = false;
-    document.getElementById("descInput").disabled = false;
-    document.getElementById("depthInput").disabled = false;
-    document.getElementById("output").disabled= false;
-  const btn = document.getElementById("continueBtn");
-
-btn.innerText = "Continue Writing";
-btn.classList.remove("disabled-btn");
-btn.disabled = false;
-
-    document.getElementById("helperText").innerText =
-"Your writing gently expands here.";
+              enableWritingMode();
 
 
             // --- 1️⃣ Dashboard ---
@@ -1374,12 +1379,12 @@ btn.disabled = false;
                 document.getElementById("nameInput").value = found.nameInput || "";
                 document.getElementById("descInput").value = found.descInput || "";
                 document.getElementById("depthInput").value = found.depthInput || "light";
-                document.getElementById("output").innerText = found.output || "Start anywhere...It doesn’t have to be complete.";
+                document.getElementById("output").innerText = found.output || "What you couldn’t say begins here.";
             } else {
                 document.getElementById("nameInput").value = "";
                 document.getElementById("descInput").value = "";
                 document.getElementById("depthInput").value = "light";
-                document.getElementById("output").innerText = "Start anywhere...It doesn’t have to be complete.";
+                document.getElementById("output").innerText = "What you couldn’t say begins here.";
             }
         }
 
@@ -1507,10 +1512,27 @@ async function showRecents(){
         let alreadySaved = false;
         let isSaving = false;
 
+        function disableWritingMode() {
+    document.getElementById("nameInput").disabled = true;
+    document.getElementById("descInput").disabled = true;
+    document.getElementById("depthInput").disabled = true;
+
+    const btn = document.getElementById("continueBtn");
+    btn.innerText = "Start a new Write";
+    btn.classList.add("disabled-btn");
+    btn.disabled = true;
+
+    document.getElementById("helperText").innerText =
+        "This is a saved moment. Start a new note to write.";
+}
+
         // 🧭 Open a specific saved recent
  function openRecent(id){
 
     const state = document.getElementById("state");
+
+    document.getElementById("copy").style.display = "inline";
+    document.getElementById("shareBtn").style.display = "inline";
 
     // mark that user is viewing an old writing
     state.dataset.viewing = "true";
@@ -1536,20 +1558,8 @@ async function showRecents(){
     // switch UI
     document.getElementById("libraryView").style.display = "none";
     document.getElementById("workspaceView").classList.add("active");
-
-
-    document.getElementById("nameInput").disabled = true;
-    document.getElementById("descInput").disabled = true;
-    document.getElementById("depthInput").disabled = true;
-    document.getElementById("output").disabled= true;
-
-    const btn = document.getElementById("continueBtn");
-
-btn.innerText = "Start a new note";
-btn.classList.add("disabled-btn"); // optional styling
-btn.disabled = true;
-    document.getElementById("helperText").innerText =
-"This is a saved moment. Start a new note to write.";
+    
+    disableWritingMode();
 }
         function capitalizeFirst(str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
@@ -1676,6 +1686,8 @@ async function goBack() {
             }
 
             const language = getCurrentLanguage(); // ✅ OK if function exists
+    document.getElementById("copy").style.display = "inline";
+    document.getElementById("shareBtn").style.display = "inline";
 
             const output = document.getElementById("output");
             output.innerHTML = "✍️ Writing from the heart...";
@@ -1689,24 +1701,15 @@ async function goBack() {
                     `&language=${encodeURIComponent(language)}`;
 
                 const res = await fetch(url);
-                if (!res.ok) {
-    throw new Error("Server error");
-}
-
-const contentType = res.headers.get("content-type");
-
-if (!contentType || !contentType.includes("application/json")) {
-    throw new Error("Invalid response (not JSON)");
-}
                 const data = await res.json();
 
                 const state = document.getElementById("state");
-                const blocked = data.blocked === true;
-                const isFallback = data.is_fallback === true;
+                const blocked = data.response.blocked === true;
+                const isFallback = data.response.is_fallback === true;
                 state.dataset.fallback = isFallback ? "true" : "false";
 
 
-                const text = (data.response || "").trim();
+                const text = data.response.response.trim();
                 lastGeneratedText = text;
                 hasGeneratedContent = true; // ✅ IMPORTANT
                 emotionalTypeWrite(text, "output", depth, () => {
@@ -2217,36 +2220,6 @@ document.addEventListener("DOMContentLoaded", loadProfile);
             navigator.serviceWorker.register("/static/pwa/service-worker.js");
         }
 
-        function getInitials(name) {
-    if (!name) return "U";
-
-    const words = name.trim().split(" ");
-    if (words.length === 1) return words[0][0].toUpperCase();
-
-    return (words[0][0] + words[1][0]).toUpperCase();
-}
-
-function setInitialAvatar(imgElement, name) {
-    const initials = getInitials(name);
-
-    const svg = `
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
-        <defs>
-            <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
-                <stop offset='0%' stop-color='#ff6b81'/>
-                <stop offset='100%' stop-color='#e11d48'/>
-            </linearGradient>
-        </defs>
-        <circle cx='32' cy='32' r='30' fill='url(#g)'/>
-        <text x='50%' y='55%' text-anchor='middle' fill='white' font-size='22' font-family='Arial' dy='.3em'>
-            ${initials}
-        </text>
-    </svg>`;
-
-    imgElement.src = "data:image/svg+xml," + encodeURIComponent(svg);
-}
-        
-
             
       document.addEventListener("DOMContentLoaded", async () => {
 
@@ -2259,23 +2232,10 @@ function setInitialAvatar(imgElement, name) {
     const res = await fetch("/api/avatar/");
     const data = await res.json();
 
-   const userName = data.username || "User";
-
-if (data.avatar) {
-    if (profileAvatar) profileAvatar.src = data.avatar;
-    if (dashboardAvatar) dashboardAvatar.src = data.avatar;
-
-    // If image fails (Render issue)
-    profileAvatar.onerror = () => setInitialAvatar(profileAvatar, userName);
-    if (dashboardAvatar) {
-        dashboardAvatar.onerror = () => setInitialAvatar(dashboardAvatar, userName);
+    if (data.avatar) {
+        if (profileAvatar) profileAvatar.src = data.avatar;
+        if (dashboardAvatar) dashboardAvatar.src = data.avatar;
     }
-
-} else {
-    // No avatar → fallback immediately
-    if (profileAvatar) setInitialAvatar(profileAvatar, userName);
-    if (dashboardAvatar) setInitialAvatar(dashboardAvatar, userName);
-}
 
     if (!profileAvatar || !input) return;
 
