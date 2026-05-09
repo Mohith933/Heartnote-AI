@@ -1704,12 +1704,12 @@ async function goBack() {
                 const data = await res.json();
 
                 const state = document.getElementById("state");
-                const blocked = data.response.blocked === true;
-                const isFallback = data.response.is_fallback === true;
+                const blocked = data.blocked === true;
+                const isFallback = data.is_fallback === true;
                 state.dataset.fallback = isFallback ? "true" : "false";
 
 
-                const text = data.response.response.trim();
+                const text = (data.response || "").trim();
                 lastGeneratedText = text;
                 hasGeneratedContent = true; // ✅ IMPORTANT
                 emotionalTypeWrite(text, "output", depth, () => {
