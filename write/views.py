@@ -140,7 +140,7 @@ def get_avatar(request):
     user = HeartUser.objects.get(id=user_id)
 
     return JsonResponse({
-        "avatar": user.avatar.url if user.avatar else None
+        "avatar": user.avatar.url if user.avatar else None,
         "username": request.user.username
     })
 
