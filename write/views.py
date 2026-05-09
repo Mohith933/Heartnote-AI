@@ -124,7 +124,7 @@ def upload_avatar(request):
         return JsonResponse({
             "status": "ok",
             "avatar_url": user.avatar.url,
-            "username": request.user.username
+            "username": user.username
         })
 
     return JsonResponse({"error": "No file"})
@@ -141,7 +141,7 @@ def get_avatar(request):
 
     return JsonResponse({
         "avatar": user.avatar.url if user.avatar else None,
-        "username": request.user.username
+        "username": user.username
     })
 
 @csrf_exempt
