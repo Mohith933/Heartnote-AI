@@ -2223,10 +2223,13 @@ document.addEventListener("DOMContentLoaded", loadProfile);
         function getInitials(name) {
     if (!name) return "U";
 
-    const words = name.trim().split(" ");
-    if (words.length === 1) return words[0][0].toUpperCase();
+   const parts = name.trim().split(" ");
+    
+    if (parts.length === 1) {
+        return parts[0][0].toUpperCase();
+    }
 
-    return (words[0][0] + words[1][0]).toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
 }
 
 function setInitialAvatar(imgElement, name) {
@@ -2262,8 +2265,7 @@ function setInitialAvatar(imgElement, name) {
     // Load avatar from server
     const res = await fetch("/api/avatar/");
     const data = await res.json();
-
-    const userName = data.username;
+    const userName = data.username || data.user?.username || "U";
 
 if (data.avatar) {
     if (profileAvatar) profileAvatar.src = data.avatar;
