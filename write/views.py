@@ -141,6 +141,7 @@ def get_avatar(request):
 
     return JsonResponse({
         "avatar": user.avatar.url if user.avatar else None
+        "username": request.user.username
     })
 
 @csrf_exempt
