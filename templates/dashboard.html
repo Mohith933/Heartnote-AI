@@ -1245,7 +1245,7 @@
                 <h3>About HeartNote</h3>
 
 <p>HeartNote is a quiet space to turn real moments into words.
-It helps you slow down, notice what stayed with you, and express it clearly.</p> <p class="about-small">Version: 5<br>Created by Mohith Sai</p>
+It helps you slow down, notice what stayed with you, and express it clearly.</p> <p class="about-small">Version: 6<br>Created by Mohith Sai</p>
             </div>
         </div>
 
@@ -2262,37 +2262,55 @@ document.addEventListener("DOMContentLoaded", loadProfile);
         }
     });
 
-    document.getElementById("shareBtn").onclick = async () => {
+   document.getElementById("shareBtn").onclick = async () => {
 
     const output = document.getElementById("output");
 
-    // prevent empty share
     if (!output.innerText.trim()) {
-        showHeartNotePopup("Nothing to share", "Write something first.");
+        showHeartNotePopup(
+            "Nothing to share",
+            "Write something first."
+        );
         return;
     }
 
-    const canvas = await html2canvas(output, {
-        backgroundColor: null
+    // temporary wrapper
+    const wrapper = document.createElement("div");
+
+    wrapper.style.padding = "24px";
+    wrapper.style.background = "#111";
+    wrapper.style.borderRadius = "20px";
+    wrapper.style.maxWidth = "700px";
+
+    wrapper.innerHTML = `
+        <div style="white-space:pre-wrap;">
+            ${output.innerHTML}
+        </div>
+
+        <div style="
+            margin-top:20px;
+            font-size:12px;
+            opacity:0.5;
+            text-align:right;
+        ">
+            — HeartNote
+        </div>
+    `;
+
+    document.body.appendChild(wrapper);
+
+    const canvas = await html2canvas(wrapper,{
+        backgroundColor:null
     });
 
-    const imgData = canvas.toDataURL("image/png");
+    document.body.removeChild(wrapper);
 
-     const watermark = document.createElement("div");
-    watermark.innerText = "— Written on HeartNote";
-    watermark.style.marginTop = "20px";
-    watermark.style.fontSize = "12px";
-    watermark.style.opacity = "0.6";
-    watermark.style.textAlign = "right";
-
-    // download
     const link = document.createElement("a");
-    link.href = imgData;
+
+    link.href = canvas.toDataURL("image/png");
     link.download = "heartnote.png";
     link.click();
 };
-
-});
 
     </script>
 </body>
