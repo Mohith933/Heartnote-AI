@@ -2262,10 +2262,11 @@ document.addEventListener("DOMContentLoaded", loadProfile);
         }
     });
 
-   document.getElementById("shareBtn").onclick = async () => {
+document.getElementById("shareBtn").onclick = async () => {
 
     const output = document.getElementById("output");
 
+    // prevent empty share
     if (!output.innerText.trim()) {
         showHeartNotePopup(
             "Nothing to share",
@@ -2274,45 +2275,66 @@ document.addEventListener("DOMContentLoaded", loadProfile);
         return;
     }
 
-    // temporary wrapper
+    // create wrapper
     const wrapper = document.createElement("div");
 
-    wrapper.style.padding = "24px";
-    wrapper.style.background = "#111";
-    wrapper.style.borderRadius = "20px";
+    wrapper.style.background = "#fff"; 
+    wrapper.style.padding = "28px";
+    wrapper.style.borderRadius = "24px";
     wrapper.style.maxWidth = "700px";
+    wrapper.style.width = "fit-content";
+    wrapper.style.color = "#000";
+    wrapper.style.fontFamily = "sans-serif";
+    wrapper.style.lineHeight = "1.8";
+    wrapper.style.boxShadow = "1px 1px 1px rgba(0,0,0,0.1)";
+    wrapper.style.backdropFilter = "blur(10px)";
 
-    wrapper.innerHTML = `
-        <div style="white-space:pre-wrap;">
-            ${output.innerHTML}
-        </div>
+    // clone original output
+    const clonedOutput = output.cloneNode(true);
 
-        <div style="
-            margin-top:20px;
-            font-size:12px;
-            opacity:0.5;
-            text-align:right;
-        ">
-            — HeartNote
-        </div>
-    `;
+    // watermark
+    const watermark = document.createElement("div");
+
+    watermark.innerText = "— HeartNote";
+
+    watermark.style.marginTop = "18px";
+    watermark.style.fontSize = "12px";
+    watermark.style.opacity = "0.45";
+    watermark.style.textAlign = "right";
+    watermark.style.letterSpacing = "0.5px";
+
+    // append
+    wrapper.appendChild(clonedOutput);
+    wrapper.appendChild(watermark);
+
+    // hidden render
+    wrapper.style.position = "fixed";
+    wrapper.style.left = "-9999px";
+    wrapper.style.top = "0";
 
     document.body.appendChild(wrapper);
 
-    const canvas = await html2canvas(wrapper,{
-        backgroundColor:null
+    // capture
+    const canvas = await html2canvas(wrapper, {
+        backgroundColor: null,
+        scale: 2
     });
 
+    // remove temp element
     document.body.removeChild(wrapper);
+
+    // download image
+    const imgData = canvas.toDataURL("image/png");
 
     const link = document.createElement("a");
 
-    link.href = canvas.toDataURL("image/png");
+    link.href = imgData;
     link.download = "heartnote.png";
+
     link.click();
 };
 
-      });
+});
 
     </script>
 </body>
