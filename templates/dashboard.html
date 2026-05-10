@@ -1285,21 +1285,21 @@ It helps you slow down, notice what stayed with you, and express it clearly.</p>
                 <div class="form-section">
                     <h3 id="toolTitle">Reflection</h3>
 
-                    <label for="nameInput">Who Comes to mind in this moment?</label>
+                    <label for="nameInput">What feels important right now?</label>
                     <div class="input-group">
                         <input type="text" id="nameInput"
-                            placeholder="e.g. My sister, My best friend, My father, Myself..." required>
+                            placeholder="A person, a thought, a feeling, or a moment..." required>
                     </div>
-                    <label for="descInput">What Stayed with you from that movement?</label>
+                    <label for="descInput">What would you like to put into words?</label>
 
                     <div class="input-group">
                         <textarea id="descInput" rows="4"
-                            placeholder="Describe the real moment. What happened? What was said? What did you not say?"
+                            placeholder="Write honestly about what’s been sitting with you..."
                             required></textarea>
                     </div>
                     
 
-                    <label for="depthInput">How deep you are feel?</label> <select id="depthInput">
+                    <label for="depthInput">How deeply do you want to explore this?</label> <select id="depthInput">
                         <option value="light">Gentle</option>
 <option value="medium">Honest</option>
 <option value="deep">Raw</option>
@@ -1430,8 +1430,6 @@ It helps you slow down, notice what stayed with you, and express it clearly.</p>
         "Journal": "💭",        // free thoughts
         "Reflection": "🌿",     // calm thinking
         "Messages": "🫤",       // unsaid/confused feelings
-        "Memories": "🧠",       // past recall
-        "CheckIn": "🫶",        // self-care
     };
     return icons[name] || "🌱";
 }
@@ -1685,9 +1683,11 @@ async function goBack() {
                 return;
             }
 
-            const language = getCurrentLanguage(); // ✅ OK if function exists
+    // ✅ show actions (only after writing)
     document.getElementById("copy").style.display = "inline";
     document.getElementById("shareBtn").style.display = "inline";
+            const language = getCurrentLanguage(); // ✅ OK if function exists
+
 
             const output = document.getElementById("output");
             output.innerHTML = "✍️ Writing from the heart...";
@@ -1704,17 +1704,17 @@ async function goBack() {
                 const data = await res.json();
 
                 const state = document.getElementById("state");
-                const blocked = data.blocked === true;
-                const isFallback = data.is_fallback === true;
+                const blocked = data.response.blocked === true;
+                const isFallback = data.response.is_fallback === true;
                 state.dataset.fallback = isFallback ? "true" : "false";
 
 
-                const text = (data.response || "").trim();
+                const text = data.response.response.trim();
                 lastGeneratedText = text;
                 hasGeneratedContent = true; // ✅ IMPORTANT
                 emotionalTypeWrite(text, "output", depth, () => {
-                    isWriting = false;
-                });
+    isWriting = false;
+});
 
             } catch (err) {
                 console.error(err);
@@ -2220,40 +2220,6 @@ document.addEventListener("DOMContentLoaded", loadProfile);
             navigator.serviceWorker.register("/static/pwa/service-worker.js");
         }
 
-        function getInitials(name) {
-    if (!name) return "U";
-
-   const parts = name.trim().split(" ");
-    
-    if (parts.length === 1) {
-        return parts[0][0].toUpperCase();
-    }
-
-    return (parts[0][0] + parts[1][0]).toUpperCase();
-}
-
-function setInitialAvatar(imgElement, name) {
-    const initials = getInitials(name);
-
-    const svg = `
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>
-        <defs>
-            <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
-                <stop offset='0%' stop-color='#ff6b81'/>
-                <stop offset='100%' stop-color='#e11d48'/>
-            </linearGradient>
-        </defs>
-        <circle cx='32' cy='32' r='30' fill='url(#g)'/>
-        <text x='50%' y='55%' text-anchor='middle' fill='white' font-size='22' font-family='Arial' dy='.3em'>
-            ${initials}
-        </text>
-    </svg>`;
-
-    imgElement.src = "data:image/svg+xml," + encodeURIComponent(svg);
-}
-
-        
-
             
       document.addEventListener("DOMContentLoaded", async () => {
 
@@ -2265,23 +2231,11 @@ function setInitialAvatar(imgElement, name) {
     // Load avatar from server
     const res = await fetch("/api/avatar/");
     const data = await res.json();
-    const userName = data.username || data.user?.username || "U";
 
-if (data.avatar) {
-    if (profileAvatar) profileAvatar.src = data.avatar;
-    if (dashboardAvatar) dashboardAvatar.src = data.avatar;
-
-    // If image fails (Render issue)
-    profileAvatar.onerror = () => setInitialAvatar(profileAvatar, userName);
-    if (dashboardAvatar) {
-        dashboardAvatar.onerror = () => setInitialAvatar(dashboardAvatar, userName);
+    if (data.avatar) {
+        if (profileAvatar) profileAvatar.src = data.avatar;
+        if (dashboardAvatar) dashboardAvatar.src = data.avatar;
     }
-
-} else {
-    // No avatar → fallback immediately
-    if (profileAvatar) setInitialAvatar(profileAvatar, userName);
-    if (dashboardAvatar) setInitialAvatar(dashboardAvatar, userName);
-}
 
     if (!profileAvatar || !input) return;
 
