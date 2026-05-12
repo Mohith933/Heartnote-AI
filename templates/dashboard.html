@@ -1677,11 +1677,16 @@ async function goBack() {
             const depth = document.getElementById("depthInput").value;
             const mode = document.getElementById("toolTitle").innerText.trim().toLowerCase();
             generatedTool = mode; // ✅ LOCK TOOL HERE
-            if (!name && !desc) {
-                alert("Please write something.");
-                isWriting = false;
-                return;
-            }
+           if (!name && !desc) {
+
+    showHeartNotePopup(
+        "Nothing written yet",
+        "Please write something before continuing."
+    );
+
+    isWriting = false;
+    return;
+}
 
     // ✅ show actions (only after writing)
     document.getElementById("copy").style.display = "inline";
