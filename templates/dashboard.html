@@ -2230,47 +2230,92 @@ document.addEventListener("DOMContentLoaded", loadProfile);
             navigator.serviceWorker.register("/static/pwa/service-worker.js");
         }
 
-            
-      document.addEventListener("DOMContentLoaded", async () => {
+        function getInitials(name) {
+    if (!name) return "U";
 
-    const profileAvatar = document.getElementById("profileAvatar");
-    const dashboardAvatar = document.getElementById("dashboardAvatar");
-    const input = document.getElementById("avatarInput");
-    const editBadge = document.getElementById("editBadge");
-
-    // Load avatar from server
-    const res = await fetch("/api/avatar/");
-    const data = await res.json();
-
-    if (data.avatar) {
-        if (profileAvatar) profileAvatar.src = data.avatar;
-        if (dashboardAvatar) dashboardAvatar.src = data.avatar;
+    const parts = name.trim().split(" ");
+    
+    if (parts.length === 1) {
+        return parts[0][0].toUpperCase();
     }
 
-    if (!profileAvatar || !input) return;
-
-    profileAvatar.addEventListener("click", () => input.click());
-
-    input.addEventListener("change", async () => {
-
-        const file = input.files[0];
-        if (!file || !file.type.startsWith("image/")) return;
-
-        const form = new FormData();
-        form.append("avatar", file);
-
-        const res = await fetch("/api/upload-avatar/", {
-            method: "POST",
-            body: form
-        });
-
-        const data = await res.json();
-
-        if (data.avatar_url) {
-            profileAvatar.src = data.avatar_url;
-            if (dashboardAvatar) dashboardAvatar.src = data.avatar_url;
+    return (parts[0][0] + parts[1][0]).toUpperCase();
         }
-    });
+
+        function setInitialAvatar(imgElement, name) {
+const initials = getInitials(name);
+
+const svg = `  
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>  
+    <defs>  
+        <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>  
+            <stop offset='0%' stop-color='#ff6b81'/>  
+            <stop offset='100%' stop-color='#e11d48'/>  
+        </linearGradient>  
+    </defs>  
+    <circle cx='32' cy='32' r='30' fill='url(#g)'/>  
+    <text x='50%' y='55%' text-anchor='middle' fill='white' font-size='22' font-family='Arial' dy='.3em'>  
+        ${initials}  
+    </text>  
+</svg>`;  
+
+imgElement.src = "data:image/svg+xml," + encodeURIComponent(svg);
+
+}
+
+document.addEventListener("DOMContentLoaded", async () => {  
+
+const profileAvatar = document.getElementById("profileAvatar");  
+const dashboardAvatar = document.getElementById("dashboardAvatar");  
+const input = document.getElementById("avatarInput");  
+const editBadge = document.getElementById("editBadge");  
+
+// Load avatar from server  
+const res = await fetch("/api/avatar/");  
+const data = await res.json();  
+
+const userName = data.username;
+
+if (data.avatar) {
+if (profileAvatar) profileAvatar.src = data.avatar;
+if (dashboardAvatar) dashboardAvatar.src = data.avatar;
+
+// If image fails (Render issue)  
+profileAvatar.onerror = () => setInitialAvatar(profileAvatar, userName);  
+if (dashboardAvatar) {  
+    dashboardAvatar.onerror = () => setInitialAvatar(dashboardAvatar, userName);  
+}
+
+} else {
+// No avatar → fallback immediately
+if (profileAvatar) setInitialAvatar(profileAvatar, userName);
+if (dashboardAvatar) setInitialAvatar(dashboardAvatar, userName);
+}
+
+if (!profileAvatar || !input) return;  
+
+profileAvatar.addEventListener("click", () => input.click());  
+
+input.addEventListener("change", async () => {  
+
+    const file = input.files[0];  
+    if (!file || !file.type.startsWith("image/")) return;  
+
+    const form = new FormData();  
+    form.append("avatar", file);  
+
+    const res = await fetch("/api/upload-avatar/", {  
+        method: "POST",  
+        body: form  
+    });  
+
+    const data = await res.json();  
+
+    if (data.avatar_url) {  
+        profileAvatar.src = data.avatar_url;  
+        if (dashboardAvatar) dashboardAvatar.src = data.avatar_url;  
+    }  
+});
 
 document.getElementById("shareBtn").onclick = async () => {
 
