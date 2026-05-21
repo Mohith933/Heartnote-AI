@@ -27,7 +27,7 @@
         --card: #1a1a1a;
         --muted: #141414;
         --accent: #ff668a;
-        --accent-dark: #ff4d6d;
+        --accent-dark: #ff5c8a;;
       }
 
       body {
@@ -45,6 +45,7 @@
 
       .feature {
         background: var(--card);
+        border: 1px solid rgba(255,255,255,0.04);
         box-shadow: 0 4px 12px rgba(255, 77, 109, 0.08);
       }
 
@@ -54,7 +55,7 @@
       }
 
       footer {
-        background: var(--accent-dark);
+        background: var(--muted);
       }
     }
 
@@ -245,6 +246,7 @@
     /* Features */
     .features {
       padding: 80px 8%;
+
       background: var(--muted);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
@@ -273,7 +275,7 @@
     }
 
     .feature:hover {
-      transform: translateY(-6px);
+       transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
 
@@ -395,17 +397,19 @@
 
     /* Footer */
     footer {
-      background: var(--accent);
-      color: #fff;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--muted);
+      color: var(--text);
       text-align: center;
       padding: 40px 10%;
       margin-top: 80px;
     }
 
     footer h3 {
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 12px;
       font-size: 1.2rem;
+      color:var(--accent);
     }
 
     footer p {
@@ -572,7 +576,7 @@ padding : 10px 14px;
 </section>
   <footer>
     <h3>HeartNote</h3>
-<p>Built around real human moments.</p>
+<p>© 2025 HeartNote — Built around real moments</p>
   </footer>
 
   <!-- Signup Modal -->
