@@ -280,7 +280,7 @@ def get_writings(request):
 
     writings = Writing.objects.filter(
         user_id=user_id
-    ).order_by("-created_at")[:20]
+    ).order_by("-created_at")[:10]
 
     data = []
 
