@@ -25,6 +25,8 @@ def home(request):
         return redirect("/dashboard/")
     return render(request, "home.html")
 
+def privacy(request):
+    return render(request,'privacy.html')
 
 def aiwrite(request):
     return render(request,'aiwrite.html')
