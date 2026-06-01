@@ -18,7 +18,8 @@ urlpatterns = [
     path("api/get-writings/", views.get_writings),
     path("api/delete-writing/", views.delete_writing),
     path("api/reset-app/", views.reset_app),
-    path("health/", views.health_check)
+    path("health/", views.health_check),
+    path("privacy/",views.privacy)
 ]
 
 
