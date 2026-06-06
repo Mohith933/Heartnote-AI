@@ -4,7 +4,7 @@ import os
 import random
 
 
-GEMINI_MODEL = "gemini-2.5-pro"
+GEMINI_MODEL = "gemini-2.5-flash"
 
 
 
@@ -368,6 +368,8 @@ class Dashboard_LLM_Service:
             headers = {"Content-Type": "application/json"}
             payload = {"contents": [{"parts": [{"text": full_prompt}]}]}
             res = requests.post(url, headers=headers, json=payload, timeout=30)
+            print("STATUS:", res.status_code)
+            print("BODY:", res.text)
             res.raise_for_status()
             data = res.json()
             try:
