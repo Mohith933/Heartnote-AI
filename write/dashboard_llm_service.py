@@ -363,13 +363,10 @@ class Dashboard_LLM_Service:
         full_prompt = f"[LANG={language}]\n{prompt}"
         try:
             api_key = os.getenv("GEMINI_API_KEY")
-            print("API KEY EXISTS:", bool(api_key))
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={api_key}"
             headers = {"Content-Type": "application/json"}
             payload = {"contents": [{"parts": [{"text": full_prompt}]}]}
             res = requests.post(url, headers=headers, json=payload, timeout=30)
-            print("STATUS:", res.status_code)
-            print("BODY:", res.text)
             res.raise_for_status()
             data = res.json()
             try:
@@ -389,7 +386,6 @@ class Dashboard_LLM_Service:
         "is_fallback": True
             }
         except Exception as e:
-            print("GEMINI ERROR:", str(e))
             fallback = self.generate_fallback(mode,name,desc,language,depth)
             return {
         "response": fallback,
