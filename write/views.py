@@ -9,6 +9,7 @@ from django.contrib.auth.hashers import make_password
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import check_password
 from django.db import connection
+from datetime import timedelta
 
 def health_check(request):
     try:
@@ -296,7 +297,14 @@ def get_writings(request):
 
         # ✅ HUMAN TIME FORMAT
         local_time = timezone.localtime(w.created_at)
-        time_str = local_time.strftime("%b %d • %I:%M %p")
+        today = timezone.localdate()
+        writing_date = local_time.date()
+        if writing_date == today:
+            time_str = f"Today • {local_time.strftime('%I:%M %p')}"
+        elif writing_date == today - timezone.timedelta(days=1):
+            time_str = f"Yesterday • {local_time.strftime('%I:%M %p')}"
+        else:
+            time_str = local_time.strftime("%b %d • %I:%M %p")
 
         data.append({
     "id": w.id,
