@@ -2335,20 +2335,33 @@ document.getElementById("shareBtn").onclick = async () => {
     wrapper.style.padding = "28px";
     wrapper.style.borderRadius = "24px";
     wrapper.style.maxWidth = "700px";
-    wrapper.style.width = "fit-content";
+    wrapper.style.width = "800px";
+    wrapper.style.wordBreak = "break-word";
+    wrapper.style.overflowWrap = "break-word";
     wrapper.style.color = "#000";
     wrapper.style.fontFamily = "sans-serif";
     wrapper.style.lineHeight = "1.8";
     wrapper.style.boxShadow = "1px 1px 1px rgba(0,0,0,0.1)";
     wrapper.style.backdropFilter = "blur(10px)";
 
+    const brand = document.createElement("div");
+    brand.innerHTML = "❤️ HeartNote";
+    brand.style.fontSize = "20px";
+    brand.style.fontWeight = "700";
+    brand.style.marginBottom = "20px";
+    wrapper.prepend(brand);
+
     // clone original output
     const clonedOutput = output.cloneNode(true);
+    clonedOutput.style.color = "#000";
+    clonedOutput.style.fontSize = "18px";
+    clonedOutput.style.lineHeight = "1.8";
+    clonedOutput.style.whiteSpace = "pre-wrap";
 
     // watermark
     const watermark = document.createElement("div");
 
-    watermark.innerText = "— HeartNote";
+    watermark.innerText = "Written with HeartNote";
 
     watermark.style.marginTop = "18px";
     watermark.style.fontSize = "12px";
@@ -2369,8 +2382,9 @@ document.getElementById("shareBtn").onclick = async () => {
 
     // capture
     const canvas = await html2canvas(wrapper, {
-        backgroundColor: null,
-        scale: 2
+        backgroundColor: "#ffffff",
+        scale: 3,
+        useCORS: true
     });
 
     // remove temp element
@@ -2382,7 +2396,7 @@ document.getElementById("shareBtn").onclick = async () => {
     const link = document.createElement("a");
 
     link.href = imgData;
-    link.download = "heartnote.png";
+    link.download = `heartnote-${Date.now()}.png`;
 
     link.click();
 };
