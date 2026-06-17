@@ -1183,7 +1183,7 @@
 
 
                         <input type="file" id="avatarInput" accept="image/*" style="display:none" />
-                        <span class="edit-badge">✏️</span>
+                        <span class="edit-badge" id="editBadge">✏️</span>
                     </div>
 
                 </center>
@@ -2261,59 +2261,54 @@ imgElement.src = "data:image/svg+xml," + encodeURIComponent(svg);
 
 }
 
-document.addEventListener("DOMContentLoaded", async () => {  
+document.addEventListener("DOMContentLoaded", async () => {
 
-const profileAvatar = document.getElementById("profileAvatar");  
-const dashboardAvatar = document.getElementById("dashboardAvatar");  
-const input = document.getElementById("avatarInput");  
-const editBadge = document.getElementById("editBadge");  
+    const profileAvatar = document.getElementById("profileAvatar");
+    const dashboardAvatar = document.getElementById("dashboardAvatar");
+    const input = document.getElementById("avatarInput");
+    const editBadge = document.getElementById("editBadge");
 
-// Load avatar from server  
-const res = await fetch("/api/avatar/");  
-const data = await res.json();  
+    // Load avatar from server
+    const res = await fetch("/api/avatar/");
+    const data = await res.json();
 
-const userName = data.username;
+    if (data.avatar) {
+        if (profileAvatar) profileAvatar.src = data.avatar;
+        if (dashboardAvatar) dashboardAvatar.src = data.avatar;
+        if(editBadge) editBadge.src = data.avatar;
+    }
 
-if (data.avatar) {
-if (profileAvatar) profileAvatar.src = data.avatar;
-if (dashboardAvatar) dashboardAvatar.src = data.avatar;
+    if (!profileAvatar || !input) return;
 
-// If image fails (Render issue)  
-profileAvatar.onerror = () => setInitialAvatar(profileAvatar, userName);  
-if (dashboardAvatar) {  
-    dashboardAvatar.onerror = () => setInitialAvatar(dashboardAvatar, userName);  
+    profileAvatar.addEventListener("click", () => input.click());
+    if (editBadge) {
+    editBadge.addEventListener("click", (e) => {
+        e.stopPropagation();
+        input.click();
+    });
 }
 
-} else {
-// No avatar → fallback immediately
-if (profileAvatar) setInitialAvatar(profileAvatar, userName);
-if (dashboardAvatar) setInitialAvatar(dashboardAvatar, userName);
-}
+    input.addEventListener("change", async () => {
 
-if (!profileAvatar || !input) return;  
+        const file = input.files[0];
+        if (!file || !file.type.startsWith("image/")) return;
 
-profileAvatar.addEventListener("click", () => input.click());  
+        const form = new FormData();
+        form.append("avatar", file);
 
-input.addEventListener("change", async () => {  
+        const res = await fetch("/api/upload-avatar/", {
+            method: "POST",
+            body: form
+        });
 
-    const file = input.files[0];  
-    if (!file || !file.type.startsWith("image/")) return;  
+        const data = await res.json();
 
-    const form = new FormData();  
-    form.append("avatar", file);  
-
-    const res = await fetch("/api/upload-avatar/", {  
-        method: "POST",  
-        body: form  
-    });  
-
-    const data = await res.json();  
-
-    if (data.avatar_url) {  
-        profileAvatar.src = data.avatar_url;  
-        if (dashboardAvatar) dashboardAvatar.src = data.avatar_url;  
-    }  
-});
+        if (data.avatar_url) {
+            profileAvatar.src = data.avatar_url;
+            if (dashboardAvatar) dashboardAvatar.src = data.avatar_url;
+            if(editBadge) editBadge.src = data.avatar_url;
+        }
+    });
 
 document.getElementById("shareBtn").onclick = async () => {
 
@@ -2335,33 +2330,20 @@ document.getElementById("shareBtn").onclick = async () => {
     wrapper.style.padding = "28px";
     wrapper.style.borderRadius = "24px";
     wrapper.style.maxWidth = "700px";
-    wrapper.style.width = "800px";
-    wrapper.style.wordBreak = "break-word";
-    wrapper.style.overflowWrap = "break-word";
+    wrapper.style.width = "fit-content";
     wrapper.style.color = "#000";
     wrapper.style.fontFamily = "sans-serif";
     wrapper.style.lineHeight = "1.8";
     wrapper.style.boxShadow = "1px 1px 1px rgba(0,0,0,0.1)";
     wrapper.style.backdropFilter = "blur(10px)";
 
-    const brand = document.createElement("div");
-    brand.innerHTML = "❤️ HeartNote";
-    brand.style.fontSize = "20px";
-    brand.style.fontWeight = "700";
-    brand.style.marginBottom = "20px";
-    wrapper.prepend(brand);
-
     // clone original output
     const clonedOutput = output.cloneNode(true);
-    clonedOutput.style.color = "#000";
-    clonedOutput.style.fontSize = "18px";
-    clonedOutput.style.lineHeight = "1.8";
-    clonedOutput.style.whiteSpace = "pre-wrap";
 
     // watermark
     const watermark = document.createElement("div");
 
-    watermark.innerText = "Written with HeartNote";
+    watermark.innerText = "— HeartNote";
 
     watermark.style.marginTop = "18px";
     watermark.style.fontSize = "12px";
@@ -2382,9 +2364,8 @@ document.getElementById("shareBtn").onclick = async () => {
 
     // capture
     const canvas = await html2canvas(wrapper, {
-        backgroundColor: "#ffffff",
-        scale: 3,
-        useCORS: true
+        backgroundColor: null,
+        scale: 2
     });
 
     // remove temp element
@@ -2396,7 +2377,7 @@ document.getElementById("shareBtn").onclick = async () => {
     const link = document.createElement("a");
 
     link.href = imgData;
-    link.download = `heartnote-${Date.now()}.png`;
+    link.download = "heartnote.png";
 
     link.click();
 };
